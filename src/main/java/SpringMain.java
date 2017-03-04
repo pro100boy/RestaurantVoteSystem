@@ -2,7 +2,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Arrays;
-
+/**
+ * Galushkin Pavel
+ * 04.03.2017
+ */
 public class SpringMain {
     public static void main(String[] args) {
         // java 7 Automatic resource management

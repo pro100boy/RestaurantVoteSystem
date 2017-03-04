@@ -5,7 +5,10 @@ import org.hibernate.SessionFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+/**
+ * Galushkin Pavel
+ * 04.03.2017
+ */
 public class JpaUtil {
 
     @PersistenceContext

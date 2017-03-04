@@ -12,8 +12,8 @@ import java.util.Locale;
 import static ua.restaurant.vote.util.DateTimeUtil.*;
 
 /**
- * gkislin
- * 25.10.2016
+ * Galushkin Pavel
+ * 04.03.2017
  */
 public class DateTimeFormatters {
     public static class LocalDateFormatter implements Formatter<LocalDate> {

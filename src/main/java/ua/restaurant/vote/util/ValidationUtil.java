@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 /**
- * User: gkislin
- * Date: 14.05.2014
+ * Galushkin Pavel
+ * 04.03.2017
  */
 public class ValidationUtil {
     private ValidationUtil() {

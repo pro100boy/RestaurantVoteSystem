@@ -1,6 +1,7 @@
 package ua.restaurant.vote.model;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -14,6 +15,7 @@ public class NamedEntity extends BaseEntity {
 
     @NotBlank // (проверка на символы, кроме пробелов)
     @Column(name = "name", nullable = false)
+    @SafeHtml
     protected String name;
 
     public NamedEntity() {
@@ -37,3 +39,4 @@ public class NamedEntity extends BaseEntity {
         return name;
     }
 }
+

@@ -1,8 +1,8 @@
 package ua.restaurant.vote.util.exception;
 
 /**
- * User: gkislin
- * Date: 19.08.2014
+ * Galushkin Pavel
+ * 04.03.2017
  */
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

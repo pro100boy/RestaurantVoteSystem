@@ -1,17 +1,24 @@
 package ua.restaurant.vote.model;
 
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Persistable;
+import ua.restaurant.vote.HasId;
 
 import javax.persistence.*;
 /**
  * User: Galushkin Pavel
  * Date: 15.02.2017
  */
+/**
+ * Do not manipulate new (transient) entries in HashSet/HashMap without overriding hashCode
+ * http://stackoverflow.com/questions/5031614
+ *
+ * @see org.springframework.data.jpa.domain.AbstractPersistable
+ */
 @MappedSuperclass
+// http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
 @Access(AccessType.FIELD)
 //@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE, isGetterVisibility = NONE, setterVisibility = NONE)
-public class BaseEntity implements Persistable<Integer> {
+public class BaseEntity implements HasId {
     public static final int START_SEQ = 100000;
 
     @Id
@@ -20,7 +27,7 @@ public class BaseEntity implements Persistable<Integer> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     // PROPERTY access for id due to bug: https://hibernate.atlassian.net/browse/HHH-3718
     @Access(value = AccessType.PROPERTY)
-    protected Integer id;
+    private Integer id;
 
     public BaseEntity() {
     }
@@ -29,6 +36,7 @@ public class BaseEntity implements Persistable<Integer> {
         this.id = id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -36,11 +44,6 @@ public class BaseEntity implements Persistable<Integer> {
     @Override
     public Integer getId() {
         return id;
-    }
-
-    @Override
-    public boolean isNew() {
-        return (getId() == null);
     }
 
     @Override

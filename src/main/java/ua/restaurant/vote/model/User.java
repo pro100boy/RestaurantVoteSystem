@@ -1,20 +1,19 @@
 package ua.restaurant.vote.model;
 
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.*;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.*;
 
 /**
- * User: Galushkin Pavel
- * Date: 15.02.2017
+ * Galushkin Pavel
+ * 04.03.2017
  */
-
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
         @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
@@ -34,17 +33,22 @@ public class User extends NamedEntity {
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
+    @SafeHtml
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Length(min = 5)
+    @SafeHtml
     private String password;
+
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
 
     @Column(name = "registered", columnDefinition = "timestamp default now()")
     private Date registered = new Date();
 
-    /*@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)*/
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
@@ -62,17 +66,19 @@ public class User extends NamedEntity {
     }
 
     public User(User u) {
-        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.getRoles());
+        this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.isEnabled(), u.getRoles());
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, EnumSet.of(role, roles));
+        this(id, name, email, password, true, EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String name, String email, String password, Set<Role> roles) {
+    public User(Integer id, String name, String email, String password, boolean enabled, Set<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
+
+        this.enabled = enabled;
         setRoles(roles);
     }
 
@@ -96,6 +102,14 @@ public class User extends NamedEntity {
         this.registered = registered;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -114,6 +128,7 @@ public class User extends NamedEntity {
                 "id=" + getId() +
                 ", email=" + email +
                 ", name=" + name +
+                ", enabled=" + enabled +
                 ", roles=" + roles +
                 ')';
     }

@@ -5,7 +5,10 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-
+/**
+ * Galushkin Pavel
+ * 04.03.2017
+ */
 public class UserTo implements Serializable {
     private static final long serialVersionUID = 1L;
 

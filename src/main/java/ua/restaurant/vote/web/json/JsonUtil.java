@@ -9,8 +9,8 @@ import java.util.List;
 import static ua.restaurant.vote.web.json.JacksonObjectMapper.getMapper;
 
 /**
- * User: gkislin
- * Date: 30.04.2014
+ * Galushkin Pavel
+ * 04.03.2017
  */
 public class JsonUtil {
 
