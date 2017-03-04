@@ -17,10 +17,9 @@
 
     <beans:bean class="ua.restaurant.vote.util.PasswordUtil" id="passwordEncoder" factory-method="getPasswordEncoder"/>
 
-    <!--<authentication-manager>
+    <authentication-manager>
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="passwordEncoder"/>
-
         </authentication-provider>
-    </authentication-manager>-->
+    </authentication-manager>
 </beans:beans>
