@@ -4,12 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.restaurant.vote.model.Restaurant;
-import ua.restaurant.vote.model.Role;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 import static ua.restaurant.vote.RestaurantTestData.*;
 
@@ -69,8 +66,6 @@ public class AbstractRestaurantServiceTest extends AbstractServiceTest {
     @Test
     public void testUpdate() throws Exception {
         Restaurant updated = getUpdated();
-        updated.setName("Обновленный ресторан");
-        updated.setDescription("Обновленное описание");
         service.update(updated);
         MATCHER.assertEquals(updated, service.get(RESTAURANT1_ID));
     }
