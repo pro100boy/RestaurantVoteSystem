@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,6 @@ import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private static final Sort SORT_NAME_EMAIL = new Sort("name", "email");
-
     @Autowired
     private UserRepository repository;
 
@@ -60,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Cacheable("users")
     @Override
     public List<User> getAll() {
-        return repository.findAll(SORT_NAME_EMAIL);
+        return repository.findAllByOrderByNameAscEmailAsc();
     }
 
     @CacheEvict(value = "users", allEntries = true)

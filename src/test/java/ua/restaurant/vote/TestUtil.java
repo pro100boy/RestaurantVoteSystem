@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import ua.restaurant.vote.model.User;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 
 /**
  * Galushkin Pavel
@@ -35,5 +36,10 @@ public class TestUtil {
 
     public static RequestPostProcessor userAuth(User user) {
         return SecurityMockMvcRequestPostProcessors.authentication(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+    }
+
+    public static <T> void prntCollect(Collection<T> collection)
+    {
+        collection.stream().forEach(System.out::println);
     }
 }

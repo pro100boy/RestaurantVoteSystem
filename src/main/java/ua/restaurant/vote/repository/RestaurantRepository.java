@@ -1,36 +1,33 @@
 package ua.restaurant.vote.repository;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import ua.restaurant.vote.model.User;
+import ua.restaurant.vote.model.Restaurant;
 
 import java.util.List;
 
 /**
- * Created by Galushkin Pavel on 04.03.2017.
+ * Created by Galushkin Pavel on 06.03.2017.
  */
 @Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
     @Transactional
     @Override
-    User save(User user);
+    Restaurant save(Restaurant restaurant);
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
+    @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
+    //List<Restaurant> findAllByOrderByNameAsc();
+    List<Restaurant> findAll();
+
     @Override
-    User findOne(Integer id);
+    Restaurant findOne(Integer integer);
 
-    //@Override
-    //@Query("SELECT u FROM User u ORDER BY u.name, u.email")
-    List<User> findAllByOrderByNameAscEmailAsc();
-
-    // null if not found
-    User getByEmail(String email);
+    Restaurant getByName(String name);
 }
