@@ -63,7 +63,8 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), userService.getAll());
+        //MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), userService.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER2, USER3), userService.getAll());
     }
 
     @Test
@@ -127,7 +128,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         expected.setId(returned.getId());
 
         MATCHER.assertEquals(expected, returned);
-        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, expected, USER1), userService.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, expected, USER1, USER2, USER3), userService.getAll());
     }
 
     @Test
@@ -147,7 +148,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentListMatcher(ADMIN, USER1)));
+                .andExpect(MATCHER.contentListMatcher(ADMIN, USER1, USER2, USER3)));
     }
 
     @Test
@@ -164,7 +165,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreateDuplicate() throws Exception {
-        User expected = new User(null, "New", "user@yandex.ru", "newPass", Role.ROLE_USER, Role.ROLE_ADMIN);
+        User expected = new User(null, "New", "user@ya.ru", "newPass", Role.ROLE_USER, Role.ROLE_ADMIN);
         mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))

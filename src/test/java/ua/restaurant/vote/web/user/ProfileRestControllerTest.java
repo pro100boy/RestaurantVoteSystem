@@ -10,6 +10,7 @@ import ua.restaurant.vote.util.UserUtil;
 import ua.restaurant.vote.web.AbstractControllerTest;
 import ua.restaurant.vote.web.json.JsonUtil;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -19,9 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
-import static ua.restaurant.vote.UserTestData.ADMIN;
-import static ua.restaurant.vote.UserTestData.MATCHER;
-import static ua.restaurant.vote.UserTestData.USER1;
+import static ua.restaurant.vote.UserTestData.*;
+import static ua.restaurant.vote.UserTestData.USER3;
 import static ua.restaurant.vote.web.user.ProfileRestController.REST_URL;
 
 /**
@@ -50,7 +50,8 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(delete(REST_URL)
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk());
-        MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), userService.getAll());
+        //MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), userService.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER2, USER3), userService.getAll());
     }
 
     @Test
