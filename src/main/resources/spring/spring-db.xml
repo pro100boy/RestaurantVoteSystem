@@ -82,8 +82,8 @@
     <!-- clear2ndLevelHibernateCache -->
     <bean class="ua.restaurant.vote.repository.JpaUtil"/>
 
-    <context:component-scan base-package="ua.restaurant.**.repository.datajpa"/>
-    <jpa:repositories base-package="ua.restaurant.**.repository.datajpa"/>
+    <context:component-scan base-package="ua.restaurant.**.repository"/>
+    <jpa:repositories base-package="ua.restaurant.**.repository"/>
     <!-- Configure Spring Data JPA and set the base package of the repository interfaces -->
     <!--<context:component-scan base-package="ua.restaurant.**.repository"/>
     <jpa:repositories base-package="ua.restaurant.**.repository"/>-->

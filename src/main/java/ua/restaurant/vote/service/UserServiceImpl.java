@@ -3,6 +3,7 @@ package ua.restaurant.vote.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,8 @@ import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private static final Sort SORT_NAME_EMAIL = new Sort("name", "email");
+
     @Autowired
     private UserRepository repository;
 
@@ -40,12 +43,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     @Override
     public void delete(int id) {
-        checkNotFoundWithId(repository.delete(id), id);
+        checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
     @Override
     public User get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(id), id);
+        return checkNotFoundWithId(repository.findOne(id), id);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Cacheable("users")
     @Override
     public List<User> getAll() {
-        return repository.getAll();
+        return repository.findAll(SORT_NAME_EMAIL);
     }
 
     @CacheEvict(value = "users", allEntries = true)

@@ -33,6 +33,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", false, Collections.singleton(Role.ROLE_USER));
         User created = service.save(newUser);
         newUser.setId(created.getId());
+        Collection<User> c = service.getAll();
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, newUser, USER1, USER2, USER3), service.getAll());
     }
 
