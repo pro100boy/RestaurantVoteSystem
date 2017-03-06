@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * GKislin
  * 15.06.2015.
  */
-//TODO разобраться зачем этот класс нужен, если нужен вообще
+//TODO разобраться зачем этот класс нужен, если нужен вообще. Только для SpringMainTest?
 @Repository
 public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);

@@ -59,7 +59,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     @Transactional
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + USER_ID)
+        mockMvc.perform(delete(REST_URL + USER1_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -83,30 +83,30 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     public void testGetForbidden() throws Exception {
         mockMvc.perform(get(REST_URL)
-                .with(userHttpBasic(USER)))
+                .with(userHttpBasic(USER1)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @Transactional
     public void testUpdate() throws Exception {
-        User updated = new User(USER);
+        User updated = new User(USER1);
         updated.setName("UpdatedName");
         updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
-        mockMvc.perform(put(REST_URL + USER_ID)
+        mockMvc.perform(put(REST_URL + USER1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk());
 
-        MATCHER.assertEquals(updated, userService.get(USER_ID));
+        MATCHER.assertEquals(updated, userService.get(USER1_ID));
     }
 
     @Test
     public void testUpdateInvalid() throws Exception {
-        User updated = new User(USER);
+        User updated = new User(USER1);
         updated.setName("");
-        mockMvc.perform(put(REST_URL + USER_ID)
+        mockMvc.perform(put(REST_URL + USER1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated)))
@@ -127,7 +127,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         expected.setId(returned.getId());
 
         MATCHER.assertEquals(expected, returned);
-        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, expected, USER), userService.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, expected, USER1), userService.getAll());
     }
 
     @Test
@@ -147,14 +147,14 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentListMatcher(ADMIN, USER)));
+                .andExpect(MATCHER.contentListMatcher(ADMIN, USER1)));
     }
 
     @Test
     public void testUpdateDuplicate() throws Exception {
-        User updated = new User(USER);
+        User updated = new User(USER1);
         updated.setEmail("admin@gmail.com");
-        mockMvc.perform(put(REST_URL + USER_ID)
+        mockMvc.perform(put(REST_URL + USER1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(updated)))

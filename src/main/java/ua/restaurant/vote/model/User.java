@@ -33,13 +33,13 @@ public class User extends NamedEntity {
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
-    @SafeHtml
+    //@SafeHtml
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Length(min = 5)
-    @SafeHtml
+    //@SafeHtml
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")

@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.UserTestData.ADMIN;
 import static ua.restaurant.vote.UserTestData.MATCHER;
-import static ua.restaurant.vote.UserTestData.USER;
+import static ua.restaurant.vote.UserTestData.USER1;
 import static ua.restaurant.vote.web.user.ProfileRestController.REST_URL;
 
 /**
@@ -32,10 +32,10 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     public void testGet() throws Exception {
         TestUtil.print(mockMvc.perform(get(REST_URL)
-                .with(userHttpBasic(USER)))
+                .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentMatcher(USER)));
+                .andExpect(MATCHER.contentMatcher(USER1)));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     @Transactional
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL)
-                .with(userHttpBasic(USER)))
+                .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk());
         MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), userService.getAll());
     }
@@ -59,12 +59,12 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
         UserTo updatedTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
 
         mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER))
+                .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        MATCHER.assertEquals(UserUtil.updateFromTo(new User(USER), updatedTo), userService.getByEmail("newemail@ya.ru"));
+        MATCHER.assertEquals(UserUtil.updateFromTo(new User(USER1), updatedTo), userService.getByEmail("newemail@ya.ru"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
         UserTo updatedTo = new UserTo(null, null, "password", null);
 
         mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER))
+                .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
@@ -83,7 +83,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
         UserTo updatedTo = new UserTo(null, "newName", "admin@gmail.com", "newPassword");
 
         mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER))
+                .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andExpect(status().isConflict());
     }

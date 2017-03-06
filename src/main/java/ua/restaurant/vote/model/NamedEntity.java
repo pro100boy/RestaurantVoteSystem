@@ -15,7 +15,7 @@ public class NamedEntity extends BaseEntity {
 
     @NotBlank // (проверка на символы, кроме пробелов)
     @Column(name = "name", nullable = false)
-    @SafeHtml
+    //@SafeHtml
     protected String name;
 
     public NamedEntity() {
