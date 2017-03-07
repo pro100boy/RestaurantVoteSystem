@@ -1,5 +1,6 @@
 package ua.restaurant.vote.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +31,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     Restaurant findOne(Integer integer);
 
     Restaurant getByName(String name);
+
+    @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES)
+    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
+    Restaurant getWithVotes(int id);
 }

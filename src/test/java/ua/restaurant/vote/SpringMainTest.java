@@ -7,6 +7,7 @@ import ua.restaurant.vote.service.UserService;
 import ua.restaurant.vote.web.user.AdminRestController;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import static ua.restaurant.vote.TestUtil.mockAuthorize;
 import static ua.restaurant.vote.UserTestData.ADMIN;

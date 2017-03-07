@@ -60,7 +60,7 @@ public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest 
 
     @Test
     public void testGetAll() throws Exception {
-        MATCHER.assertCollectionEquals(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3), service.getAll());
+        MATCHER.assertCollectionEquals(RESTAURANTS, service.getAll());
     }
 
     @Test

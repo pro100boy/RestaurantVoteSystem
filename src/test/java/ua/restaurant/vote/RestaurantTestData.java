@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import ua.restaurant.vote.matcher.ModelMatcher;
 import ua.restaurant.vote.model.Restaurant;
 
-import java.util.Objects;
+import java.util.*;
 
 import static ua.restaurant.vote.model.BaseEntity.START_SEQ;
 
@@ -22,6 +22,8 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT1 = new Restaurant(RESTAURANT1_ID, "Restaurant 1","Description of restaurant 1");
     public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT2_ID, "Restaurant 2","Description of restaurant 2");
     public static final Restaurant RESTAURANT3 = new Restaurant(RESTAURANT3_ID, "Restaurant 3","Description of restaurant 3");
+
+    public static final List<Restaurant> RESTAURANTS = new LinkedList<>(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3));
 
 
     public static Restaurant getCreated() {

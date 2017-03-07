@@ -70,9 +70,10 @@ public class Vote extends BaseEntity{
     @Override
     public String toString() {
         return "Vote{" +
-                "dateTime=" + DateTimeUtil.toString(dateTime) +
-                ", user=" + user +
-                ", restaurant=" + restaurant +
+                "id=" + getId() +
+                ", dateTime=" + DateTimeUtil.toString(dateTime) +
+                //", user=" + user +
+                //", restaurant=" + restaurant +
                 '}';
     }
 }

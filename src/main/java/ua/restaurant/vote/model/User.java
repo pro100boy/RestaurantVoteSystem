@@ -15,11 +15,11 @@ import java.util.*;
  */
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
-//@NamedEntityGraph(name = User.GRAPH_WITH_MEALS, attributeNodes = {@NamedAttributeNode("meals")})
+@NamedEntityGraph(name = User.GRAPH_WITH_VOTES, attributeNodes = {@NamedAttributeNode("votes")})
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends NamedEntity {
 
-    //public static final String GRAPH_WITH_MEALS = "User.withMeals";
+    public static final String GRAPH_WITH_VOTES = "User.withVotes";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -51,7 +51,7 @@ public class User extends NamedEntity {
     @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("date_time DESC")
-    protected Set<Vote> votes;
+    protected List<Vote> votes;
 
     public User() {
     }
@@ -105,6 +105,14 @@ public class User extends NamedEntity {
         return roles;
     }
 
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -121,6 +129,7 @@ public class User extends NamedEntity {
                 ", name=" + name +
                 ", enabled=" + enabled +
                 ", roles=" + roles +
+                ", votes=" + votes +
                 ')';
     }
 }

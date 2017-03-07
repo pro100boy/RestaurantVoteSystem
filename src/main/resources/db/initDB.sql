@@ -14,7 +14,8 @@ CREATE TABLE users
   email      VARCHAR(255) NOT NULL,
   password   VARCHAR(255) NOT NULL,
   registered TIMESTAMP DEFAULT now(),
-  enabled    BOOLEAN   DEFAULT TRUE
+  enabled    BOOLEAN   DEFAULT TRUE,
+  CONSTRAINT users_unique_email_idx UNIQUE (email)
 );
 
 CREATE TABLE user_roles

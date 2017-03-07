@@ -90,6 +90,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User getWithVotes(int id) {
+        return checkNotFoundWithId(repository.getWithVotes(id), id);
+    }
+
+    @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User u = repository.getByEmail(email.toLowerCase());
         if (u == null) {

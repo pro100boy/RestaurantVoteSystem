@@ -3,18 +3,22 @@ package ua.restaurant.vote.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.restaurant.vote.VoteTestData;
 import ua.restaurant.vote.model.Role;
 import ua.restaurant.vote.model.User;
 import ua.restaurant.vote.repository.JpaUtil;
+import ua.restaurant.vote.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
-import java.util.Collections;
+
+import static ua.restaurant.vote.UserTestData.MATCHER;
+import static ua.restaurant.vote.UserTestData.USER1;
+import static ua.restaurant.vote.UserTestData.USER1_ID;
 
 /**
  * Created by Galushkin Pavel on 06.03.2017.
  */
-abstract public class AbstractJpaUserServiceTest extends AbstractUserServiceTest {
-    @SuppressWarnings("SpringJavaAutowiringInspection")
+public class JpaUserServiceTest extends AbstractUserServiceTest {
     @Autowired
     private JpaUtil jpaUtil;
 
@@ -35,5 +39,17 @@ abstract public class AbstractJpaUserServiceTest extends AbstractUserServiceTest
         validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
         //validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", true, Collections.emptySet())), ConstraintViolationException.class);
         //validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", true, Collections.emptySet())), ConstraintViolationException.class);
+    }
+
+    @Test
+    public void testGetWithVotes() throws Exception {
+        User user = service.getWithVotes(USER1_ID);
+        MATCHER.assertEquals(USER1, user);
+        VoteTestData.MATCHER.assertCollectionEquals(VoteTestData.VOTES_USER, user.getVotes());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testGetWithVotesNotFound() throws Exception {
+        service.getWithVotes(1);
     }
 }

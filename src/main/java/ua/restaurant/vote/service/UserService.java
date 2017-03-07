@@ -28,4 +28,5 @@ public interface UserService {
 
     void enable(int id, boolean enable);
 
+    User getWithVotes(int id);
 }

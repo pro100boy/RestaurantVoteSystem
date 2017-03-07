@@ -16,8 +16,11 @@ import java.util.Set;
  */
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
+@NamedEntityGraph(name = Restaurant.GRAPH_WITH_VOTES, attributeNodes = {@NamedAttributeNode("votes")})
 @Table(name = "restaurants")
 public class Restaurant extends NamedEntity {
+    public static final String GRAPH_WITH_VOTES = "Restaurant.withVotes";
+
     @NotBlank
     @Column(name = "description", nullable = false)
     @Size(min = 5, max = 255)
@@ -27,7 +30,7 @@ public class Restaurant extends NamedEntity {
     @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("date_time DESC")
-    protected Set<Vote> votes;
+    protected List<Vote> votes;
 
     public Restaurant() {
     }
@@ -49,11 +52,20 @@ public class Restaurant extends NamedEntity {
         this.description = description;
     }
 
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
-                "description='" + description + '\'' +
-                ", votes=" + votes +
+                "id=" + getId() +
+                ", description='" + description + '\'' +
+                //", votes=" + votes +
                 '}';
     }
 }

@@ -1,7 +1,9 @@
 package ua.restaurant.vote.web.user;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,7 @@ import static ua.restaurant.vote.UserTestData.*;
 /**
  * Created by Galushkin Pavel on 05.03.2017.
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AdminRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = AdminRestController.REST_URL + '/';
