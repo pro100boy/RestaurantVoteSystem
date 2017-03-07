@@ -48,10 +48,10 @@ public class User extends NamedEntity {
     @BatchSize(size = 200)
     private Set<Role> roles;
 
-/*    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OrderBy("dateTime DESC")
-//    @JsonIgnore
-    protected List<Meal> meals;*/
+    @SuppressWarnings("JpaQlInspection")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OrderBy("date_time DESC")
+    protected Set<Vote> votes;
 
     public User() {
     }

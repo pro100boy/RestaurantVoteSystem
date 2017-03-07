@@ -36,6 +36,7 @@ CREATE TABLE votes (
   user_id   INTEGER NOT NULL,
   rest_id   INTEGER NOT NULL,
   date_time TIMESTAMP DEFAULT now(),
+  CONSTRAINT user_date_restaurant_unique_idx UNIQUE (user_id, rest_id, date_time),
   FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
@@ -46,6 +47,7 @@ CREATE TABLE menus (
   date_time TIMESTAMP DEFAULT now(),
   dish      VARCHAR(255) NOT NULL,
   price     REAL         NOT NULL,
+  CONSTRAINT date_restaurant_unique_idx UNIQUE (rest_id, date_time),
   FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 

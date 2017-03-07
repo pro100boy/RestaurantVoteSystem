@@ -5,10 +5,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Galushkin Pavel
@@ -23,6 +23,11 @@ public class Restaurant extends NamedEntity {
     @Size(min = 5, max = 255)
     @SafeHtml
     private String description;
+
+    @SuppressWarnings("JpaQlInspection")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("date_time DESC")
+    protected Set<Vote> votes;
 
     public Restaurant() {
     }
@@ -47,9 +52,8 @@ public class Restaurant extends NamedEntity {
     @Override
     public String toString() {
         return "Restaurant{" +
-                "id=" + getId() +
-                ", name=" + getName() +
-                ", description='" + getDescription() + '\'' +
+                "description='" + description + '\'' +
+                ", votes=" + votes +
                 '}';
     }
 }
