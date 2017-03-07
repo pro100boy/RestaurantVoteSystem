@@ -42,7 +42,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant getByName(String name) throws NotFoundException {
-        Assert.notNull(name, "email must not be null");
+        Assert.notNull(name, "name must not be null");
         return checkNotFound(repository.getByName(name), "name=" + name);
     }
 
