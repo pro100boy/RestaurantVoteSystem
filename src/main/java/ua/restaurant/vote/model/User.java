@@ -1,5 +1,7 @@
 package ua.restaurant.vote.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -51,7 +53,8 @@ public class User extends NamedEntity {
     @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("vote_date DESC")
-    protected Set<Vote> votes;
+    @JsonManagedReference
+    protected List<Vote> votes;
 
     public User() {
     }
@@ -110,7 +113,7 @@ public class User extends NamedEntity {
     }
 
     public void setVotes(Collection<Vote> votes) {
-        this.roles = CollectionUtils.isEmpty(votes) ? Collections.emptySet() : new HashSet(votes);
+        this.votes = CollectionUtils.isEmpty(votes) ? Collections.emptyList() : new ArrayList(votes);
     }
 
     public String getPassword() {

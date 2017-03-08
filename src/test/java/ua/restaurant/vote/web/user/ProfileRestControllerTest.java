@@ -100,7 +100,6 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isConflict());
     }
 
-    // TODO ERROR ExceptionInfoHandler - Exception at request http://localhost/rest/profile/between, org.springframework.http.converter.HttpMessageNotWritableException: Could not write content: Infinite recursion (StackOverflowError)
     @Test
     public void testGetBetween() throws Exception {
         mockMvc.perform(get(REST_URL + "/between")
