@@ -41,8 +41,6 @@ public class ProfileRestController extends AbstractUserController {
     @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@RequestParam(value = "startDate", required = false) LocalDate startDate,
                     @RequestParam(value = "endDate", required = false) LocalDate endDate) {
-        User r = super.getBetween(AuthorizedUser.id(), startDate, endDate);
-        System.out.println(r);
-        return r;
+        return super.getBetween(AuthorizedUser.id(), startDate, endDate);
     }
 }
