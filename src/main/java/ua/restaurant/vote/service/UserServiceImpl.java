@@ -104,10 +104,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new AuthorizedUser(u);
     }
 
-/*    @Override
+    @Override
     public User getVotesForAllRestaurants(int id, LocalDate startDate, LocalDate endDate) {
         Assert.notNull(startDate, "startDate must not be null");
         Assert.notNull(endDate, "endDate  must not be null");
-
-    }*/
+        User u = repository.getVotesForAllRestaurants(id, startDate, endDate);
+        return u;
+    }
 }

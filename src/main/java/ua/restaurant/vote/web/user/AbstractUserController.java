@@ -3,10 +3,13 @@ package ua.restaurant.vote.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.restaurant.vote.AuthorizedUser;
 import ua.restaurant.vote.model.User;
 import ua.restaurant.vote.service.UserService;
 import ua.restaurant.vote.to.UserTo;
+import ua.restaurant.vote.util.DateTimeUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkIdConsistent;
@@ -62,5 +65,13 @@ public abstract class AbstractUserController {
     public void enable(int id, boolean enabled) {
         log.info((enabled ? "enable " : "disable ") + id);
         service.enable(id, enabled);
+    }
+
+    public User getBetween(int id, LocalDate startDate, LocalDate endDate)
+    {
+        log.info("getVotesForAllRestaurants between dates {} - {} for User {}", startDate, endDate, AuthorizedUser.get());
+        return service.getVotesForAllRestaurants(id,
+                        startDate != null ? startDate : DateTimeUtil.MIN_DATE,
+                        endDate != null ? endDate : DateTimeUtil.MAX_DATE);
     }
 }

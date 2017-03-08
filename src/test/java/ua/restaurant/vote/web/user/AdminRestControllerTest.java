@@ -73,7 +73,6 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        //MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), userService.getAll());
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER2, USER3), userService.getAll());
     }
 

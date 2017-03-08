@@ -31,12 +31,11 @@ public interface UserService {
 
     User getWithVotes(int id);
 
-    /* Голоса ЮЗЕРА по ВСЕМ РЕСТОРАНАМ за ПЕРИОД */
+    /* USER's votes for ALL RESTAURANTS for PERIOD */
     /*
-    SELECT u.ID, u.NAME, v.DATE_TIME, r.NAME FROM USERS u
-    INNER JOIN VOTES v ON (u.ID = v.USER_ID) INNER JOIN RESTAURANTS r ON v.REST_ID = r.ID
-    WHERE u.ID=100003
-    AND v.DATE_TIME BETWEEN '2017-02-20 10:00:00' AND '2017-02-20 10:00:00'
+    SELECT v.VOTE_DATE, r.NAME FROM RESTAURANTS r
+    INNER JOIN VOTES v ON r.ID = v.REST_ID INNER JOIN USERS u ON v.USER_ID = u.ID
+    WHERE u.ID=100003 AND v.VOTE_DATE BETWEEN '2016-02-20' AND '2018-02-20'
     */
-    //User getVotesForAllRestaurants(int id, LocalDate startDate, LocalDate endDate);
+    User getVotesForAllRestaurants(int id, LocalDate startDate, LocalDate endDate);
 }

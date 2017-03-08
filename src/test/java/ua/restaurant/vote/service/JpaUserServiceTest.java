@@ -11,6 +11,10 @@ import ua.restaurant.vote.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Arrays;
+
 import static ua.restaurant.vote.UserTestData.MATCHER;
 import static ua.restaurant.vote.UserTestData.USER1;
 import static ua.restaurant.vote.UserTestData.USER1_ID;
@@ -37,8 +41,6 @@ public class JpaUserServiceTest extends AbstractUserServiceTest {
         validateRootCause(() -> service.save(new User(null, "User", "  ", "password", Role.ROLE_USER)), ConstraintViolationException.class);
         // empty password
         validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
-        //validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", true, Collections.emptySet())), ConstraintViolationException.class);
-        //validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "password", true, Collections.emptySet())), ConstraintViolationException.class);
     }
 
     @Test
@@ -51,5 +53,12 @@ public class JpaUserServiceTest extends AbstractUserServiceTest {
     @Test(expected = NotFoundException.class)
     public void testGetWithVotesNotFound() throws Exception {
         service.getWithVotes(1);
+    }
+
+    @Test
+    public void testGetVotesForAllRestaurants() throws Exception {
+        User user = service.getVotesForAllRestaurants(USER1_ID, LocalDate.of(2016, Month.JANUARY, 30), LocalDate.of(2018, Month.JANUARY, 30));
+        MATCHER.assertEquals(USER1, user);
+        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE6, VoteTestData.VOTE2), user.getVotes());
     }
 }

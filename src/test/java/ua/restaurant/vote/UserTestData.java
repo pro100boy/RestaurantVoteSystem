@@ -36,6 +36,7 @@ public class UserTestData {
                             && Objects.equals(expected.getEmail(), actual.getEmail())
                             && Objects.equals(expected.isEnabled(), actual.isEnabled())
                             && Objects.equals(expected.getRoles(), actual.getRoles())
+                            && Objects.equals(expected.getVotes(), actual.getVotes())
                     )
     );
 

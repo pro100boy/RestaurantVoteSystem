@@ -51,7 +51,7 @@ public class User extends NamedEntity {
     @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("vote_date DESC")
-    protected List<Vote> votes;
+    protected Set<Vote> votes;
 
     public User() {
     }
@@ -105,12 +105,12 @@ public class User extends NamedEntity {
         return roles;
     }
 
-    public List<Vote> getVotes() {
+    public Collection<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
+    public void setVotes(Collection<Vote> votes) {
+        this.roles = CollectionUtils.isEmpty(votes) ? Collections.emptySet() : new HashSet(votes);
     }
 
     public String getPassword() {

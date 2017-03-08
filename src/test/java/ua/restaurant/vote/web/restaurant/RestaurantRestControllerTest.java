@@ -12,6 +12,7 @@ import ua.restaurant.vote.TestUtil;
 
 import ua.restaurant.vote.web.json.JsonUtil;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -142,5 +143,16 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER.contentListMatcher(RESTAURANT1, RESTAURANT2, RESTAURANT3)));
+    }
+
+    @Test
+    public void testUpdateHtmlUnsafe() throws Exception {
+        Restaurant invalid = new Restaurant(RESTAURANT1_ID, "Restaurant 1", "<script>alert(123)</script>");
+        mockMvc.perform(put(REST_URL + RESTAURANT1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(invalid)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 }
