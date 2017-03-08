@@ -1,7 +1,6 @@
 package ua.restaurant.vote.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -54,6 +53,7 @@ public class User extends NamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("vote_date DESC")
     @JsonManagedReference
+    //@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
     protected List<Vote> votes;
 
     public User() {
