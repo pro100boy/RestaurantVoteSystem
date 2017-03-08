@@ -15,6 +15,7 @@ import ua.restaurant.vote.repository.UserRepository;
 import ua.restaurant.vote.to.UserTo;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ua.restaurant.vote.util.UserUtil.prepareToSave;
@@ -102,4 +103,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return new AuthorizedUser(u);
     }
+
+/*    @Override
+    public User getVotesForAllRestaurants(int id, LocalDate startDate, LocalDate endDate) {
+        Assert.notNull(startDate, "startDate must not be null");
+        Assert.notNull(endDate, "endDate  must not be null");
+
+    }*/
 }

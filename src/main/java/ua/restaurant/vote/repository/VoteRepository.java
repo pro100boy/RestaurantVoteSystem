@@ -9,9 +9,9 @@ import ua.restaurant.vote.model.Vote;
  */
 @Transactional(readOnly = true)
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
-
+/*
     @Override
     Vote save(Vote vote);
 
-    Vote getWithUser(int id, int userId);
+    Vote getWithUser(int id, int userId);*/
 }

@@ -50,7 +50,7 @@ public class User extends NamedEntity {
 
     @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @OrderBy("date_time DESC")
+    @OrderBy("vote_date DESC")
     protected List<Vote> votes;
 
     public User() {

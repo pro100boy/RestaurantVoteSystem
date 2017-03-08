@@ -7,6 +7,7 @@ import ua.restaurant.vote.util.DateTimeUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -14,12 +15,12 @@ import java.time.LocalDateTime;
  * 04.03.2017
  */
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "date_time"}, name = "user_date_restaurant_unique_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "vote_date"}, name = "user_date_restaurant_unique_idx")})
 public class Vote extends BaseEntity{
-    @Column(name = "date_time", nullable = false)
+    @Column(name = "vote_date", nullable = false)
     @NotNull
-    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
-    private LocalDateTime dateTime;
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -34,21 +35,21 @@ public class Vote extends BaseEntity{
     public Vote() {
     }
 
-    public Vote(LocalDateTime date) {
+    public Vote(LocalDate date) {
         this(null, date);
     }
 
-    public Vote(Integer id, LocalDateTime dateTime) {
+    public Vote(Integer id, LocalDate date) {
         super(id);
-        this.dateTime = dateTime;
+        this.date = date;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate dateTime) {
+        this.date = date;
     }
 
     public User getUser() {
@@ -71,7 +72,7 @@ public class Vote extends BaseEntity{
     public String toString() {
         return "Vote{" +
                 "id=" + getId() +
-                ", dateTime=" + DateTimeUtil.toString(dateTime) +
+                ", date=" + date +
                 //", user=" + user +
                 //", restaurant=" + restaurant +
                 '}';

@@ -29,7 +29,7 @@ public class Restaurant extends NamedEntity {
 
     @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @OrderBy("date_time DESC")
+    @OrderBy("vote_date DESC")
     protected List<Vote> votes;
 
     public Restaurant() {

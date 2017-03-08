@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.model.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,4 +40,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @EntityGraph(value = User.GRAPH_WITH_VOTES)
     @Query("SELECT u FROM User u WHERE u.id=?1")
     User getWithVotes(int id);
+
+    //User getVotesForAllRestaurants(int id, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }
