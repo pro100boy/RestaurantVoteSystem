@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.model.Restaurant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -32,7 +33,12 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     Restaurant getByName(String name);
 
-    @EntityGraph(value = Restaurant.GRAPH_WITH_MENUS_AND_VOTES)
+    @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES_MENUS)
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithVotes(int id);
+
+    @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES_MENUS)
+    @SuppressWarnings("JpaQlInspection")
+    @Query("SELECT r FROM Restaurant r INNER JOIN FETCH r.votes v WHERE r.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC")
+    Restaurant getWithVotesForPeriod(@Param("id") int id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

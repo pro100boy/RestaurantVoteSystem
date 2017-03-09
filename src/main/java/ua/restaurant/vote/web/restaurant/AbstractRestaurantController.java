@@ -3,9 +3,13 @@ package ua.restaurant.vote.web.restaurant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.restaurant.vote.AuthorizedUser;
 import ua.restaurant.vote.model.Restaurant;
+import ua.restaurant.vote.model.User;
 import ua.restaurant.vote.service.RestaurantService;
+import ua.restaurant.vote.util.DateTimeUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkIdConsistent;
@@ -50,5 +54,13 @@ public class AbstractRestaurantController {
         checkIdConsistent(restaurant, id);
         log.info("update " + restaurant);
         service.update(restaurant);
+    }
+
+    public Restaurant getBetween(int id, LocalDate startDate, LocalDate endDate)
+    {
+        log.info("getWithVotesForPeriod between dates {} - {} for Restaurant id {}", startDate, endDate, id);
+        return service.getWithVotesForPeriod(id,
+                startDate != null ? startDate : DateTimeUtil.MIN_DATE,
+                endDate != null ? endDate : DateTimeUtil.MAX_DATE);
     }
 }

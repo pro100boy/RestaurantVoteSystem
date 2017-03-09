@@ -9,6 +9,7 @@ import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.repository.RestaurantRepository;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFound;
@@ -66,5 +67,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant getWithVotes(int id) {
         return checkNotFoundWithId(repository.getWithVotes(id), id);
+    }
+
+    @Override
+    public Restaurant getWithVotesForPeriod(int id, LocalDate startDate, LocalDate endDate) {
+        Assert.notNull(startDate, "startDate must not be null");
+        Assert.notNull(endDate, "endDate  must not be null");
+        return repository.getWithVotesForPeriod(id, startDate, endDate);
     }
 }

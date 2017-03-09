@@ -25,7 +25,6 @@ public class RestaurantTestData {
 
     public static final List<Restaurant> RESTAURANTS = new LinkedList<>(Arrays.asList(RESTAURANT1, RESTAURANT2, RESTAURANT3));
 
-
     public static Restaurant getCreated() {
         return new Restaurant(null, "Новый ресторан", "Новое описание");
     }

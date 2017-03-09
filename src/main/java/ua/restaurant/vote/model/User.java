@@ -108,11 +108,11 @@ public class User extends NamedEntity {
         return roles;
     }
 
-    public void setVotes(Set<Vote> votes) {
+ /*   public void setVotes(Set<Vote> votes) {
         this.votes = CollectionUtils.isEmpty(votes) ? Collections.emptySet() : new HashSet<>(votes);
-    }
+    }*/
 
-    public Set<Vote> getVotes() {
+    public Collection<Vote> getVotes() {
         return votes;
     }
 
