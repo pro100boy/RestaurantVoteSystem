@@ -37,12 +37,12 @@ public class Restaurant extends NamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("vote_date DESC")
-    //@JsonManagedReference
+    @JsonManagedReference
     protected Set<Vote> votes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("menu_date DESC")
-    //@JsonManagedReference
+    @JsonManagedReference
     protected Set<Menu> menus;
 
     public Restaurant() {

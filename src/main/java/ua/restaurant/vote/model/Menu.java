@@ -29,7 +29,7 @@ public class Menu extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    //@JsonBackReference
+    @JsonBackReference
     private Restaurant restaurant;
 
     public Menu() {

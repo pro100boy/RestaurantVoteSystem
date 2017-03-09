@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.VoteTestData;
 import ua.restaurant.vote.model.User;
+import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.UserTo;
 import ua.restaurant.vote.util.UserUtil;
 import ua.restaurant.vote.web.AbstractControllerTest;
@@ -15,8 +16,10 @@ import ua.restaurant.vote.web.json.JsonUtil;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -107,6 +110,5 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print());
-        //VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE6, VoteTestData.VOTE2), USER1.getVotes());
     }
 }
