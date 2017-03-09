@@ -3,9 +3,7 @@ package ua.restaurant.vote.web.restaurant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.restaurant.vote.AuthorizedUser;
 import ua.restaurant.vote.model.Restaurant;
-import ua.restaurant.vote.model.User;
 import ua.restaurant.vote.service.RestaurantService;
 import ua.restaurant.vote.util.DateTimeUtil;
 
@@ -18,7 +16,7 @@ import static ua.restaurant.vote.util.ValidationUtil.checkNew;
 /**
  * Created by Galushkin Pavel on 06.03.2017.
  */
-public class AbstractRestaurantController {
+public abstract class AbstractRestaurantController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
