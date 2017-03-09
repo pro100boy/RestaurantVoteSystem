@@ -54,7 +54,7 @@ public class User extends NamedEntity {
     @OrderBy("vote_date DESC")
     @JsonManagedReference
     //@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
-    protected List<Vote> votes;
+    protected Set<Vote> votes;
 
     public User() {
     }
@@ -108,12 +108,12 @@ public class User extends NamedEntity {
         return roles;
     }
 
-    public Collection<Vote> getVotes() {
-        return votes;
+    public void setVotes(Set<Vote> votes) {
+        this.votes = CollectionUtils.isEmpty(votes) ? Collections.emptySet() : new HashSet<>(votes);
     }
 
-    public void setVotes(Collection<Vote> votes) {
-        this.votes = CollectionUtils.isEmpty(votes) ? Collections.emptyList() : new ArrayList(votes);
+    public Set<Vote> getVotes() {
+        return votes;
     }
 
     public String getPassword() {

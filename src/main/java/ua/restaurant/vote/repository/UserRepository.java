@@ -49,6 +49,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     */
     @EntityGraph(value = User.GRAPH_WITH_VOTES)
     @SuppressWarnings("JpaQlInspection")
-    @Query("SELECT u FROM User u LEFT JOIN u.votes v WHERE u.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC")
-    User getVotesForAllRestaurants(@Param("id") int id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    @Query("SELECT u FROM User u INNER JOIN FETCH u.votes v WHERE u.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC")
+    User getWithVotesForPeriod(@Param("id") int id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

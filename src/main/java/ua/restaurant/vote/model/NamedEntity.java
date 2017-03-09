@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Size;
 
 /**
  * User: Galushkin Pavel
@@ -15,6 +16,7 @@ public class NamedEntity extends BaseEntity {
 
     @NotBlank // (проверка на символы, кроме пробелов)
     @Column(name = "name", nullable = false)
+    @Size(min = 1, max = 255)
     @SafeHtml
     protected String name;
 

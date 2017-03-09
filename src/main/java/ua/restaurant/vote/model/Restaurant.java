@@ -1,12 +1,16 @@
 package ua.restaurant.vote.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,12 +18,17 @@ import java.util.Set;
  * Galushkin Pavel
  * 04.03.2017
  */
+@SuppressWarnings("JpaQlInspection")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
-@NamedEntityGraph(name = Restaurant.GRAPH_WITH_VOTES, attributeNodes = {@NamedAttributeNode("votes")})
+@NamedEntityGraph(name = Restaurant.GRAPH_WITH_MENUS_AND_VOTES, attributeNodes =
+        {
+                @NamedAttributeNode("votes"),
+                @NamedAttributeNode("menus")
+        })
 @Table(name = "restaurants")
 public class Restaurant extends NamedEntity {
-    public static final String GRAPH_WITH_VOTES = "Restaurant.withVotes";
+    public static final String GRAPH_WITH_MENUS_AND_VOTES = "Restaurant.withMenusVotes";
 
     @NotBlank
     @Column(name = "description", nullable = false)
@@ -27,10 +36,15 @@ public class Restaurant extends NamedEntity {
     @SafeHtml
     private String description;
 
-    @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("vote_date DESC")
-    protected List<Vote> votes;
+    @JsonManagedReference
+    protected Set<Vote> votes;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("menu_date DESC")
+    @JsonManagedReference
+    protected Set<Menu> menus;
 
     public Restaurant() {
     }
@@ -52,12 +66,20 @@ public class Restaurant extends NamedEntity {
         this.description = description;
     }
 
-    public List<Vote> getVotes() {
+    public Set<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
+    public void setVotes(Set<Vote> votes) {
+        this.votes = CollectionUtils.isEmpty(votes) ? Collections.emptySet() : new HashSet<>(votes);
+    }
+
+    public Set<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Set<Menu> menus) {
+        this.menus = CollectionUtils.isEmpty(menus) ? Collections.emptySet() : new HashSet<>(menus);
     }
 
     @Override
@@ -65,7 +87,8 @@ public class Restaurant extends NamedEntity {
         return "Restaurant{" +
                 "id=" + getId() +
                 ", description='" + description + '\'' +
-                //", votes=" + votes +
+                ", votes=" + votes +
+                ", menus=" + menus +
                 '}';
     }
 }

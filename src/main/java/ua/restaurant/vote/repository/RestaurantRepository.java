@@ -32,7 +32,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     Restaurant getByName(String name);
 
-    @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES)
+    @EntityGraph(value = Restaurant.GRAPH_WITH_MENUS_AND_VOTES)
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithVotes(int id);
 }

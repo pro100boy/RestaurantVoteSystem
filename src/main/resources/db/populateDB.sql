@@ -24,7 +24,7 @@ INSERT INTO restaurants (name, description) VALUES
   ('Restaurant 2', 'Description of restaurant 2'),
   ('Restaurant 3', 'Description of restaurant 3');
 
-INSERT INTO menus (rest_id, menu_date, dish, price) VALUES
+INSERT INTO menus (rest_id, menu_date, name, price) VALUES
   (100004, '2017-01-30', 'Dish 1', 12.5),
   (100005, '2017-01-30', 'Dish 2', 13.5),
   (100006, '2017-01-30', 'Dish 3', 14.5);

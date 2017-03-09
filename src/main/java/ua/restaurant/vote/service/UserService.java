@@ -37,5 +37,5 @@ public interface UserService {
     INNER JOIN VOTES v ON r.ID = v.REST_ID INNER JOIN USERS u ON v.USER_ID = u.ID
     WHERE u.ID=100003 AND v.VOTE_DATE BETWEEN '2016-02-20' AND '2018-02-20'
     */
-    User getVotesForAllRestaurants(int id, LocalDate startDate, LocalDate endDate);
+    User getWithVotesForPeriod(int id, LocalDate startDate, LocalDate endDate);
 }

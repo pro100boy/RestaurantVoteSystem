@@ -3,7 +3,6 @@ package ua.restaurant.vote.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -105,10 +104,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getVotesForAllRestaurants(int id, LocalDate startDate, LocalDate endDate) {
+    public User getWithVotesForPeriod(int id, LocalDate startDate, LocalDate endDate) {
         Assert.notNull(startDate, "startDate must not be null");
         Assert.notNull(endDate, "endDate  must not be null");
-        User u = repository.getVotesForAllRestaurants(id, startDate, endDate);
-        return u;
+        return repository.getWithVotesForPeriod(id, startDate, endDate);
     }
 }

@@ -69,8 +69,8 @@ public abstract class AbstractUserController {
 
     public User getBetween(int id, LocalDate startDate, LocalDate endDate)
     {
-        log.info("getVotesForAllRestaurants between dates {} - {} for User {}", startDate, endDate, AuthorizedUser.get());
-        return service.getVotesForAllRestaurants(id,
+        log.info("getWithVotesForPeriod between dates {} - {} for User {}", startDate, endDate, AuthorizedUser.get());
+        return service.getWithVotesForPeriod(id,
                         startDate != null ? startDate : DateTimeUtil.MIN_DATE,
                         endDate != null ? endDate : DateTimeUtil.MAX_DATE);
     }
