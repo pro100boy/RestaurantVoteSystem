@@ -26,13 +26,13 @@ public class Vote extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    //@JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    //@JsonBackReference
     private Restaurant restaurant;
 
     public Vote() {
@@ -76,8 +76,8 @@ public class Vote extends BaseEntity{
         return "Vote{" +
                 "id=" + getId() +
                 ", date=" + date +
-                ", user=" + user +
-                ", restaurant=" + restaurant +
+                //", user=" + user +
+                //", restaurant=" + restaurant +
                 '}';
     }
 }

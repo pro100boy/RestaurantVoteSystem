@@ -49,6 +49,8 @@ public class JpaRestaurantServiceTest extends AbstractRestaurantServiceTest {
     public void testGetWithVotes() throws Exception {
         Restaurant restaurant = service.getWithVotes(RESTAURANT1_ID);
         MATCHER.assertEquals(RESTAURANT1, restaurant);
+        System.out.println(restaurant);
+        System.out.println(restaurant.getMenus());
         VoteTestData.MATCHER.assertCollectionEquals(VoteTestData.VOTES_REST, restaurant.getVotes());
     }
 
@@ -59,9 +61,10 @@ public class JpaRestaurantServiceTest extends AbstractRestaurantServiceTest {
 
     @Test
     public void testGetWithVotesForPeriod() throws Exception {
-        Restaurant user = service.getWithVotesForPeriod(RESTAURANT1_ID, LocalDate.of(2016, Month.JANUARY, 30), LocalDate.of(2018, Month.JANUARY, 30));
-        //MATCHER.assertEquals(USER1, user);
-        System.out.println(user);
-        //RestaurantTestData.MATCHER.assertCollectionEquals(Arrays.asList(RestaurantTestData.VOTE6, RestaurantTestData.VOTE2), user.getVotes());
+        Restaurant restaurant = service.getWithVotesForPeriod(RESTAURANT1_ID, LocalDate.of(2016, Month.JANUARY, 30), LocalDate.of(2018, Month.JANUARY, 30));
+        MATCHER.assertEquals(RESTAURANT1, restaurant);
+        System.out.println(restaurant);
+        System.out.println(restaurant.getMenus());
+        VoteTestData.MATCHER.assertCollectionEquals(VoteTestData.VOTES_REST, restaurant.getVotes());
     }
 }
