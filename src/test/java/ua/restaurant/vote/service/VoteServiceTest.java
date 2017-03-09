@@ -7,6 +7,7 @@ import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 import ua.restaurant.vote.util.exception.VoteException;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,9 +20,15 @@ import static ua.restaurant.vote.VoteTestData.*;
 /**
  * Created by Galushkin Pavel on 07.03.2017.
  */
-public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
+public class VoteServiceTest extends AbstractServiceTest {
     @Autowired
     VoteService service;
+
+    @Test
+    public void testValidation() throws Exception {
+        // empty datetime
+        validateRootCause(() -> service.save(new Vote(null, null), ADMIN_ID, RESTAURANT1_ID), ConstraintViolationException.class);
+    }
 
     @Test
     public void testSave() throws Exception {

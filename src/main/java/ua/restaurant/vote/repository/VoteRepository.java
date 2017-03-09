@@ -35,9 +35,6 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     List<Vote> getAllWithRestaurants(int restId);
 
 
-    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.id = ?1 and v.user.id = ?2")
-    Vote getWithUser(int id, int userId);
-
     @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.id = ?1 and v.restaurant.id = ?2")
     Vote getWithRestaurant(int id, int restId);*/
 
