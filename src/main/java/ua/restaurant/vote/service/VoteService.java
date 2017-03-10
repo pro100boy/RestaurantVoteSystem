@@ -3,6 +3,7 @@ package ua.restaurant.vote.service;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -13,11 +14,11 @@ public interface VoteService {
 
     void delete(int id, int userId) throws NotFoundException;
 
-    Vote get(int id, int userId) throws NotFoundException;
+    Vote getWithUser(int id, int userId) throws NotFoundException;
 
-    List<Vote> getAllWithUser(int userId);
+    List<Vote> getWithUserForPeriod(int userId, LocalDate startDate, LocalDate endDate);
 
-    //Collection<Vote> getBetweenDatesWithRestaurant(int userId, LocalDate startDate, LocalDate endDate);
+    List<Vote> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate);
 
     Vote update(Vote vote, int userId, int restaurantId) throws NotFoundException;
 }

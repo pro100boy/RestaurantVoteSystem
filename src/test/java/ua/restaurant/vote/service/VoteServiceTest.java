@@ -1,6 +1,8 @@
 package ua.restaurant.vote.service;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.util.DateTimeUtil;
@@ -20,6 +22,7 @@ import static ua.restaurant.vote.VoteTestData.*;
 /**
  * Created by Galushkin Pavel on 07.03.2017.
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class VoteServiceTest extends AbstractServiceTest {
     @Autowired
     VoteService service;
@@ -35,23 +38,33 @@ public class VoteServiceTest extends AbstractServiceTest {
         Vote newVote = getCreated();
         Vote created = service.save(newVote, ADMIN_ID, RESTAURANT1_ID);
         newVote.setId(created.getId());
-        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5, newVote, VOTE1), service.getAllWithUser(ADMIN_ID));
+        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5, newVote, VOTE1), service.getWithUserForPeriod(ADMIN_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
 
     @Test
-    public void testGetAllWithUser() throws Exception {
-        MATCHER.assertCollectionEquals(Arrays.asList(VOTE6, VOTE2), service.getAllWithUser(USER1_ID));
+    public void testGetWithUserForPeriod() throws Exception {
+        MATCHER.assertCollectionEquals(Arrays.asList(VOTE6, VOTE2), service.getWithUserForPeriod(USER1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
 
     @Test
-    public void testGetAllWithUserNotFound() throws Exception {
-        MATCHER.assertCollectionEquals(Collections.emptyList(), service.getAllWithUser(1));
+    public void testGetWithUserForPeriodNotFound() throws Exception {
+        MATCHER.assertCollectionEquals(Collections.emptyList(), service.getWithUserForPeriod(1, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+    }
+
+    @Test
+    public void testGetWithRestaurantForPeriod() throws Exception {
+        MATCHER.assertCollectionEquals(Arrays.asList(VOTE8, VOTE6, VOTE5, VOTE1), service.getWithRestaurantForPeriod(RESTAURANT1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+    }
+
+    @Test
+    public void testGetWithRestaurantForPeriodNotFound() throws Exception {
+        MATCHER.assertCollectionEquals(Collections.emptyList(), service.getWithRestaurantForPeriod(1, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
 
     @Test
     public void testDelete() throws Exception {
         service.delete(VOTE1_ID, ADMIN_ID);
-        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5), service.getAllWithUser(ADMIN_ID));
+        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5), service.getWithUserForPeriod(ADMIN_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
 
     @Test(expected = NotFoundException.class)
@@ -61,19 +74,19 @@ public class VoteServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGet() throws Exception {
-        Vote vote = service.get(VOTE1_ID, ADMIN_ID);
+        Vote vote = service.getWithUser(VOTE1_ID, ADMIN_ID);
         MATCHER.assertEquals(VOTE1, vote);
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
-        service.get(1, 1);
+        service.getWithUser(1, 1);
     }
 
     @Test
     public void testUpdate() throws Exception {
         Vote updated = getUpdatedVote();
-        MATCHER.assertEquals(updated, service.get(VOTE1_ID, ADMIN_ID));
+        MATCHER.assertEquals(updated, service.getWithUser(VOTE1_ID, ADMIN_ID));
     }
 
     private Vote getUpdatedVote() {
@@ -87,7 +100,7 @@ public class VoteServiceTest extends AbstractServiceTest {
     @Test(expected = NotFoundException.class)
     public void testUpdateNotFound() throws Exception {
         Vote updated = getUpdatedVote();
-        MATCHER.assertEquals(updated, service.get(VOTE1_ID, USER1_ID));
+        MATCHER.assertEquals(updated, service.getWithUser(VOTE1_ID, USER1_ID));
     }
 
     @Test(expected = VoteException.class)

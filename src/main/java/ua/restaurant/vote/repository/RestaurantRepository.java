@@ -41,4 +41,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @SuppressWarnings("JpaQlInspection")
     @Query("SELECT r FROM Restaurant r INNER JOIN FETCH r.votes v WHERE r.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC")
     Restaurant getWithVotesForPeriod(@Param("id") int id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    /*@Query("SELECT v FROM Vote v JOIN FETCH v.menu WHERE v.id =:id and v.user.id =:userId")
+    Restaurant getWithMenu(@Param("id")Integer id, @Param("userId")Integer userId);*/
 }

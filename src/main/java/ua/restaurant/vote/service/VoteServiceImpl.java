@@ -12,6 +12,7 @@ import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 import ua.restaurant.vote.util.exception.VoteException;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class VoteServiceImpl implements VoteService {
     @Transactional
     @Override
     public Vote save(Vote vote, int userId, int restaurantId) {
-        if (!vote.isNew() && get(vote.getId(), userId) == null)
+        if (!vote.isNew() && getWithUser(vote.getId(), userId) == null)
             vote = null;
         else {
             vote.setUser(userRepository.getOne(userId));
@@ -53,14 +54,19 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Vote get(int id, int userId) throws NotFoundException {
+    public Vote getWithUser(int id, int userId) throws NotFoundException {
         Vote vote = voteRepository.findOne(id);
         return checkNotFoundWithId( (vote != null && vote.getUser().getId() == userId ? vote : null), id);
     }
 
     @Override
-    public List<Vote> getAllWithUser(int userId) {
-        return voteRepository.getAllWithUser(userId);
+    public List<Vote> getWithUserForPeriod(int userId, LocalDate startDate, LocalDate endDate) {
+        return voteRepository.getWithUserForPeriod(userId, startDate, endDate);
+    }
+
+    @Override
+    public List<Vote> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate) {
+        return voteRepository.getWithRestaurantForPeriod(restaurantId, startDate, endDate);
     }
 
     @Override

@@ -7,12 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.model.Vote;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
  * Created by Galushkin Pavel on 07.03.2017.
  */
 @Transactional(readOnly = true)
+@SuppressWarnings("JpaQlInspection")
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     Vote save(Vote vote);
@@ -26,23 +28,12 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     Vote findOne(Integer id);
 
     //ORDERED date
-    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.user.id=?1 ORDER BY v.date DESC")
-    List<Vote> getAllWithUser(int userId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.user.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC, v.id DESC")
+    List<Vote> getWithUserForPeriod(@Param("id") int userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-/*
+
     //ORDERED date
-    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.restaurant.id=?1")
-    List<Vote> getAllWithRestaurants(int restId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.restaurant.id=?1 AND v.date BETWEEN ?2 AND ?3 ORDER BY v.date DESC, v.id DESC")
+    List<Vote> getWithRestaurantForPeriod(int restId, LocalDate startDate, LocalDate endDate);
 
-
-    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.id = ?1 and v.restaurant.id = ?2")
-    Vote getWithRestaurant(int id, int restId);*/
-
-    /*
-    Vote getWithFields(int id, int userId);
-
-    Vote getWithoutUser(int id, int userId);
-
-    Collection<Vote> getAllVotesForAllUsers();
-     */
 }
