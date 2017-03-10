@@ -12,9 +12,7 @@ import ua.restaurant.vote.TestUtil;
 
 import ua.restaurant.vote.web.json.JsonUtil;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,8 +27,8 @@ import static ua.restaurant.vote.UserTestData.ADMIN;
  * Created by Galushkin Pavel on 06.03.2017.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RestaurantRestControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = RestaurantRestController.REST_URL + '/';
+public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
+    private static final String REST_URL = RestaurantAdminRestController.REST_URL + '/';
 
     @Override
     public void setUp() {
@@ -154,5 +152,22 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void testFindAllForDate() throws Exception {
+        mockMvc.perform(get(REST_URL + "polls")
+                .param("date", "2017-01-30")
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    public void testFindAllForToday() throws Exception {
+        mockMvc.perform(get(REST_URL + "polls?date=")
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }

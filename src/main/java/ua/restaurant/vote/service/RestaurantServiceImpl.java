@@ -14,6 +14,7 @@ import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFound;
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;
@@ -68,16 +69,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void evictCache() {}
 
     @Override
-    public List<Restaurant> findAllForDate(LocalDate date) {
-        Assert.notNull(date, "date  must not be null");
-        return repository.findAllForDate(date);
+    public List<RestaurantTo> findAllForDate(LocalDate date) {
+        Assert.notNull(date, "date must not be null");
+        return RestaurantUtil.asToList(repository.findAllForDate(date));
     }
 
+    // not used in REST
     @Override
     public Restaurant getWithParams(int id) {
         return checkNotFoundWithId(repository.getWithParams(id), id);
     }
 
+    @Cacheable("restaurants")
     @Override
     public Restaurant getWithParamsForPeriod(int id, LocalDate startDate, LocalDate endDate) {
         Assert.notNull(startDate, "startDate must not be null");

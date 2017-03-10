@@ -69,14 +69,12 @@ public class JpaRestaurantServiceTest extends AbstractRestaurantServiceTest {
         VoteTestData.MATCHER.assertCollectionEquals(VoteTestData.VOTES_REST, restaurant.getVotes());
     }
 
-    //TODO доделать тест
+    //TODO доделать тесты
     @Test
     public void testFindAllForDate() throws Exception {
-        List<Restaurant> restaurants = service.findAllForDate(LocalDate.of(2017, Month.JANUARY, 30));
+        List<RestaurantTo> restaurants = service.findAllForDate(LocalDate.of(2017, Month.JANUARY, 30));
         TestUtil.prntCollect(restaurants);
         System.out.println();
-        restaurants.stream().forEach(r->TestUtil.prntCollect(r.getMenus()));
-        System.out.println();
-        restaurants.stream().forEach(r->TestUtil.prntCollect(r.getVotes()));
+        restaurants.stream().forEach(r -> TestUtil.prntCollect(r.getMenus()));
     }
 }

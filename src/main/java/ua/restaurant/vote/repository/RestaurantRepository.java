@@ -31,7 +31,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     List<Restaurant> findAll();
 
     @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES_MENUS)
-    @Query("SELECT DISTINCT r FROM Restaurant r INNER JOIN FETCH r.votes v WHERE v.date = ?1 ORDER BY r.name")
+    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.votes v WHERE v.date = ?1 ORDER BY r.name")
     List<Restaurant> findAllForDate(LocalDate date);
 
     @Override
@@ -39,6 +39,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     Restaurant getByName(String name);
 
+    // not used in REST
     @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES_MENUS)
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithParams(int id);

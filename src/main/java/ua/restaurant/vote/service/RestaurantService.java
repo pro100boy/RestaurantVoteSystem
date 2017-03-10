@@ -25,9 +25,9 @@ public interface RestaurantService {
 
     void evictCache();
 
-    //TODO в REST-контроллере для юзера получать список RestaurantTo
-    List<Restaurant> findAllForDate(LocalDate date);
+    List<RestaurantTo> findAllForDate(LocalDate date);
 
+    // not used in REST
     Restaurant getWithParams(int id);
 
     Restaurant getWithParamsForPeriod(int id, LocalDate startDate, LocalDate endDate);

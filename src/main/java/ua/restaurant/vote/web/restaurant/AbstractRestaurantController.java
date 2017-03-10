@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.service.RestaurantService;
+import ua.restaurant.vote.to.RestaurantTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 
 import java.time.LocalDate;
@@ -25,6 +26,11 @@ public abstract class AbstractRestaurantController {
     public List<Restaurant> getAll() {
         log.info("getAll");
         return service.getAll();
+    }
+
+    public List<RestaurantTo> findAllForDate(LocalDate date) {
+        log.info("findAllForDate {}", date);
+        return service.findAllForDate(date != null ? date : LocalDate.now());
     }
 
     public Restaurant get(int id) {
@@ -56,7 +62,7 @@ public abstract class AbstractRestaurantController {
 
     public Restaurant getBetween(int id, LocalDate startDate, LocalDate endDate)
     {
-        log.info("getWithVotesForPeriod between dates {} - {} for Restaurant id {}", startDate, endDate, id);
+        log.info("getWithParamsForPeriod between dates {} - {} for Restaurant id {}", startDate, endDate, id);
         return service.getWithParamsForPeriod(id,
                 startDate != null ? startDate : DateTimeUtil.MIN_DATE,
                 endDate != null ? endDate : DateTimeUtil.MAX_DATE);

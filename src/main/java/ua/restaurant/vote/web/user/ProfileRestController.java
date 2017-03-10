@@ -33,11 +33,6 @@ public class ProfileRestController extends AbstractUserController {
         super.update(userTo, AuthorizedUser.id());
     }
 
-    @GetMapping(value = "/text")
-    public String testUTF() {
-        return "Русский текст";
-    }
-
     @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@RequestParam(value = "startDate", required = false) LocalDate startDate,
                     @RequestParam(value = "endDate", required = false) LocalDate endDate) {
