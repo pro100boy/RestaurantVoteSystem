@@ -1,6 +1,7 @@
 package ua.restaurant.vote.service;
 
 import ua.restaurant.vote.model.Vote;
+import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -21,4 +22,6 @@ public interface VoteService {
     List<Vote> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate);
 
     Vote update(Vote vote, int userId, int restaurantId) throws NotFoundException;
+
+    List<VoteTo> getResultSet(LocalDate startDate, LocalDate endDate);
 }

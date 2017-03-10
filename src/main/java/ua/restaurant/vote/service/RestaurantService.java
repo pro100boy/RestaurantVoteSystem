@@ -1,11 +1,11 @@
 package ua.restaurant.vote.service;
 
 import ua.restaurant.vote.model.Restaurant;
+import ua.restaurant.vote.to.RestaurantTo;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Galushkin Pavel on 06.03.2017.
@@ -25,9 +25,10 @@ public interface RestaurantService {
 
     void evictCache();
 
-    Restaurant getWithVotes(int id);
+    //TODO в REST-контроллере для юзера получать список RestaurantTo
+    List<Restaurant> findAllForDate(LocalDate date);
 
-    Restaurant getWithVotesForPeriod(int id, LocalDate startDate, LocalDate endDate);
+    Restaurant getWithParams(int id);
 
-    List<Object[]> getWithMenu(LocalDate startDate, LocalDate endDate);
+    Restaurant getWithParamsForPeriod(int id, LocalDate startDate, LocalDate endDate);
 }

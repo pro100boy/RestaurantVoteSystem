@@ -72,7 +72,7 @@ public class Menu extends NamedEntity {
                 ", date=" + date +
                 ", dish=" + name +
                 ", price=" + Float.toString(price) +
-                ", restaurant=" + restaurant +
+                //", restaurant=" + restaurant +
                 '}';
     }
 }

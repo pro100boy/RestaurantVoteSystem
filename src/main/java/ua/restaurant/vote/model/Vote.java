@@ -4,17 +4,30 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
+import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Galushkin Pavel
  * 04.03.2017
  */
+@SqlResultSetMapping(
+        name = "VoteToMapping",
+        classes = @ConstructorResult(
+                targetClass = VoteTo.class,
+                columns = {
+                        @ColumnResult(name = "id", type = Integer.class),
+                        @ColumnResult(name = "name"),
+                        @ColumnResult(name = "cnt", type = Integer.class)}))
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "GetVoteTo", query = "SELECT r.ID, r.NAME, COUNT(v.REST_ID) AS cnt FROM RESTAURANTS r LEFT JOIN VOTES v ON r.ID=v.REST_ID\n" +
+                "WHERE v.VOTE_DATE BETWEEN :startDate AND :endDate OR v.VOTE_DATE IS NULL\n" +
+                "GROUP BY r.ID, r.NAME", resultSetMapping = "VoteToMapping")})
+
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "vote_date"}, name = "user_date_restaurant_unique_idx")})
 public class Vote extends BaseEntity{

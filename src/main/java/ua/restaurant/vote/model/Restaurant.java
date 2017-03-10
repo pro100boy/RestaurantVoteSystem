@@ -63,11 +63,11 @@ public class Restaurant extends NamedEntity {
         this.description = description;
     }
 
-    public Collection<Vote> getVotes() {
+    public Set<Vote> getVotes() {
         return votes;
     }
 
-    public Collection<Menu> getMenus() {
+    public Set<Menu> getMenus() {
         return menus;
     }
 

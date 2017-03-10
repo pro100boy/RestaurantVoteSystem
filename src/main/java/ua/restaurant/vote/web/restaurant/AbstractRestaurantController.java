@@ -57,7 +57,7 @@ public abstract class AbstractRestaurantController {
     public Restaurant getBetween(int id, LocalDate startDate, LocalDate endDate)
     {
         log.info("getWithVotesForPeriod between dates {} - {} for Restaurant id {}", startDate, endDate, id);
-        return service.getWithVotesForPeriod(id,
+        return service.getWithParamsForPeriod(id,
                 startDate != null ? startDate : DateTimeUtil.MIN_DATE,
                 endDate != null ? endDate : DateTimeUtil.MAX_DATE);
     }

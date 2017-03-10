@@ -4,7 +4,11 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.restaurant.vote.ResultTestData;
+import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.model.Vote;
+import ua.restaurant.vote.repository.JpaUtil;
+import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 import ua.restaurant.vote.util.exception.VoteException;
@@ -13,6 +17,7 @@ import javax.validation.ConstraintViolationException;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
 import static ua.restaurant.vote.UserTestData.ADMIN_ID;
@@ -26,6 +31,9 @@ import static ua.restaurant.vote.VoteTestData.*;
 public class VoteServiceTest extends AbstractServiceTest {
     @Autowired
     VoteService service;
+
+    @Autowired
+    private JpaUtil jpaUtil;
 
     @Test
     public void testValidation() throws Exception {
@@ -108,5 +116,14 @@ public class VoteServiceTest extends AbstractServiceTest {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
         service.update(VOTE1, ADMIN_ID, RESTAURANT1_ID);
         DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
+    }
+
+    @Test
+    public void testGetWithMenu() throws Exception {
+        jpaUtil.clear2ndLevelHibernateCache();
+        ResultTestData.MATCHER.assertCollectionEquals(
+                ResultTestData.VOTE_TO_LIST,
+                service.getResultSet(DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE)
+        );
     }
 }

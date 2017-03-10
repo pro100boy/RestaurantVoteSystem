@@ -8,6 +8,7 @@ import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.repository.RestaurantRepository;
 import ua.restaurant.vote.repository.UserRepository;
 import ua.restaurant.vote.repository.VoteRepository;
+import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 import ua.restaurant.vote.util.exception.VoteException;
@@ -77,5 +78,12 @@ public class VoteServiceImpl implements VoteService {
         }
         Assert.notNull(vote, "vote must not be null");
         return checkNotFoundWithId(save(vote, userId, restaurantId), vote.getId());
+    }
+
+    @Override
+    public List<VoteTo> getResultSet(LocalDate startDate, LocalDate endDate) {
+        Assert.notNull(startDate, "startDate must not be null");
+        Assert.notNull(endDate, "endDate  must not be null");
+        return voteRepository.getResultSet(startDate, endDate);
     }
 }

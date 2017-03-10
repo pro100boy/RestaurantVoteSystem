@@ -6,12 +6,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.restaurant.vote.model.Restaurant;
+import ua.restaurant.vote.to.RestaurantTo;
+import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.repository.RestaurantRepository;
+import ua.restaurant.vote.util.RestaurantUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFound;
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;
@@ -66,21 +68,20 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void evictCache() {}
 
     @Override
-    public Restaurant getWithVotes(int id) {
-        return checkNotFoundWithId(repository.getWithVotes(id), id);
+    public List<Restaurant> findAllForDate(LocalDate date) {
+        Assert.notNull(date, "date  must not be null");
+        return repository.findAllForDate(date);
     }
 
     @Override
-    public Restaurant getWithVotesForPeriod(int id, LocalDate startDate, LocalDate endDate) {
-        Assert.notNull(startDate, "startDate must not be null");
-        Assert.notNull(endDate, "endDate  must not be null");
-        return repository.getWithVotesForPeriod(id, startDate, endDate);
+    public Restaurant getWithParams(int id) {
+        return checkNotFoundWithId(repository.getWithParams(id), id);
     }
 
     @Override
-    public List<Object[]> getWithMenu(LocalDate startDate, LocalDate endDate) {
+    public Restaurant getWithParamsForPeriod(int id, LocalDate startDate, LocalDate endDate) {
         Assert.notNull(startDate, "startDate must not be null");
-        Assert.notNull(endDate, "endDate  must not be null");
-        return repository.getWithMenu(startDate, endDate);
+        Assert.notNull(endDate, "endDate must not be null");
+        return repository.getWithParamsForPeriod(id, startDate, endDate);
     }
 }
