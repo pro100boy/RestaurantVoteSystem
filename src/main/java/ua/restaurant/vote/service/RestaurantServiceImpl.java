@@ -11,6 +11,7 @@ import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFound;
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;
@@ -74,5 +75,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         Assert.notNull(startDate, "startDate must not be null");
         Assert.notNull(endDate, "endDate  must not be null");
         return repository.getWithVotesForPeriod(id, startDate, endDate);
+    }
+
+    @Override
+    public List<Object[]> getWithMenu(LocalDate startDate, LocalDate endDate) {
+        Assert.notNull(startDate, "startDate must not be null");
+        Assert.notNull(endDate, "endDate  must not be null");
+        return repository.getWithMenu(startDate, endDate);
     }
 }

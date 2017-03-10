@@ -8,6 +8,7 @@ import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.VoteTestData;
 import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.repository.JpaUtil;
+import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import static ua.restaurant.vote.RestaurantTestData.MATCHER;
@@ -18,6 +19,7 @@ import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Galushkin Pavel on 07.03.2017.
@@ -66,5 +68,12 @@ public class JpaRestaurantServiceTest extends AbstractRestaurantServiceTest {
         System.out.println(restaurant);
         System.out.println(restaurant.getMenus());
         VoteTestData.MATCHER.assertCollectionEquals(VoteTestData.VOTES_REST, restaurant.getVotes());
+    }
+
+    @Test
+    public void testGetWithMenu() throws Exception {
+        List<Object[]> o = service.getWithMenu(DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE);
+        o.forEach(a->TestUtil.prntCollect(Arrays.asList(a)));
+        //TestUtil.prntCollect(o);
     }
 }
