@@ -81,9 +81,8 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public List<VoteTo> getResultSet(LocalDate startDate, LocalDate endDate) {
-        Assert.notNull(startDate, "startDate must not be null");
-        Assert.notNull(endDate, "endDate  must not be null");
-        return voteRepository.getResultSet(startDate, endDate);
+    public List<VoteTo> getResultSet(LocalDate date) {
+        Assert.notNull(date, "date must not be null");
+        return voteRepository.getResultSet(date);
     }
 }

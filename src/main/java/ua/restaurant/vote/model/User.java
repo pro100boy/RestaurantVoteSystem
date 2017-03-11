@@ -52,7 +52,7 @@ public class User extends NamedEntity {
     @SuppressWarnings("JpaQlInspection")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("vote_date DESC")
-    @JsonManagedReference
+    @JsonManagedReference(value="user-votes")
     protected Set<Vote> votes;
 
     public User() {

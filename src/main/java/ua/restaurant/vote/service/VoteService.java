@@ -23,5 +23,5 @@ public interface VoteService {
 
     Vote update(Vote vote, int userId, int restaurantId) throws NotFoundException;
 
-    List<VoteTo> getResultSet(LocalDate startDate, LocalDate endDate);
+    List<VoteTo> getResultSet(LocalDate date);
 }

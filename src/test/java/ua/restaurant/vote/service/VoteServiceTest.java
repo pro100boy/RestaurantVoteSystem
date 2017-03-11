@@ -14,11 +14,14 @@ import ua.restaurant.vote.util.exception.NotFoundException;
 import ua.restaurant.vote.util.exception.VoteException;
 
 import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static java.time.LocalDate.of;
 import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
 import static ua.restaurant.vote.UserTestData.ADMIN_ID;
 import static ua.restaurant.vote.UserTestData.USER1_ID;
@@ -119,11 +122,11 @@ public class VoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetWithMenu() throws Exception {
+    public void testGetVoteResult() throws Exception {
         jpaUtil.clear2ndLevelHibernateCache();
+        List<VoteTo> resultSet = service.getResultSet(LocalDate.of(2017, Month.JANUARY, 30));
         ResultTestData.MATCHER.assertCollectionEquals(
-                ResultTestData.VOTE_TO_LIST,
-                service.getResultSet(DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE)
+                ResultTestData.VOTE_TO_LIST, resultSet
         );
     }
 }

@@ -30,8 +30,10 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     //List<Restaurant> findAllByOrderByNameAsc();
     List<Restaurant> findAll();
 
+    // Each restaurant provides new menu each day
     @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES_MENUS)
-    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.votes v WHERE v.date = ?1 ORDER BY r.name")
+    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.votes v LEFT JOIN FETCH r.menus m " +
+            "WHERE v.date = ?1 AND m.date = ?1 ORDER BY r.name")
     List<Restaurant> findAllForDate(LocalDate date);
 
     @Override

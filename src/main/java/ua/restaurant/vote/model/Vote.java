@@ -24,9 +24,10 @@ import java.time.LocalDate;
                         @ColumnResult(name = "name"),
                         @ColumnResult(name = "cnt", type = Integer.class)}))
 @NamedNativeQueries({
-        @NamedNativeQuery(name = "GetVoteTo", query = "SELECT r.ID, r.NAME, COUNT(v.REST_ID) AS cnt FROM RESTAURANTS r LEFT JOIN VOTES v ON r.ID=v.REST_ID\n" +
-                "WHERE v.VOTE_DATE BETWEEN :startDate AND :endDate OR v.VOTE_DATE IS NULL\n" +
-                "GROUP BY r.ID, r.NAME", resultSetMapping = "VoteToMapping")})
+        @NamedNativeQuery(name = "getVoteTo", query =
+                "SELECT r.ID, r.NAME, COUNT(v.REST_ID) AS cnt FROM RESTAURANTS r LEFT JOIN VOTES v ON r.ID=v.REST_ID\n" +
+                        "WHERE v.VOTE_DATE = :date OR v.VOTE_DATE IS NULL\n" +
+                        "GROUP BY r.ID, r.NAME ORDER BY cnt DESC", resultSetMapping = "VoteToMapping")})
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "vote_date"}, name = "user_date_restaurant_unique_idx")})
@@ -39,13 +40,13 @@ public class Vote extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @JsonBackReference(value="user-votes")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @JsonBackReference(value="restaurant-votes")
     private Restaurant restaurant;
 
     public Vote() {

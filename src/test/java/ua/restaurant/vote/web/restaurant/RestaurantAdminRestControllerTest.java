@@ -1,8 +1,10 @@
 package ua.restaurant.vote.web.restaurant;
 
+import org.hamcrest.Matchers;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import ua.restaurant.vote.VoteTestData;
 import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.web.AbstractControllerTest;
 import org.springframework.http.MediaType;
@@ -18,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.RestaurantTestData.*;
@@ -155,19 +158,27 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testFindAllForDate() throws Exception {
-        mockMvc.perform(get(REST_URL + "polls")
-                .param("date", "2017-01-30")
+    public void testGetBetween() throws Exception {
+        ResultActions action = mockMvc.perform(get(REST_URL + RESTAURANT1_ID + "/between")
+                .param("startDate", "2017-01-30")
+                .param("endDate", "2017-02-20")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                //.andExpect(VoteTestData.MATCHER.contentListMatcher(Arrays.asList(VoteTestData.VOTE5, VoteTestData.VOTE6,VoteTestData.VOTE8,VoteTestData.VOTE1)),RESTAURANT1.getVotes()));
+
+        Restaurant returned = MATCHER.fromJsonAction(action);
+        VoteTestData.MATCHER.assertCollectionEquals( Arrays.asList(VoteTestData.VOTE8, VoteTestData.VOTE1, VoteTestData.VOTE6,VoteTestData.VOTE5 ),returned.getVotes());
     }
 
     @Test
-    public void testFindAllForToday() throws Exception {
-        mockMvc.perform(get(REST_URL + "polls?date=")
+    public void testGetBetweenAll() throws Exception {
+        mockMvc.perform(get(REST_URL + "filter?startDate=&endDate=")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MATCHER.contentListMatcher(RESTAURANT1, RESTAURANT2, RESTAURANT3));
     }
 }

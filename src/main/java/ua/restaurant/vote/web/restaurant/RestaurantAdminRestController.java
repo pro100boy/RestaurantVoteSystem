@@ -27,12 +27,6 @@ public class RestaurantAdminRestController extends AbstractRestaurantController{
     }                                           //findAll
 
     @Override
-    @GetMapping(value = "/polls", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RestaurantTo> findAllForDate(@RequestParam(value = "date", required = false) LocalDate date) {
-        return super.findAllForDate(date);
-    }
-
-    @Override
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)    //findOne
     public Restaurant get(@PathVariable("id") int id) {
         return super.get(id);

@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
  * Created by Galushkin Pavel on 10.03.2017.
  */
 public class RestaurantUtil {
+    private RestaurantUtil(){}
+
     public static RestaurantTo asTo(Restaurant restaurant)
     {
         return new RestaurantTo(restaurant.getId(), restaurant.getName(), restaurant.getMenus());
