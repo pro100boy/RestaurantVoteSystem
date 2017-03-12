@@ -4,15 +4,11 @@ import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
 import ua.restaurant.vote.MenuTestData;
 import ua.restaurant.vote.TestUtil;
-import ua.restaurant.vote.model.Menu;
 import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.web.AbstractControllerTest;
 import ua.restaurant.vote.web.json.JsonUtil;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -26,8 +22,8 @@ import static ua.restaurant.vote.UserTestData.USER1;
 /**
  * Created by Galushkin Pavel on 11.03.2017.
  */
-public class RestaurantUserRestControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = RestaurantUserRestController.REST_URL + '/';
+public class RestaurantProfileRestControllerTest extends AbstractControllerTest {
+    private static final String REST_URL = RestaurantProfileRestController.REST_URL + '/';
 
     @Override
     public void setUp() {

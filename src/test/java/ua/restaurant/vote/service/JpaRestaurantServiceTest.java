@@ -4,13 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.VoteTestData;
 import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.to.RestaurantTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.repository.JpaUtil;
-import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -23,7 +20,6 @@ import static ua.restaurant.vote.RestaurantTestData.*;
 /**
  * Created by Galushkin Pavel on 07.03.2017.
  */
-//TODO поудалять лишние тесты
 public class JpaRestaurantServiceTest extends AbstractRestaurantServiceTest {
     @Autowired
     private JpaUtil jpaUtil;

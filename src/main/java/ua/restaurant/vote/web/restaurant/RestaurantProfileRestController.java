@@ -14,9 +14,9 @@ import java.util.List;
  * Created by Galushkin Pavel on 10.03.2017.
  */
 @RestController
-@RequestMapping(RestaurantUserRestController.REST_URL)
-public class RestaurantUserRestController  extends AbstractRestaurantController{
-    static final String REST_URL = "/rest/restaurants";
+@RequestMapping(RestaurantProfileRestController.REST_URL)
+public class RestaurantProfileRestController extends AbstractRestaurantController{
+    static final String REST_URL = "/rest/profile/restaurants";
 
     @Override
     @GetMapping(value = "/polls", produces = MediaType.APPLICATION_JSON_VALUE)

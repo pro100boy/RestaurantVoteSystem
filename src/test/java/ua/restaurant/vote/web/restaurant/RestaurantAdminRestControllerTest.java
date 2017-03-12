@@ -1,29 +1,26 @@
 package ua.restaurant.vote.web.restaurant;
 
-import org.hamcrest.Matchers;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import ua.restaurant.vote.VoteTestData;
-import ua.restaurant.vote.model.Restaurant;
-import ua.restaurant.vote.web.AbstractControllerTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.vote.MenuTestData;
 import ua.restaurant.vote.TestUtil;
-
+import ua.restaurant.vote.VoteTestData;
+import ua.restaurant.vote.model.Restaurant;
+import ua.restaurant.vote.web.AbstractControllerTest;
 import ua.restaurant.vote.web.json.JsonUtil;
 
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.RestaurantTestData.*;
+import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.UserTestData.ADMIN;
 
 /**
@@ -166,19 +163,22 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-                //.andExpect(VoteTestData.MATCHER.contentListMatcher(Arrays.asList(VoteTestData.VOTE5, VoteTestData.VOTE6,VoteTestData.VOTE8,VoteTestData.VOTE1)),RESTAURANT1.getVotes()));
 
         Restaurant returned = MATCHER.fromJsonAction(action);
-        VoteTestData.MATCHER.assertCollectionEquals( Arrays.asList(VoteTestData.VOTE8, VoteTestData.VOTE1, VoteTestData.VOTE6,VoteTestData.VOTE5 ),returned.getVotes());
+        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE8, VoteTestData.VOTE1, VoteTestData.VOTE6, VoteTestData.VOTE5), returned.getVotes());
+        MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MenuTestData.MENU4, MenuTestData.MENU1), returned.getMenus());
     }
 
     @Test
     public void testGetBetweenAll() throws Exception {
-        mockMvc.perform(get(REST_URL + "filter?startDate=&endDate=")
+        ResultActions action = mockMvc.perform(get(REST_URL + RESTAURANT1_ID + "/between?startDate=&endDate=")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentListMatcher(RESTAURANT1, RESTAURANT2, RESTAURANT3));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        Restaurant returned = MATCHER.fromJsonAction(action);
+        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE8, VoteTestData.VOTE1, VoteTestData.VOTE6, VoteTestData.VOTE5), returned.getVotes());
+        MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MenuTestData.MENU4, MenuTestData.MENU1), returned.getMenus());
     }
 }

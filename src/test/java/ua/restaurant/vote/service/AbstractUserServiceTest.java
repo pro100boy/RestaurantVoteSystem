@@ -18,7 +18,7 @@ import static ua.restaurant.vote.UserTestData.*;
 /**
  * Created by Galushkin Pavel on 06.03.2017.
  */
-public  class AbstractUserServiceTest extends AbstractServiceTest {
+public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected UserService service;

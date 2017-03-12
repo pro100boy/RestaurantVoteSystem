@@ -6,15 +6,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.restaurant.vote.model.Restaurant;
-import ua.restaurant.vote.to.RestaurantTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.repository.RestaurantRepository;
+import ua.restaurant.vote.to.RestaurantTo;
 import ua.restaurant.vote.util.RestaurantUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFound;
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;

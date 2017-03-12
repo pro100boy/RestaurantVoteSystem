@@ -33,7 +33,7 @@ public class VoteTestData {
     public static final Vote VOTE7 = new Vote(VOTE7_ID, of(2017, Month.FEBRUARY, 20));
     public static final Vote VOTE8 = new Vote(VOTE8_ID, of(2017, Month.FEBRUARY, 20));
 
-    public static final List<Vote> VOTES = Arrays.asList(VOTE8, VOTE7, VOTE6, VOTE5, VOTE4, VOTE3, VOTE2, VOTE1);
+    public static final List<Vote> VOTES = Arrays.asList(VOTE1, VOTE2, VOTE3, VOTE4, VOTE5, VOTE6, VOTE7, VOTE8);
     public static final List<Vote> VOTES_USER = Arrays.asList(VOTE6, VOTE2);
     public static final List<Vote> VOTES_REST = Arrays.asList(VOTE5, VOTE6, VOTE8, VOTE1);
 

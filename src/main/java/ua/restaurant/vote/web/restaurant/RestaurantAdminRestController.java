@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.restaurant.vote.model.Restaurant;
-import ua.restaurant.vote.to.RestaurantTo;
 
 import javax.validation.Valid;
 import java.net.URI;

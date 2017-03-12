@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.model.Restaurant;
-import ua.restaurant.vote.to.RestaurantTo;
 
 import java.time.LocalDate;
 import java.util.List;

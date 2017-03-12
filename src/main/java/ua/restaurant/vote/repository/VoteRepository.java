@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.model.Vote;
-import ua.restaurant.vote.to.VoteTo;
+import ua.restaurant.vote.to.ResultTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,15 +28,17 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     Vote findOne(Integer id);
 
+    @Query("SELECT v FROM Vote v WHERE v.user.id=?1 ORDER BY v.date DESC")
+    List<Vote> getAll(int userId);
+
     //ORDERED date
     @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.user.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC, v.id DESC")
     List<Vote> getWithUserForPeriod(@Param("id") int userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
 
     //ORDERED date
     @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.restaurant.id=?1 AND v.date BETWEEN ?2 AND ?3 ORDER BY v.date DESC, v.id DESC")
     List<Vote> getWithRestaurantForPeriod(int restId, LocalDate startDate, LocalDate endDate);
 
-    @Query(name = "getVoteTo")
-    List<VoteTo> getResultSet(@Param("date") LocalDate date);
+    @Query(name = "getResultTo")
+    List<ResultTo> getResultSet(@Param("date") LocalDate date);
 }

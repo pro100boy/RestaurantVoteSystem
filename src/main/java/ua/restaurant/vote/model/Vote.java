@@ -3,7 +3,9 @@ package ua.restaurant.vote.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
+import ua.restaurant.vote.to.ResultTo;
 import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 
@@ -16,18 +18,24 @@ import java.time.LocalDate;
  * 04.03.2017
  */
 @SqlResultSetMapping(
-        name = "VoteToMapping",
+        name = "ResultToMapping",
         classes = @ConstructorResult(
-                targetClass = VoteTo.class,
+                targetClass = ResultTo.class,
                 columns = {
                         @ColumnResult(name = "id", type = Integer.class),
                         @ColumnResult(name = "name"),
                         @ColumnResult(name = "cnt", type = Integer.class)}))
+
 @NamedNativeQueries({
+        @NamedNativeQuery(name = "getResultTo", query =
+                "SELECT r.ID, r.NAME, COUNT(v.REST_ID) AS cnt FROM RESTAURANTS r LEFT JOIN VOTES v ON r.ID=v.REST_ID\n" +
+                        "WHERE v.VOTE_DATE = :date OR v.VOTE_DATE IS NULL\n" +
+                        "GROUP BY r.ID, r.NAME ORDER BY cnt DESC", resultSetMapping = "ResultToMapping"),
         @NamedNativeQuery(name = "getVoteTo", query =
                 "SELECT r.ID, r.NAME, COUNT(v.REST_ID) AS cnt FROM RESTAURANTS r LEFT JOIN VOTES v ON r.ID=v.REST_ID\n" +
                         "WHERE v.VOTE_DATE = :date OR v.VOTE_DATE IS NULL\n" +
-                        "GROUP BY r.ID, r.NAME ORDER BY cnt DESC", resultSetMapping = "VoteToMapping")})
+                        "GROUP BY r.ID, r.NAME ORDER BY cnt DESC", resultSetMapping = "ResultToMapping")
+})
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "vote_date"}, name = "user_date_restaurant_unique_idx")})
@@ -37,13 +45,13 @@ public class Vote extends BaseEntity{
     @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
     private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value="user-votes")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rest_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value="restaurant-votes")

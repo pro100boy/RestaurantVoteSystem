@@ -131,7 +131,7 @@ public class User extends NamedEntity {
                 ", name=" + name +
                 ", enabled=" + enabled +
                 ", roles=" + roles +
-                ", votes=" + votes +
+                //", votes=" + votes +
                 ')';
     }
 }

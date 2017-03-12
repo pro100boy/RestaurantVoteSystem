@@ -1,6 +1,8 @@
 package ua.restaurant.vote.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -8,8 +10,10 @@ import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.repository.RestaurantRepository;
 import ua.restaurant.vote.repository.UserRepository;
 import ua.restaurant.vote.repository.VoteRepository;
+import ua.restaurant.vote.to.ResultTo;
 import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
+import ua.restaurant.vote.util.VoteUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 import ua.restaurant.vote.util.exception.VoteException;
 
@@ -38,15 +42,14 @@ public class VoteServiceImpl implements VoteService {
     @Transactional
     @Override
     public Vote save(Vote vote, int userId, int restaurantId) {
-        if (!vote.isNew() && getWithUser(vote.getId(), userId) == null)
+        if (!vote.isNew() && get(vote.getId(), userId) == null)
             vote = null;
         else {
             vote.setUser(userRepository.getOne(userId));
             vote.setRestaurant(restaurantRepository.getOne(restaurantId));
         }
         Assert.notNull(vote, "meal must not be null");
-        Vote v = voteRepository.save(vote);
-        return v;
+        return voteRepository.save(vote);
     }
 
     @Override
@@ -54,20 +57,32 @@ public class VoteServiceImpl implements VoteService {
         checkNotFoundWithId(voteRepository.delete(id, userId) != 0, id);
     }
 
+    @Cacheable("votes")
     @Override
-    public Vote getWithUser(int id, int userId) throws NotFoundException {
+    public List<Vote> getAll(int userId) {
+        return voteRepository.getAll(userId);
+    }
+
+    @Override
+    public Vote get(int id, int userId) throws NotFoundException {
         Vote vote = voteRepository.findOne(id);
         return checkNotFoundWithId( (vote != null && vote.getUser().getId() == userId ? vote : null), id);
     }
 
+    @Cacheable("votes")
     @Override
-    public List<Vote> getWithUserForPeriod(int userId, LocalDate startDate, LocalDate endDate) {
-        return voteRepository.getWithUserForPeriod(userId, startDate, endDate);
+    public List<VoteTo> getWithUserForPeriod(int userId, LocalDate startDate, LocalDate endDate) {
+        Assert.notNull(startDate, "startDate must not be null");
+        Assert.notNull(endDate, "endDate  must not be null");
+        return VoteUtil.asToList(voteRepository.getWithUserForPeriod(userId, startDate, endDate), true);
     }
 
+    @Cacheable("votes")
     @Override
-    public List<Vote> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate) {
-        return voteRepository.getWithRestaurantForPeriod(restaurantId, startDate, endDate);
+    public List<VoteTo> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate) {
+        Assert.notNull(startDate, "startDate must not be null");
+        Assert.notNull(endDate, "endDate  must not be null");
+        return VoteUtil.asToList(voteRepository.getWithUserForPeriod(restaurantId, startDate, endDate), false);
     }
 
     @Override
@@ -81,8 +96,13 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public List<VoteTo> getResultSet(LocalDate date) {
+    public List<ResultTo> getResultSet(LocalDate date) {
         Assert.notNull(date, "date must not be null");
         return voteRepository.getResultSet(date);
+    }
+
+    @CacheEvict(value = "votes", allEntries = true)
+    @Override
+    public void evictCache() {
     }
 }
