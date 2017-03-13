@@ -6,6 +6,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ua.restaurant.vote.model.Restaurant;
+import ua.restaurant.vote.model.User;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.repository.RestaurantRepository;
 import ua.restaurant.vote.repository.UserRepository;

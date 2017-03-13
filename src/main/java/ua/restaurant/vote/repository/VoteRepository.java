@@ -32,12 +32,12 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     List<Vote> getAll(int userId);
 
     //ORDERED date
-    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.user.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC, v.id DESC")
-    List<Vote> getWithUserForPeriod(@Param("id") int userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.user.id=:userId AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC, v.id DESC")
+    List<Vote> getWithUserForPeriod(@Param("userId") int userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     //ORDERED date
-    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.restaurant.id=?1 AND v.date BETWEEN ?2 AND ?3 ORDER BY v.date DESC, v.id DESC")
-    List<Vote> getWithRestaurantForPeriod(int restId, LocalDate startDate, LocalDate endDate);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.user WHERE v.restaurant.id=:restId AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC, v.id DESC")
+    List<Vote> getWithRestaurantForPeriod(@Param("restId") int restId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     @Query(name = "getResultTo")
     List<ResultTo> getResultSet(@Param("date") LocalDate date);
