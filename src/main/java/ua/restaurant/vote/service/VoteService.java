@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Galushkin Pavel on 07.03.2017.
  */
 public interface VoteService {
-    Vote save(Vote vote, int userId, int restaurantId);
+    Vote save(VoteTo voteTo, int userId);
 
     void delete(int id, int userId) throws NotFoundException;
 
@@ -23,14 +23,14 @@ public interface VoteService {
     /**
      * get votes from specific user for all restaurants for period
      */
-    List<VoteTo> getWithUserForPeriod(int userId, LocalDate startDate, LocalDate endDate);
+    List<Vote> getWithUserForPeriod(int userId, LocalDate startDate, LocalDate endDate);
 
     /**
      * get list of users who voted for the specified restaurant for period
      */
-    List<VoteTo> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate);
+    List<Vote> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate);
 
-    Vote update(Vote vote, int userId, int restaurantId) throws NotFoundException;
+    Vote update(VoteTo voteTo, int userId) throws NotFoundException;
 
     List<ResultTo> getResultSet(LocalDate date);
 

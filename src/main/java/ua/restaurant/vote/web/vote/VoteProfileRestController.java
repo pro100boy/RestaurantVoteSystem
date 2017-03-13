@@ -8,10 +8,13 @@ import ua.restaurant.vote.AuthorizedUser;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.ResultTo;
 import ua.restaurant.vote.to.VoteTo;
+import ua.restaurant.vote.util.DateTimeUtil;
+import ua.restaurant.vote.util.exception.VoteException;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -37,15 +40,15 @@ public class VoteProfileRestController extends AbstractVoteController {
 
     // get own list with votes for period
     @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VoteTo> get(@RequestParam(value = "startDate", required = false) LocalDate startDate,
-                            @RequestParam(value = "endDate", required = false) LocalDate endDate) {
+    public List<VoteTo> getWithUserForPeriod(@RequestParam(value = "startDate", required = false) LocalDate startDate,
+                                             @RequestParam(value = "endDate", required = false) LocalDate endDate) {
         return super.getWithUserForPeriod(AuthorizedUser.id(), startDate, endDate);
     }
 
     // create new vote
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@Valid @RequestBody Vote vote, @PathVariable("restaurantId") int restaurantId) {
-        Vote created = super.create(vote, restaurantId);
+    public ResponseEntity<Vote> createWithLocation(@Valid @RequestBody VoteTo voteTo) {
+        Vote created = super.create(voteTo);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -57,11 +60,17 @@ public class VoteProfileRestController extends AbstractVoteController {
     // update vote
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid @RequestBody Vote vote, @PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
-        super.update(vote, id, restaurantId);
+    public void update(@Valid @RequestBody VoteTo voteTo, @PathVariable("id") int id) {
+        super.update(voteTo, id);
     }
 
-    // poll result
+    @Override
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable("id") int id) {
+        super.delete(id);
+    }
+
+    // poll result for the specified date. If date doesn't present, then date = today
     @Override
     @GetMapping(value = "/result", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ResultTo> getResultSet(@RequestParam(value = "date", required = false) LocalDate date) {

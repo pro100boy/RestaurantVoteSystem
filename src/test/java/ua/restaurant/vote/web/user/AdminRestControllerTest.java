@@ -52,7 +52,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     public void testGetNotFound() throws Exception {
         mockMvc.perform(get(REST_URL + 1)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
@@ -79,7 +79,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     @Test
     public void testDeleteNotFound() throws Exception {
         mockMvc.perform(delete(REST_URL + 1)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }

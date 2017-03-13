@@ -9,8 +9,11 @@ import ua.restaurant.vote.service.VoteService;
 import ua.restaurant.vote.to.ResultTo;
 import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
+import ua.restaurant.vote.util.VoteUtil;
+import ua.restaurant.vote.util.exception.VoteException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkIdConsistent;
@@ -25,9 +28,19 @@ public class AbstractVoteController {
     @Autowired
     VoteService service;
 
+    public void checkModificationAllowed() {
+        if (LocalTime.now().isAfter(DateTimeUtil.getDeadlineVoteTime())) {
+            throw new VoteException("It's too late for change opinion.");
+        }
+    }
     public List<Vote> getAll() {
         int userId = AuthorizedUser.id();
         log.info("getAll for User {}", userId);
+        return service.getAll(userId);
+    }
+
+    public List<Vote> getAll(int userId) {
+        log.info("getAllWithUser for User {}", userId);
         return service.getAll(userId);
     }
 
@@ -37,37 +50,44 @@ public class AbstractVoteController {
         return service.get(id, userId);
     }
 
+    //TODO tests tests in voteAdminrestcontroller!
     public void delete(int id, int userId) {
         log.info("delete vote {} for User {}", id, userId);
         service.delete(id, userId);
     }
-
-    public Vote create(Vote vote, int restaurantId) {
-        checkNew(vote);
-        int userId = AuthorizedUser.id();
-        log.info("create {} for User {} and Restaurant {}", vote, userId, restaurantId);
-        return service.save(vote, userId, restaurantId);
+    //TODO tests in voteprofilerestcontroller!
+    public void delete(int id) {
+        checkModificationAllowed();
+        this.delete(id, AuthorizedUser.id());
     }
 
-    public void update(Vote vote, int id, int restaurantId) {
-        checkIdConsistent(vote, id);
+    public Vote create(VoteTo voteTo) {
+        checkNew(voteTo);
         int userId = AuthorizedUser.id();
-        log.info("update {} for User {} and Restaurant {}", vote, userId, restaurantId);
-        service.update(vote, userId, restaurantId);
+        log.info("create {} for User {} and Restaurant {}", voteTo, userId, voteTo.getRestaurantId());
+        return service.save(voteTo, userId);
+    }
+
+    public void update(VoteTo voteTo, int id) {
+        checkIdConsistent(voteTo, id);
+        checkModificationAllowed();
+        int userId = AuthorizedUser.id();
+        log.info("update {} for User {} and Restaurant {}", voteTo, AuthorizedUser.get(), voteTo.getRestaurantId());
+        service.update(voteTo, userId);
     }
 
     public List<VoteTo> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate) {
         log.info("getWithRestaurantForPeriod for restaurant {} between {} and {}", restaurantId, startDate, endDate);
-        return service.getWithRestaurantForPeriod(restaurantId,
+        return VoteUtil.asToList(service.getWithRestaurantForPeriod(restaurantId,
                 startDate != null ? startDate : DateTimeUtil.MIN_DATE,
-                endDate != null ? endDate : DateTimeUtil.MAX_DATE);
+                endDate != null ? endDate : DateTimeUtil.MAX_DATE), false);
     }
 
     public List<VoteTo> getWithUserForPeriod(int userId, LocalDate startDate, LocalDate endDate) {
         log.info("getWithUserForPeriod for user {} between {} and {}", userId, startDate, endDate);
-        return service.getWithUserForPeriod(userId,
+        return VoteUtil.asToList(service.getWithUserForPeriod(userId,
                 startDate != null ? startDate : DateTimeUtil.MIN_DATE,
-                endDate != null ? endDate : DateTimeUtil.MAX_DATE);
+                endDate != null ? endDate : DateTimeUtil.MAX_DATE), true);
     }
 
     public List<ResultTo> getResultSet(LocalDate date){

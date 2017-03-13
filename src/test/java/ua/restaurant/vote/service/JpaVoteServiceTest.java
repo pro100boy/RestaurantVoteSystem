@@ -9,6 +9,7 @@ import ua.restaurant.vote.UserTestData;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.repository.JpaUtil;
 import ua.restaurant.vote.to.ResultTo;
+import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 
 import javax.validation.ConstraintViolationException;
@@ -41,17 +42,17 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
     @Test
     public void testValidation() throws Exception {
         // empty datetime
-        validateRootCause(() -> service.save(new Vote(null, null), ADMIN_ID, RESTAURANT1_ID), ConstraintViolationException.class);
+        validateRootCause(() -> service.save(new VoteTo(null, null, RESTAURANT1_ID), ADMIN_ID), ConstraintViolationException.class);
     }
-//TODO
-/*    @Test
+
+    @Test
     public void testGetWithUserForPeriod() throws Exception {
         List<Vote> votes = service.getWithUserForPeriod(USER1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE);
 
         MATCHER.assertCollectionEquals(Arrays.asList(VOTE6, VOTE2), service.getWithUserForPeriod(USER1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
         RestaurantTestData.MATCHER.assertCollectionEquals(
-                Arrays.asList(RestaurantTestData.RESTAURANT1,RestaurantTestData.RESTAURANT2),
-                votes.stream().map(u->u.getRestaurant()).collect(Collectors.toList()));
+                Arrays.asList(RestaurantTestData.RESTAURANT1, RestaurantTestData.RESTAURANT2),
+                votes.stream().map(u -> u.getRestaurant()).collect(Collectors.toList()));
     }
 
     @Test
@@ -65,15 +66,15 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
 
         MATCHER.assertCollectionEquals(Arrays.asList(VOTE8, VOTE6, VOTE5, VOTE1), votes);
         UserTestData.MATCHER.assertCollectionEquals(
-                Arrays.asList(UserTestData.USER3,UserTestData.USER1,UserTestData.ADMIN,UserTestData.ADMIN),
-                votes.stream().map(v->v.getUser()).collect(Collectors.toList()));
+                Arrays.asList(UserTestData.USER3, UserTestData.USER1, UserTestData.ADMIN, UserTestData.ADMIN),
+                votes.stream().map(v -> v.getUser()).collect(Collectors.toList()));
     }
 
     @Test
     public void testGetWithRestaurantForPeriodNotFound() throws Exception {
         MATCHER.assertCollectionEquals(Collections.emptyList(), service.getWithRestaurantForPeriod(1, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
-*/
+
     @Test
     public void testGetVoteResult() throws Exception {
         List<ResultTo> resultSet = service.getResultSet(LocalDate.of(2017, Month.JANUARY, 30));

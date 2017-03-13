@@ -2,11 +2,14 @@ package ua.restaurant.vote;
 
 import ua.restaurant.vote.matcher.ModelMatcher;
 import ua.restaurant.vote.model.Vote;
+import ua.restaurant.vote.to.VoteTo;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import static java.time.LocalDate.of;
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
 import static ua.restaurant.vote.model.BaseEntity.START_SEQ;
 
 /**
@@ -43,5 +46,13 @@ public class VoteTestData {
 
     public static Vote getUpdated() {
         return new Vote(VOTE1_ID, of(2017, Month.JANUARY, 8));
+    }
+
+    public static VoteTo getCreatedTo() {
+        return new VoteTo(null, LocalDate.now(), RESTAURANT1_ID);
+    }
+
+    public static VoteTo getUpdatedTo() {
+        return new VoteTo(VOTE1_ID, VOTE1.getDate(), RESTAURANT1_ID + 1);
     }
 }

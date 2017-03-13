@@ -14,6 +14,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import ua.restaurant.vote.repository.JpaUtil;
 import ua.restaurant.vote.service.RestaurantService;
 import ua.restaurant.vote.service.UserService;
+import ua.restaurant.vote.service.VoteService;
 
 import javax.annotation.PostConstruct;
 
@@ -48,6 +49,9 @@ abstract public class AbstractControllerTest {
 
     @Autowired
     protected RestaurantService restaurantService;
+
+    @Autowired
+    protected VoteService voteService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;

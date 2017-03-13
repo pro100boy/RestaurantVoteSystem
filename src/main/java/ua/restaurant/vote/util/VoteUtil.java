@@ -21,6 +21,15 @@ public class VoteUtil {
         return new VoteTo(vote.getId(), vote.getDate(), vote.getUser().getName());
     }
 
+    public static Vote createFromTo(VoteTo voteTo) {
+        return new Vote(null, voteTo.getDate());
+    }
+
+    public static Vote updateFromTo(Vote vote, VoteTo voteTo) {
+        vote.setDate(voteTo.getDate());
+        return vote;
+    }
+
     public static List<VoteTo> asToList(List<Vote> voteList, boolean isGetWithUserForPeriod) {
         return (isGetWithUserForPeriod ?
                 voteList.stream().map(r -> VoteUtil.asToWithRest(r)).collect(Collectors.toList()) :
