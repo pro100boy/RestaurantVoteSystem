@@ -48,6 +48,12 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void testGetUnauth() throws Exception {
+        mockMvc.perform(get(REST_URL + VOTE1_ID))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     public void testGetNotFound() throws Exception {
         mockMvc.perform(get(REST_URL + 1)
                 .with(userHttpBasic(USER1)))
