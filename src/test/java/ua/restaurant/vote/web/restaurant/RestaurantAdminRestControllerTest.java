@@ -37,34 +37,6 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + RESTAURANT1_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentMatcher(RESTAURANT1));
-    }
-
-    @Test
-    public void testGetNotFound() throws Exception {
-        mockMvc.perform(get(REST_URL + 1)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
-    }
-
-    @Test
-    public void testGetByName() throws Exception {
-        mockMvc.perform(get(REST_URL + "by?name=" + RESTAURANT1.getName())
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentMatcher(RESTAURANT1));
-    }
-
-    @Test
     @Transactional
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + RESTAURANT1_ID)
@@ -132,15 +104,6 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(expected)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL)
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentListMatcher(RESTAURANT1, RESTAURANT2, RESTAURANT3)));
     }
 
     @Test

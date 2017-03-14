@@ -9,38 +9,35 @@ import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.ResultTo;
 import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.to.VoteToJSONView;
-import ua.restaurant.vote.util.DateTimeUtil;
-import ua.restaurant.vote.util.exception.VoteException;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 /**
  * Created by Galushkin Pavel on 12.03.2017.
  */
 @RestController
-@RequestMapping(VoteProfileRestController.REST_URL)
+@RequestMapping(value = VoteProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteProfileRestController extends AbstractVoteController {
     static final String REST_URL = "/rest/profile/votes";
 
     @Override
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<Vote> getAll() {
         return super.getAll();
     }
 
     // get specific vote
     @Override
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public Vote get(@PathVariable("id") int id) {
         return super.get(id);
     }
 
     // get own list with votes for period
-    @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/between")
     public List<VoteToJSONView> getWithUserForPeriod(@RequestParam(value = "startDate", required = false) LocalDate startDate,
                                                      @RequestParam(value = "endDate", required = false) LocalDate endDate) {
         return super.getWithUserForPeriod(AuthorizedUser.id(), startDate, endDate);
@@ -73,7 +70,7 @@ public class VoteProfileRestController extends AbstractVoteController {
 
     // poll result for the specified date. If date doesn't present, then date = today
     @Override
-    @GetMapping(value = "/result", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/result")
     public List<ResultTo> getResultSet(@RequestParam(value = "date", required = false) LocalDate date) {
         return super.getResultSet(date);
     }

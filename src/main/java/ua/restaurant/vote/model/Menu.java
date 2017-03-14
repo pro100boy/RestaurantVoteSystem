@@ -65,6 +65,10 @@ public class Menu extends NamedEntity {
         return restaurant;
     }
 
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     @Override
     public String toString() {
         return "Menu{" +

@@ -24,7 +24,7 @@ import static ua.restaurant.vote.util.VoteUtil.updateFromTo;
 /**
  * Created by Galushkin Pavel on 07.03.2017.
  */
-@Service
+@Service("voteService")
 public class VoteServiceImpl implements VoteService {
 
     @Autowired

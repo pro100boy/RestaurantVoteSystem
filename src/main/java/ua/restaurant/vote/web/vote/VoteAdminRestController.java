@@ -3,7 +3,6 @@ package ua.restaurant.vote.web.vote;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ua.restaurant.vote.model.Vote;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.to.VoteToJSONView;
 
 import java.time.LocalDate;
@@ -13,9 +12,10 @@ import java.util.List;
  * Created by Galushkin Pavel on 12.03.2017.
  */
 @RestController
-@RequestMapping(VoteAdminRestController.REST_URL)
+@RequestMapping(value = VoteAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteAdminRestController extends AbstractVoteController {
     static final String REST_URL = "/rest/admin/votes";
+
     /*
      * admin can remove the vote at any time
      */
@@ -27,24 +27,26 @@ public class VoteAdminRestController extends AbstractVoteController {
 
     // get all votes from concrete user
     @Override
-    @GetMapping(value = "/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{userId}")
     public List<Vote> getAll(@PathVariable("userId") int userId) {
         return super.getAll(userId);
     }
 
     // get user's list with votes for period
-    @GetMapping(value = "/users/{userId}/between", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VoteToJSONView> getWithUserForPeriod(@PathVariable("userId") int userId,
-                                                     @RequestParam(value = "startDate", required = false) LocalDate startDate,
-                                                     @RequestParam(value = "endDate", required = false) LocalDate endDate) {
+    @GetMapping(value = "/users/{userId}/between")
+    public List<VoteToJSONView> getWithUserForPeriod(
+            @PathVariable("userId") int userId,
+            @RequestParam(value = "startDate", required = false) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) LocalDate endDate) {
         return super.getWithUserForPeriod(userId, startDate, endDate);
     }
 
     // get votes list for period for specific restaurant
-    @GetMapping(value = "/restaurants/{restId}/between", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VoteToJSONView> getWithRestaurantForPeriod(@PathVariable("restId") int restId,
-                                                   @RequestParam(value = "startDate", required = false) LocalDate startDate,
-                                                   @RequestParam(value = "endDate", required = false) LocalDate endDate) {
+    @GetMapping(value = "/restaurants/{restId}/between")
+    public List<VoteToJSONView> getWithRestaurantForPeriod(
+            @PathVariable("restId") int restId,
+            @RequestParam(value = "startDate", required = false) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) LocalDate endDate) {
         return super.getWithRestaurantForPeriod(restId, startDate, endDate);
     }
 }

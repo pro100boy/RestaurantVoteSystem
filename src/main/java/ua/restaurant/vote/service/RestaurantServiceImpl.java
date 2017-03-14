@@ -72,12 +72,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         return RestaurantUtil.asToList(repository.findAllForDate(date));
     }
 
-    // not used in REST
-    @Override
-    public Restaurant getWithParams(int id) {
-        return checkNotFoundWithId(repository.getWithParams(id), id);
-    }
-
     @Cacheable("restaurants")
     @Override
     public Restaurant getWithParamsForPeriod(int id, LocalDate startDate, LocalDate endDate) {

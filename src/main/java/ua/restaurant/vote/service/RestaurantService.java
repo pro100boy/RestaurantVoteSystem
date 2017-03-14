@@ -27,8 +27,5 @@ public interface RestaurantService {
 
     List<RestaurantTo> findAllForDate(LocalDate date);
 
-    // not used in REST
-    Restaurant getWithParams(int id);
-
     Restaurant getWithParamsForPeriod(int id, LocalDate startDate, LocalDate endDate);
 }

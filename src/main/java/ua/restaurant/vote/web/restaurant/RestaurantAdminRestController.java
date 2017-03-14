@@ -9,35 +9,16 @@ import ua.restaurant.vote.model.Restaurant;
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Created by Galushkin Pavel on 06.03.2017.
  */
 @RestController
-@RequestMapping(RestaurantAdminRestController.REST_URL)
+@RequestMapping(value = RestaurantAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantAdminRestController extends AbstractRestaurantController{
     static final String REST_URL = "/rest/admin/restaurants";
 
-    @Override
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Restaurant> getAll() {
-        return super.getAll();
-    }                                           //findAll
-
-    @Override
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)    //findOne
-    public Restaurant get(@PathVariable("id") int id) {
-        return super.get(id);
-    }
-
-    @Override
-    @GetMapping(value = "/by", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Restaurant getByName(@RequestParam("name") String name) {
-        return super.getByName(name);
-    }       // findByName
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)  // save
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         Restaurant created = super.create(restaurant);
 
@@ -52,15 +33,15 @@ public class RestaurantAdminRestController extends AbstractRestaurantController{
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
-    }                               // delete
+    }
 
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable("id") int id) {             // save
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable("id") int id) {
         super.update(restaurant, id);
     }
 
-    @GetMapping(value = "/{id}/between", produces = MediaType.APPLICATION_JSON_VALUE)               // getWithParamsForPeriod
+    @GetMapping(value = "/{id}/between")
     public Restaurant get(@PathVariable("id") int id,
                           @RequestParam(value = "startDate", required = false) LocalDate startDate,
                           @RequestParam(value = "endDate", required = false) LocalDate endDate) {
