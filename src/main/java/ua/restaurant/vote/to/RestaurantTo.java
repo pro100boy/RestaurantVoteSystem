@@ -2,13 +2,14 @@ package ua.restaurant.vote.to;
 
 import ua.restaurant.vote.model.Menu;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Created by Galushkin Pavel on 10.03.2017.
  */
-public class RestaurantTo {
-    private Integer id;
+public class RestaurantTo extends BaseTo implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private Set<Menu> menus;
 
@@ -16,17 +17,9 @@ public class RestaurantTo {
     }
 
     public RestaurantTo(Integer id, String name, Set<Menu> menus) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.menus = menus;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {

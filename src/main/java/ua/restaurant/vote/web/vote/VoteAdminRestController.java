@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.VoteTo;
+import ua.restaurant.vote.to.VoteToJSONView;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,8 +16,6 @@ import java.util.List;
 @RequestMapping(VoteAdminRestController.REST_URL)
 public class VoteAdminRestController extends AbstractVoteController {
     static final String REST_URL = "/rest/admin/votes";
-    //TODO Make a VoteRestTests
-
     /*
      * admin can remove the vote at any time
      */
@@ -35,15 +34,15 @@ public class VoteAdminRestController extends AbstractVoteController {
 
     // get user's list with votes for period
     @GetMapping(value = "/users/{userId}/between", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VoteTo> getWithUserForPeriod(@PathVariable("userId") int userId,
-                                             @RequestParam(value = "startDate", required = false) LocalDate startDate,
-                                             @RequestParam(value = "endDate", required = false) LocalDate endDate) {
+    public List<VoteToJSONView> getWithUserForPeriod(@PathVariable("userId") int userId,
+                                                     @RequestParam(value = "startDate", required = false) LocalDate startDate,
+                                                     @RequestParam(value = "endDate", required = false) LocalDate endDate) {
         return super.getWithUserForPeriod(userId, startDate, endDate);
     }
 
     // get votes list for period for specific restaurant
     @GetMapping(value = "/restaurants/{restId}/between", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VoteTo> getWithRestaurantForPeriod(@PathVariable("restId") int restId,
+    public List<VoteToJSONView> getWithRestaurantForPeriod(@PathVariable("restId") int restId,
                                                    @RequestParam(value = "startDate", required = false) LocalDate startDate,
                                                    @RequestParam(value = "endDate", required = false) LocalDate endDate) {
         return super.getWithRestaurantForPeriod(restId, startDate, endDate);

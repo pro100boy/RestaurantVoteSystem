@@ -8,7 +8,6 @@ import ua.restaurant.vote.to.UserTo;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 /**
  * Created by Galushkin Pavel on 05.03.2017.

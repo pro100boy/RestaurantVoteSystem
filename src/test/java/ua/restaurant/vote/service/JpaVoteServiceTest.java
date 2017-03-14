@@ -78,8 +78,6 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
     @Test
     public void testGetVoteResult() throws Exception {
         List<ResultTo> resultSet = service.getResultSet(LocalDate.of(2017, Month.JANUARY, 30));
-        ResultTestData.MATCHER.assertCollectionEquals(
-                ResultTestData.VOTE_TO_LIST, resultSet
-        );
+        ResultTestData.MATCHER.assertCollectionEquals(ResultTestData.RESULT_TO_LIST, resultSet);
     }
 }

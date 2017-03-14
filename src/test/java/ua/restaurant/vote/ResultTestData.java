@@ -13,9 +13,9 @@ import java.util.List;
 public class ResultTestData {
     public static final ModelMatcher<ResultTo> MATCHER = ModelMatcher.of(ResultTo.class);
 
-    public static final ResultTo VOTE_TO1 = new ResultTo(100004, RestaurantTestData.RESTAURANT1.getName(), 1);
-    public static final ResultTo VOTE_TO2 = new ResultTo(100005, RestaurantTestData.RESTAURANT2.getName(), 1);
-    public static final ResultTo VOTE_TO3 = new ResultTo(100006, RestaurantTestData.RESTAURANT3.getName(), 2);
+    public static final ResultTo RESULT_TO1 = new ResultTo(100004, RestaurantTestData.RESTAURANT1.getName(), 1);
+    public static final ResultTo RESULT_TO2 = new ResultTo(100005, RestaurantTestData.RESTAURANT2.getName(), 1);
+    public static final ResultTo RESULT_TO3 = new ResultTo(100006, RestaurantTestData.RESTAURANT3.getName(), 2);
 
-    public static final List<ResultTo> VOTE_TO_LIST = new ArrayList<>(Arrays.asList(VOTE_TO3, VOTE_TO1, VOTE_TO2));
+    public static final List<ResultTo> RESULT_TO_LIST = new ArrayList<>(Arrays.asList(RESULT_TO3, RESULT_TO1, RESULT_TO2));
 }

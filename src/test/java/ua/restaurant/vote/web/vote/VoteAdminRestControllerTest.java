@@ -7,18 +7,16 @@ import ua.restaurant.vote.web.AbstractControllerTest;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.UserTestData.ADMIN;
-import static ua.restaurant.vote.UserTestData.USER1;
 import static ua.restaurant.vote.UserTestData.USER1_ID;
 import static ua.restaurant.vote.VoteTestData.*;
 
@@ -69,7 +67,7 @@ public class VoteAdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(2)))
+                .andExpect(MATCHER_TO.contentListMatcher(VOTE_TO_JSON_VIEW6, VOTE_TO_JSON_VIEW5))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
@@ -81,7 +79,7 @@ public class VoteAdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(4)))
+                .andExpect(MATCHER_TO.contentListMatcher(VOTE_TO_JSON_VIEWS))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 }

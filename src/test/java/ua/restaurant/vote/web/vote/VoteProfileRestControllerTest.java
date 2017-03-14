@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.vote.ResultTestData;
 import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.VoteTo;
@@ -15,10 +16,10 @@ import ua.restaurant.vote.web.json.JsonUtil;
 import java.time.LocalTime;
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.UserTestData.*;
 import static ua.restaurant.vote.VoteTestData.MATCHER;
@@ -184,7 +185,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(2)))
+                .andExpect(MATCHER_TO.contentListMatcher(VOTE_TO_JSON_VIEW8, VOTE_TO_JSON_VIEW7))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
@@ -194,7 +195,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(2)))
+                .andExpect(MATCHER_TO.contentListMatcher(VOTE_TO_JSON_VIEW6, VOTE_TO_JSON_VIEW5))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
@@ -204,7 +205,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(3)))
+                .andExpect(ResultTestData.MATCHER.contentListMatcher(ResultTestData.RESULT_TO_LIST))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 }
