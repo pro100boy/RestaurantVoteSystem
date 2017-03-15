@@ -3,6 +3,7 @@ package ua.restaurant.vote;
 import ua.restaurant.vote.matcher.ModelMatcher;
 import ua.restaurant.vote.model.Menu;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -33,10 +34,10 @@ public class MenuTestData {
     public static final List<Menu> MENUS = Arrays.asList(MENU1, MENU2, MENU3);
 
     public static Menu getCreated() {
-        return new Menu(null, of(2017, Month.FEBRUARY, 20), "Created menu", 5.99f);
+        return new Menu(null, LocalDate.now(), "Created menu", 5.99f);
     }
 
     public static Menu getUpdated() {
-        return new Menu(MENU1_ID, of(2017, Month.JANUARY, 30), "Updated menu", 15.99f);
+        return new Menu(MENU1_ID, LocalDate.now(), "Updated menu", 15.99f);
     }
 }
