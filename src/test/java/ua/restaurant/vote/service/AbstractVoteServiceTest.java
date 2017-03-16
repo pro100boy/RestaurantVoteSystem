@@ -6,6 +6,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.repository.VoteRepository;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 
 import static ua.restaurant.vote.RestaurantTestData.*;
 import static ua.restaurant.vote.UserTestData.ADMIN_ID;
+import static ua.restaurant.vote.UserTestData.USER1_ID;
 import static ua.restaurant.vote.VoteTestData.MATCHER;
 import static ua.restaurant.vote.VoteTestData.*;
 import static ua.restaurant.vote.VoteTestData.getCreated;
@@ -46,7 +48,7 @@ public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
     public void testSave() {
         Vote created = getCreated();
         created.setId(100021);
-        MATCHER.assertEquals(created, service.save(ADMIN_ID, RESTAURANT1_ID));
+        MATCHER.assertEquals(created, service.save(USER1_ID, RESTAURANT2_ID));
     }
 
     @Test
