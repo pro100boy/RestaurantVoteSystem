@@ -76,7 +76,6 @@ abstract public class AbstractControllerTest {
     @Before
     public void setUp() {
         jpaUtil.clear2ndLevelHibernateCache();
-        TestUtil.prntCollect(voteRepository.getAll());
     }
 
     @After
