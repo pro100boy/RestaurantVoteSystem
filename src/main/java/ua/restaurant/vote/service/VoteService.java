@@ -12,8 +12,7 @@ import java.util.List;
  * Created by Galushkin Pavel on 07.03.2017.
  */
 public interface VoteService {
-    Vote save(VoteTo voteTo, int userId);
-    Vote save1(int userId, int restaurantId);
+    Vote save(int userId, int restaurantId);
 
     void delete(int id, int userId) throws NotFoundException;
 
@@ -33,8 +32,7 @@ public interface VoteService {
      */
     List<Vote> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate);
 
-    Vote update(VoteTo voteTo, int userId) throws NotFoundException;
-    Vote update1(int userId, int restaurantId) throws NotFoundException;
+    Vote update(int userId, int restaurantId) throws NotFoundException;
 
     List<ResultTo> getResultSet(LocalDate date);
 

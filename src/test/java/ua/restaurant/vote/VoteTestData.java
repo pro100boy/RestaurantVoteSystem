@@ -50,32 +50,15 @@ public class VoteTestData {
     public static final VoteToJSONView VOTE_TO_JSON_VIEW7 = VoteUtil.fromVote(VOTE1, RESTAURANT1);
     public static final VoteToJSONView VOTE_TO_JSON_VIEW6 = VoteUtil.fromVote(VOTE6, RESTAURANT1);
     public static final VoteToJSONView VOTE_TO_JSON_VIEW5 = VoteUtil.fromVote(VOTE2, RESTAURANT2);
-    //{"id":100014,"date":"2017-02-20","objId":100004,"objName":"Restaurant 1"},{"id":100010,"date":"2017-01-30","objId":100004,"objName":"Restaurant 1"}
 
     public static final List<Vote> VOTES = Arrays.asList(VOTE1, VOTE2, VOTE3, VOTE4, VOTE5, VOTE6, VOTE7, VOTE8);
     public static final List<Vote> VOTES_USER = Arrays.asList(VOTE6, VOTE2);
     public static final List<Vote> VOTES_REST = Arrays.asList(VOTE5, VOTE6, VOTE8, VOTE1);
 
     public static Vote getCreated() {
-        return new Vote(null, of(2017, Month.FEBRUARY, 8));
-    }
-
-    public static Vote getUpdated() {
-        return new Vote(VOTE1_ID, of(2017, Month.JANUARY, 8));
-    }
-
-    public static VoteTo getCreatedTo() {
-        return new VoteTo(null, LocalDate.now(), RESTAURANT1_ID);
-    }
-
-    public static VoteTo getUpdatedTo() {
-        return new VoteTo(VOTE1_ID, VOTE1.getDate(), RESTAURANT1_ID + 1);
-    }
-
-    public static Vote getCreated1() {
-        Vote created = new Vote(100021, LocalDate.now());
-        created.setRestaurant(RESTAURANT1);
-        created.setUser(ADMIN);
+        Vote created = new Vote(LocalDate.now());
+        created.setRestaurant(RESTAURANT2);
+        created.setUser(USER1);
         return created;
     }
 }

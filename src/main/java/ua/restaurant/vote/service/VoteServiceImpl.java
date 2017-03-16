@@ -11,15 +11,12 @@ import ua.restaurant.vote.repository.RestaurantRepository;
 import ua.restaurant.vote.repository.UserRepository;
 import ua.restaurant.vote.repository.VoteRepository;
 import ua.restaurant.vote.to.ResultTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;
-import static ua.restaurant.vote.util.VoteUtil.createFromTo;
-import static ua.restaurant.vote.util.VoteUtil.updateFromTo;
 
 /**
  * Created by Galushkin Pavel on 07.03.2017.
@@ -39,46 +36,19 @@ public class VoteServiceImpl implements VoteService {
     // because select and insert operations must be in one transaction
     @Transactional
     @Override
-    public Vote save(VoteTo voteTo, int userId) {
-        Vote vote = null;
-        if (voteTo.isNew() || get(voteTo.getId(), userId) != null) {
-            vote = createFromTo(voteTo);
-            vote.setUser(userRepository.getOne(userId));
-            vote.setRestaurant(restaurantRepository.getOne(voteTo.getRestaurantId()));
-        }
-        Assert.notNull(vote, "vote must not be null");
-        return voteRepository.save(vote);
-    }
-
-    @Transactional
-    @Override
-    public Vote save1(int userId, int restaurantId) {
+    public Vote save(int userId, int restaurantId) {
         Vote vote = new Vote(LocalDate.now());
         vote.setRestaurant(restaurantRepository.getOne(restaurantId));
         vote.setUser(userRepository.getOne(userId));
         vote.setDate(LocalDate.now());
         return checkNotFoundWithId(voteRepository.save(vote), vote.getId());
     }
-//return checkNotFoundWithId(repository.save(meal, userId), meal.getId());
 
     @Override
     @Transactional
-    public Vote update(VoteTo voteTo, int userId) throws NotFoundException {
-        Vote vote = null;
-        if (voteTo.isNew() || get(voteTo.getId(), userId) != null) {
-            vote = updateFromTo(get(voteTo.getId(), userId), voteTo);
-
-            vote.setUser(userRepository.getOne(userId));
-            vote.setRestaurant(restaurantRepository.getOne(voteTo.getRestaurantId()));
-        }
-        return checkNotFoundWithId(voteRepository.save(vote), voteTo.getId());
-    }
-
-    @Override
-    @Transactional
-    public Vote update1(int userId, int restaurantId) throws NotFoundException {
+    public Vote update(int userId, int restaurantId) throws NotFoundException {
         Vote vote = voteRepository.getVote(userId, LocalDate.now());
-        Assert.notNull(vote, "vote must not be null");
+        if (vote == null) throw new NotFoundException("vote not found");
         if (!vote.isNew() && get(vote.getId(), userId) != null){
             vote.setRestaurant(restaurantRepository.getOne(restaurantId));
         }

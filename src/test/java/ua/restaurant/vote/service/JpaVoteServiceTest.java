@@ -9,10 +9,8 @@ import ua.restaurant.vote.UserTestData;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.repository.JpaUtil;
 import ua.restaurant.vote.to.ResultTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 
-import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -20,10 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ua.restaurant.vote.RestaurantTestData.*;
-import static ua.restaurant.vote.UserTestData.ADMIN_ID;
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT2;
 import static ua.restaurant.vote.UserTestData.USER1_ID;
-import static ua.restaurant.vote.VoteTestData.MATCHER;
 import static ua.restaurant.vote.VoteTestData.*;
 
 /**
@@ -38,12 +35,6 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
     public void setUp() throws Exception {
         super.setUp();
         jpaUtil.clear2ndLevelHibernateCache();
-    }
-
-    @Test
-    public void testValidation() throws Exception {
-        // empty datetime
-        validateRootCause(() -> service.save(new VoteTo(null, null, RESTAURANT1_ID), ADMIN_ID), ConstraintViolationException.class);
     }
 
     @Test
@@ -80,28 +71,5 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
     public void testGetVoteResult() throws Exception {
         List<ResultTo> resultSet = service.getResultSet(LocalDate.of(2017, Month.JANUARY, 30));
         ResultTestData.MATCHER.assertCollectionEquals(ResultTestData.RESULT_TO_LIST, resultSet);
-    }
-
-    @Test
-    public void testSave1()
-    {
-        Vote created = getCreated1();
-        MATCHER.assertEquals(created, service.save1(ADMIN_ID,RESTAURANT1_ID));
-    }
-
-    @Test
-    public void testUpdate1() throws Exception {
-        service.save1(ADMIN_ID,RESTAURANT1_ID);
-        service.update1(ADMIN_ID,RESTAURANT2_ID);
-
-        Vote expected = getCreated1();
-        expected.setRestaurant(RESTAURANT2);
-
-        MATCHER.assertEquals(expected, service.getVote(ADMIN_ID, LocalDate.now()));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testUpdateIllegal1() throws Exception {
-        service.update1(ADMIN_ID, 0);
     }
 }

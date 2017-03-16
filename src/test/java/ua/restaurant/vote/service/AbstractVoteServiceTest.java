@@ -1,17 +1,25 @@
 package ua.restaurant.vote.service;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.model.Vote;
+import ua.restaurant.vote.repository.JpaUtil;
+import ua.restaurant.vote.repository.VoteRepository;
 import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT2;
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT2_ID;
 import static ua.restaurant.vote.UserTestData.ADMIN_ID;
 import static ua.restaurant.vote.UserTestData.USER1_ID;
 import static ua.restaurant.vote.VoteTestData.*;
@@ -20,22 +28,28 @@ import static ua.restaurant.vote.VoteTestData.*;
  * Created by Galushkin Pavel on 07.03.2017.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
+public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
     @Autowired
     VoteService service;
+    @Autowired
+    VoteRepository voteRepository;
 
     @Before
     public void setUp() throws Exception {
         service.evictCache();
     }
 
+    @After
+    public void after()
+    {
+        TestUtil.prntCollect(voteRepository.getAll());
+    }
+
     @Test
-    public void testSave() throws Exception {
-        VoteTo newVoteTo = getCreatedTo();
-        Vote created = service.save(newVoteTo, ADMIN_ID);
-        MATCHER.assertCollectionEquals(
-                Arrays.asList(created, VOTE5, VOTE1),
-                service.getWithUserForPeriod(ADMIN_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+    public void testSave() {
+        Vote created = getCreated();
+        created.setId(100021);
+        MATCHER.assertEquals(created, service.save(ADMIN_ID, RESTAURANT1_ID));
     }
 
     @Test
@@ -69,15 +83,18 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
 
     @Test
     public void testUpdate() throws Exception {
-        VoteTo updatedTo = getUpdatedTo();
-        Vote updated = service.update(updatedTo, ADMIN_ID);
-        MATCHER.assertEquals(updated, service.get(VOTE1_ID, ADMIN_ID));
+        service.save(ADMIN_ID, RESTAURANT1_ID);
+        service.update(ADMIN_ID, RESTAURANT2_ID);
+
+        Vote expected = getCreated();
+        expected.setId(100021);
+        expected.setRestaurant(RESTAURANT2);
+
+        MATCHER.assertEquals(expected, service.getVote(ADMIN_ID, LocalDate.now()));
     }
 
     @Test(expected = NotFoundException.class)
-    public void testUpdateNotFound() throws Exception {
-        VoteTo updatedTo = getUpdatedTo();
-        Vote updated = service.update(updatedTo, ADMIN_ID);
-        MATCHER.assertEquals(updated, service.get(VOTE1_ID, USER1_ID));
+    public void testUpdateIllegal() throws Exception {
+        service.update(ADMIN_ID, 0);
     }
 }

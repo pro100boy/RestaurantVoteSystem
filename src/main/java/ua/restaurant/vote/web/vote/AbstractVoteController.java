@@ -61,19 +61,17 @@ public class AbstractVoteController {
         this.delete(id, AuthorizedUser.id());
     }
 
-    public Vote create(VoteTo voteTo) {
-        checkNew(voteTo);
+    public Vote create(int restaurantId) {
         int userId = AuthorizedUser.id();
-        log.info("create {} for User {} and Restaurant {}", voteTo, userId, voteTo.getRestaurantId());
-        return service.save(voteTo, userId);
+        log.info("create vote for User {} and Restaurant {}", AuthorizedUser.get(), restaurantId);
+        return service.save(userId, restaurantId);
     }
 
-    public void update(VoteTo voteTo, int id) {
-        checkIdConsistent(voteTo, id);
+    public void update(int restaurantId) {
         checkModificationAllowed();
         int userId = AuthorizedUser.id();
-        log.info("update {} for User {} and Restaurant {}", voteTo, AuthorizedUser.get(), voteTo.getRestaurantId());
-        service.update(voteTo, userId);
+        log.info("update vote for User {} and Restaurant {}", AuthorizedUser.get(), restaurantId);
+        service.update(userId, restaurantId);
     }
 
     public List<VoteToJSONView> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate) {

@@ -6,13 +6,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.ResultTestData;
 import ua.restaurant.vote.TestUtil;
+import ua.restaurant.vote.VoteTestData;
 import ua.restaurant.vote.model.Vote;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
-import ua.restaurant.vote.util.VoteUtil;
 import ua.restaurant.vote.web.AbstractControllerTest;
 import ua.restaurant.vote.web.json.JsonUtil;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 
@@ -20,11 +20,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ua.restaurant.vote.RestaurantTestData.*;
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.UserTestData.*;
 import static ua.restaurant.vote.VoteTestData.MATCHER;
 import static ua.restaurant.vote.VoteTestData.*;
-import static ua.restaurant.vote.util.VoteUtil.createFromTo;
 
 /**
  * Created by Galushkin Pavel on 13.03.2017.
@@ -74,74 +74,48 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     @Test
     @Transactional
     public void testCreate() throws Exception {
-        VoteTo createdTo = getCreatedTo();
-        ResultActions action = mockMvc.perform(post(REST_URL)
+        ResultActions action = mockMvc.perform(post(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
-                .content(JsonUtil.writeValue(createdTo)))
+                .content(JsonUtil.writeValue(RESTAURANT2_ID)))
                 .andExpect(status().isCreated());
 
         Vote returned = MATCHER.fromJsonAction(action);
-        Vote created = createFromTo(createdTo);
-        created.setId(returned.getId());
+        Vote created = VoteTestData.getCreated();
+        created.setId(100021);
 
         MATCHER.assertEquals(created, returned);
         MATCHER.assertCollectionEquals(Arrays.asList(returned, VOTE6, VOTE2), voteService.getAll(USER1_ID));
     }
 
     @Test
-    public void testCreateInvalid() throws Exception {
-        VoteTo createdTo = getCreatedTo();
-        createdTo.setDate(null);
-
-        mockMvc.perform(post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER1))
-                .content(JsonUtil.writeValue(createdTo)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
-    }
-
-    @Test
     @Transactional
     public void testUpdate() throws Exception {
-        VoteTo updatedTo = getUpdatedTo(); //new VoteTo(VOTE1_ID, VOTE1.getDate(), RESTAURANT1_ID + 1)
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
-        mockMvc.perform(put(REST_URL + VOTE1_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(updatedTo)))
-                .andExpect(status().isOk());
-        DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
-        Vote updated = VoteUtil.updateFromTo(VOTE1, updatedTo);
-        MATCHER.assertEquals(updated, voteService.get(VOTE1_ID, ADMIN_ID));
-    }
+        Vote expected = voteService.save(USER1_ID, RESTAURANT2_ID);
+        expected.setRestaurant(RESTAURANT1);
 
-    @Test
-    public void testUpdateInvalid() throws Exception {
-        VoteTo updatedTo = new VoteTo(VOTE1_ID, null, ADMIN_ID);
-        DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
-        mockMvc.perform(put(REST_URL + VOTE1_ID)
+        mockMvc.perform(put(REST_URL + "restaurant/{restaurantId}", RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(updatedTo)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
+                .with(userHttpBasic(USER1))
+                .content(JsonUtil.writeValue(RESTAURANT1_ID)))
+                .andExpect(status().isOk());
+
         DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
+        MATCHER.assertEquals(expected, voteService.getVote(USER1_ID, LocalDate.now()));
     }
 
     @Test
     public void testUpdateAfterDeadLine() throws Exception {
-        VoteTo updatedTo = getUpdatedTo(); //new VoteTo(VOTE1_ID, VOTE1.getDate(), RESTAURANT1_ID + 1)
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
-        mockMvc.perform(put(REST_URL + VOTE1_ID)
+
+        mockMvc.perform(put(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(updatedTo)))
+                .with(userHttpBasic(USER1))
+                .content(JsonUtil.writeValue(RESTAURANT2_ID)))
                 .andExpect(status().is5xxServerError());
+
         DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
-        Vote updated = VoteUtil.updateFromTo(VOTE1, updatedTo);
-        MATCHER.assertEquals(updated, voteService.get(VOTE1_ID, ADMIN_ID));
     }
 
     @Test

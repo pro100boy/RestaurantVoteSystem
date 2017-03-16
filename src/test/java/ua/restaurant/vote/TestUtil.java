@@ -40,6 +40,8 @@ public class TestUtil {
 
     public static <T> void prntCollect(Collection<T> collection)
     {
+        System.out.println("\n----  Collection:  ----");
         collection.stream().forEach(System.out::println);
+        System.out.println("-------------------------");
     }
 }

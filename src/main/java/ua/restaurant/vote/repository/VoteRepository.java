@@ -44,4 +44,7 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
     @Query(name = "getResultTo")
     List<ResultTo> getResultSet(@Param("date") LocalDate date);
+
+    @Query("SELECT v FROM Vote v WHERE v.id > 100017 ORDER BY v.id DESC")
+    List<Vote> getAll();
 }
