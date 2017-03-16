@@ -40,7 +40,6 @@ public class VoteServiceImpl implements VoteService {
         Vote vote = new Vote(LocalDate.now());
         vote.setRestaurant(restaurantRepository.getOne(restaurantId));
         vote.setUser(userRepository.getOne(userId));
-        vote.setDate(LocalDate.now());
         return checkNotFoundWithId(voteRepository.save(vote), vote.getId());
     }
 
