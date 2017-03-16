@@ -7,10 +7,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ua.restaurant.vote.AuthorizedUser;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.ResultTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.to.VoteToJSONView;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;

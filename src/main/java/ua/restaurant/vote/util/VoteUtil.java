@@ -3,7 +3,6 @@ package ua.restaurant.vote.util;
 import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.model.User;
 import ua.restaurant.vote.model.Vote;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.to.VoteToJSONView;
 
 import java.util.List;
@@ -32,15 +31,6 @@ public class VoteUtil {
     public static VoteToJSONView fromVote(Vote vote, Restaurant rest)
     {
         return new VoteToJSONView(vote.getId(), vote.getDate(), rest.getId(), rest.getName());
-    }
-
-    public static Vote createFromTo(VoteTo voteTo) {
-        return new Vote(null, voteTo.getDate());
-    }
-
-    public static Vote updateFromTo(Vote vote, VoteTo voteTo) {
-        vote.setDate(voteTo.getDate());
-        return vote;
     }
 
     public static List<VoteToJSONView> asToList(List<Vote> voteList, boolean isGetWithUserForPeriod) {

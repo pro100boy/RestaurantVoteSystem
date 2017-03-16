@@ -2,7 +2,6 @@ package ua.restaurant.vote.service;
 
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.ResultTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;

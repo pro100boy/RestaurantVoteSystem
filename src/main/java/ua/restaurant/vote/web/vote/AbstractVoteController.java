@@ -7,7 +7,6 @@ import ua.restaurant.vote.AuthorizedUser;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.service.VoteService;
 import ua.restaurant.vote.to.ResultTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.to.VoteToJSONView;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.VoteUtil;
@@ -16,9 +15,6 @@ import ua.restaurant.vote.util.exception.VoteException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
-import static ua.restaurant.vote.util.ValidationUtil.checkIdConsistent;
-import static ua.restaurant.vote.util.ValidationUtil.checkNew;
 
 /**
  * Created by Galushkin Pavel on 12.03.2017.

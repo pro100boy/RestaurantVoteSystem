@@ -2,7 +2,6 @@ package ua.restaurant.vote;
 
 import ua.restaurant.vote.matcher.ModelMatcher;
 import ua.restaurant.vote.model.Vote;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.to.VoteToJSONView;
 import ua.restaurant.vote.util.VoteUtil;
 
@@ -10,8 +9,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+
 import static java.time.LocalDate.of;
-import static ua.restaurant.vote.RestaurantTestData.*;
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1;
+import static ua.restaurant.vote.RestaurantTestData.RESTAURANT2;
 import static ua.restaurant.vote.UserTestData.*;
 import static ua.restaurant.vote.model.BaseEntity.START_SEQ;
 

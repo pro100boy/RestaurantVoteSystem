@@ -1,28 +1,25 @@
 package ua.restaurant.vote.service;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.model.Vote;
-import ua.restaurant.vote.repository.JpaUtil;
 import ua.restaurant.vote.repository.VoteRepository;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 
-import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
-import static ua.restaurant.vote.RestaurantTestData.RESTAURANT2;
-import static ua.restaurant.vote.RestaurantTestData.RESTAURANT2_ID;
+import static ua.restaurant.vote.RestaurantTestData.*;
 import static ua.restaurant.vote.UserTestData.ADMIN_ID;
-import static ua.restaurant.vote.UserTestData.USER1_ID;
+import static ua.restaurant.vote.VoteTestData.MATCHER;
 import static ua.restaurant.vote.VoteTestData.*;
+import static ua.restaurant.vote.VoteTestData.getCreated;
 
 /**
  * Created by Galushkin Pavel on 07.03.2017.
