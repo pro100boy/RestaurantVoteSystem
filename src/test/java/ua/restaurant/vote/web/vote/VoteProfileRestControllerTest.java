@@ -94,6 +94,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
         Vote expected = voteService.save(USER1_ID, RESTAURANT2_ID);
         expected.setRestaurant(RESTAURANT1);
+        expected.setUser(USER1);
 
         mockMvc.perform(put(REST_URL + "restaurant/{restaurantId}", RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)

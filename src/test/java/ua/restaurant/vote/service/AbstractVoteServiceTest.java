@@ -46,10 +46,12 @@ public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
 
     @Test
     public void testSave() {
+        service.save(USER1_ID, RESTAURANT2_ID);
         Vote created = getCreated();
         created.setId(100021);
-        MATCHER.assertEquals(created, service.save(USER1_ID, RESTAURANT2_ID));
+        MATCHER.assertEquals(created, service.getVote(USER1_ID, LocalDate.now()));
     }
+
 
     @Test
     public void testDelete() throws Exception {
@@ -82,14 +84,14 @@ public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
 
     @Test
     public void testUpdate() throws Exception {
-        service.save(ADMIN_ID, RESTAURANT1_ID);
-        service.update(ADMIN_ID, RESTAURANT2_ID);
+        service.save(USER1_ID, RESTAURANT2_ID);
+        service.update(USER1_ID, RESTAURANT1_ID);
 
         Vote expected = getCreated();
         expected.setId(100021);
-        expected.setRestaurant(RESTAURANT2);
+        expected.setRestaurant(RESTAURANT1);
 
-        MATCHER.assertEquals(expected, service.getVote(ADMIN_ID, LocalDate.now()));
+        MATCHER.assertEquals(expected, service.getVote(USER1_ID, LocalDate.now()));
     }
 
     @Test(expected = NotFoundException.class)
