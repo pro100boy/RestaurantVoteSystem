@@ -28,6 +28,9 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Override
     Vote findOne(Integer id);
 
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant JOIN FETCH v.user WHERE v.user.id=?1 AND v.date = ?2")
+    Vote getVote(int userId, LocalDate date);
+
     @Query("SELECT v FROM Vote v WHERE v.user.id=?1 ORDER BY v.date DESC")
     List<Vote> getAll(int userId);
 

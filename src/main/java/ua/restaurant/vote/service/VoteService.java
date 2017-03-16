@@ -13,12 +13,15 @@ import java.util.List;
  */
 public interface VoteService {
     Vote save(VoteTo voteTo, int userId);
+    Vote save1(int userId, int restaurantId);
 
     void delete(int id, int userId) throws NotFoundException;
 
     Vote get(int id, int userId) throws NotFoundException;
 
     List<Vote> getAll(int userId);
+
+    Vote getVote(int userId, LocalDate date);
 
     /**
      * get votes from specific user for all restaurants for period
@@ -31,6 +34,7 @@ public interface VoteService {
     List<Vote> getWithRestaurantForPeriod(int restaurantId, LocalDate startDate, LocalDate endDate);
 
     Vote update(VoteTo voteTo, int userId) throws NotFoundException;
+    Vote update1(int userId, int restaurantId) throws NotFoundException;
 
     List<ResultTo> getResultSet(LocalDate date);
 

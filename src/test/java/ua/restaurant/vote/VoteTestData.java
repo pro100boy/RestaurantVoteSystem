@@ -71,4 +71,11 @@ public class VoteTestData {
     public static VoteTo getUpdatedTo() {
         return new VoteTo(VOTE1_ID, VOTE1.getDate(), RESTAURANT1_ID + 1);
     }
+
+    public static Vote getCreated1() {
+        Vote created = new Vote(100021, LocalDate.now());
+        created.setRestaurant(RESTAURANT1);
+        created.setUser(ADMIN);
+        return created;
+    }
 }

@@ -41,22 +41,31 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote save(VoteTo voteTo, int userId) {
         Vote vote = null;
-        if (voteTo.isNew() || get(voteTo.getId(), userId) != null)
-        {
+        if (voteTo.isNew() || get(voteTo.getId(), userId) != null) {
             vote = createFromTo(voteTo);
             vote.setUser(userRepository.getOne(userId));
             vote.setRestaurant(restaurantRepository.getOne(voteTo.getRestaurantId()));
         }
-        Assert.notNull(vote, "meal must not be null");
+        Assert.notNull(vote, "vote must not be null");
         return voteRepository.save(vote);
     }
+
+    @Transactional
+    @Override
+    public Vote save1(int userId, int restaurantId) {
+        Vote vote = new Vote(LocalDate.now());
+        vote.setRestaurant(restaurantRepository.getOne(restaurantId));
+        vote.setUser(userRepository.getOne(userId));
+        vote.setDate(LocalDate.now());
+        return checkNotFoundWithId(voteRepository.save(vote), vote.getId());
+    }
+//return checkNotFoundWithId(repository.save(meal, userId), meal.getId());
 
     @Override
     @Transactional
     public Vote update(VoteTo voteTo, int userId) throws NotFoundException {
         Vote vote = null;
-        if (voteTo.isNew() || get(voteTo.getId(), userId) != null)
-        {
+        if (voteTo.isNew() || get(voteTo.getId(), userId) != null) {
             vote = updateFromTo(get(voteTo.getId(), userId), voteTo);
 
             vote.setUser(userRepository.getOne(userId));
@@ -66,8 +75,26 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @Transactional
+    public Vote update1(int userId, int restaurantId) throws NotFoundException {
+        Vote vote = voteRepository.getVote(userId, LocalDate.now());
+        Assert.notNull(vote, "vote must not be null");
+        if (!vote.isNew() && get(vote.getId(), userId) != null){
+            vote.setRestaurant(restaurantRepository.getOne(restaurantId));
+        }
+        return checkNotFoundWithId(voteRepository.save(vote), vote.getId());
+    }
+
+    @Override
     public void delete(int id, int userId) throws NotFoundException {
         checkNotFoundWithId(voteRepository.delete(id, userId) != 0, id);
+    }
+
+    @Override
+    public Vote getVote(int userId, LocalDate date) {
+        Vote vote = voteRepository.getVote(userId, date);
+        Assert.notNull(vote, "vote must not be null");
+        return vote;
     }
 
     @Cacheable("votes")
@@ -79,7 +106,7 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote get(int id, int userId) throws NotFoundException {
         Vote vote = voteRepository.findOne(id);
-        return checkNotFoundWithId( (vote != null && vote.getUser().getId() == userId ? vote : null), id);
+        return checkNotFoundWithId((vote != null && vote.getUser().getId() == userId ? vote : null), id);
     }
 
     @Cacheable("votes")
