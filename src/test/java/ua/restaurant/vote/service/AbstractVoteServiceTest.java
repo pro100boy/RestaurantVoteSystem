@@ -21,7 +21,7 @@ import static ua.restaurant.vote.VoteTestData.*;
  * Created by Galushkin Pavel on 07.03.2017.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
+public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     @Autowired
     VoteService service;
 
