@@ -2,7 +2,6 @@ package ua.restaurant.vote.web.vote;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.RestaurantTestData;
 import ua.restaurant.vote.ResultTestData;
@@ -68,7 +67,6 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     // TODO не работает при запуске мавеном всех тестов. Отдельно сам по себе проходит
     @Test
     @Transactional
-    @Rollback
     public void testCreate() throws Exception {
         /*ResultActions action = */mockMvc.perform(post(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
