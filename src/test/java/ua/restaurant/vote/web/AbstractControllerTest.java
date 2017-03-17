@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ua.restaurant.vote.repository.JpaUtil;
-import ua.restaurant.vote.repository.VoteRepository;
 import ua.restaurant.vote.service.MenuService;
 import ua.restaurant.vote.service.RestaurantService;
 import ua.restaurant.vote.service.UserService;
@@ -48,8 +47,6 @@ abstract public class AbstractControllerTest {
     @Autowired
     protected UserService userService;
 
-    @Autowired
-    protected VoteRepository voteRepository;
     @Autowired
     protected RestaurantService restaurantService;
 

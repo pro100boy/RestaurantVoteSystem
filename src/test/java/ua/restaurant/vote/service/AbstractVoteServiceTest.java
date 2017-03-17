@@ -5,10 +5,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.RestaurantTestData;
 import ua.restaurant.vote.model.Vote;
-import ua.restaurant.vote.repository.VoteRepository;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
@@ -28,8 +26,6 @@ import static ua.restaurant.vote.VoteTestData.getCreated;
 public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     @Autowired
     VoteService voteService;
-    @Autowired
-    VoteRepository voteRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -37,7 +33,6 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    @Transactional
     public void testSave() {
         voteService.save(USER1_ID, RESTAURANT2_ID);
         Vote created = getCreated();
@@ -46,7 +41,6 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    @Transactional
     public void testDelete() throws Exception {
         voteService.delete(VOTE1_ID, ADMIN_ID);
         MATCHER.assertCollectionEquals(
@@ -76,7 +70,6 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    @Transactional
     public void testUpdate() throws Exception {
         voteService.update(USER2_ID, RESTAURANT1_ID);
 
@@ -90,7 +83,6 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     }
 
     @Test(expected = NotFoundException.class)
-    @Transactional
     public void testUpdateIllegal() throws Exception {
         voteService.update(ADMIN_ID, 0);
     }
