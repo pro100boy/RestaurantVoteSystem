@@ -1,13 +1,12 @@
 package ua.restaurant.vote.service;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import ua.restaurant.vote.TestUtil;
+import ua.restaurant.vote.RestaurantTestData;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.repository.VoteRepository;
 import ua.restaurant.vote.util.DateTimeUtil;
@@ -17,8 +16,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 import static ua.restaurant.vote.RestaurantTestData.*;
-import static ua.restaurant.vote.UserTestData.ADMIN_ID;
-import static ua.restaurant.vote.UserTestData.USER1_ID;
+import static ua.restaurant.vote.UserTestData.*;
 import static ua.restaurant.vote.VoteTestData.MATCHER;
 import static ua.restaurant.vote.VoteTestData.*;
 import static ua.restaurant.vote.VoteTestData.getCreated;
@@ -27,75 +25,73 @@ import static ua.restaurant.vote.VoteTestData.getCreated;
  * Created by Galushkin Pavel on 07.03.2017.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
+public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     @Autowired
-    VoteService service;
+    VoteService voteService;
     @Autowired
     VoteRepository voteRepository;
 
     @Before
     public void setUp() throws Exception {
-        service.evictCache();
-    }
-
-    @After
-    public void after()
-    {
-        TestUtil.prntCollect(voteRepository.getAll());
+        voteService.evictCache();
     }
 
     @Test
+    @Transactional
     public void testSave() {
-        service.save(USER1_ID, RESTAURANT2_ID);
+        voteService.save(USER1_ID, RESTAURANT2_ID);
         Vote created = getCreated();
         created.setId(100021);
-        MATCHER.assertEquals(created, service.getVote(USER1_ID, LocalDate.now()));
+        MATCHER.assertEquals(created, voteService.getVote(USER1_ID, LocalDate.now()));
     }
 
-
     @Test
+    @Transactional
     public void testDelete() throws Exception {
-        service.delete(VOTE1_ID, ADMIN_ID);
+        voteService.delete(VOTE1_ID, ADMIN_ID);
         MATCHER.assertCollectionEquals(
                 Arrays.asList(VOTE5),
-                service.getWithUserForPeriod(ADMIN_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+                voteService.getWithUserForPeriod(ADMIN_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
 
     @Test(expected = NotFoundException.class)
     public void testNotFoundDelete() throws Exception {
-        service.delete(1, 1);
+        voteService.delete(1, 1);
     }
 
     @Test
     public void testGet() throws Exception {
-        Vote vote = service.get(VOTE1_ID, ADMIN_ID);
+        Vote vote = voteService.get(VOTE1_ID, ADMIN_ID);
         MATCHER.assertEquals(VOTE1, vote);
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
-        service.get(1, 1);
+        voteService.get(1, 1);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5, VOTE1), service.getAll(ADMIN_ID));
+        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5, VOTE1), voteService.getAll(ADMIN_ID));
     }
 
     @Test
+    @Transactional
     public void testUpdate() throws Exception {
-        service.save(USER1_ID, RESTAURANT2_ID);
-        service.update(USER1_ID, RESTAURANT1_ID);
+        voteService.update(USER2_ID, RESTAURANT1_ID);
 
         Vote expected = getCreated();
-        expected.setId(100021);
+        expected.setId(100016);
         expected.setRestaurant(RESTAURANT1);
 
-        MATCHER.assertEquals(expected, service.getVote(USER1_ID, LocalDate.now()));
+        Vote updated = voteService.getVote(USER2_ID, LocalDate.now());
+        MATCHER.assertEquals(expected, updated);
+        RestaurantTestData.MATCHER.assertEquals(RESTAURANT1, updated.getRestaurant());
     }
 
     @Test(expected = NotFoundException.class)
+    @Transactional
     public void testUpdateIllegal() throws Exception {
-        service.update(ADMIN_ID, 0);
+        voteService.update(ADMIN_ID, 0);
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.MenuTestData;
-import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.VoteTestData;
 import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.web.AbstractControllerTest;
@@ -128,7 +127,7 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
         Restaurant returned = MATCHER.fromJsonAction(action);
-        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE8, VoteTestData.VOTE1, VoteTestData.VOTE6, VoteTestData.VOTE5), returned.getVotes());
+        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE1, VoteTestData.VOTE6, VoteTestData.VOTE5), returned.getVotes());
         MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MenuTestData.MENU4, MenuTestData.MENU1), returned.getMenus());
     }
 

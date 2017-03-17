@@ -39,9 +39,9 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
 
     @Test
     public void testGetWithUserForPeriod() throws Exception {
-        List<Vote> votes = service.getWithUserForPeriod(USER1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE);
+        List<Vote> votes = voteService.getWithUserForPeriod(USER1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE);
 
-        MATCHER.assertCollectionEquals(Arrays.asList(VOTE6, VOTE2), service.getWithUserForPeriod(USER1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+        MATCHER.assertCollectionEquals(Arrays.asList(VOTE6, VOTE2), voteService.getWithUserForPeriod(USER1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
         RestaurantTestData.MATCHER.assertCollectionEquals(
                 Arrays.asList(RestaurantTestData.RESTAURANT1, RESTAURANT2),
                 votes.stream().map(u -> u.getRestaurant()).collect(Collectors.toList()));
@@ -49,12 +49,12 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
 
     @Test
     public void testGetWithUserForPeriodNotFound() throws Exception {
-        MATCHER.assertCollectionEquals(Collections.emptyList(), service.getWithUserForPeriod(1, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+        MATCHER.assertCollectionEquals(Collections.emptyList(), voteService.getWithUserForPeriod(1, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
 
     @Test
     public void testGetWithRestaurantForPeriod() throws Exception {
-        List<Vote> votes = service.getWithRestaurantForPeriod(RESTAURANT1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE);
+        List<Vote> votes = voteService.getWithRestaurantForPeriod(RESTAURANT1_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE);
 
         MATCHER.assertCollectionEquals(Arrays.asList(VOTE8, VOTE6, VOTE5, VOTE1), votes);
         UserTestData.MATCHER.assertCollectionEquals(
@@ -64,12 +64,12 @@ public class JpaVoteServiceTest extends AbstractVoteServiceTest {
 
     @Test
     public void testGetWithRestaurantForPeriodNotFound() throws Exception {
-        MATCHER.assertCollectionEquals(Collections.emptyList(), service.getWithRestaurantForPeriod(1, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+        MATCHER.assertCollectionEquals(Collections.emptyList(), voteService.getWithRestaurantForPeriod(1, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
     }
 
     @Test
     public void testGetVoteResult() throws Exception {
-        List<ResultTo> resultSet = service.getResultSet(LocalDate.of(2017, Month.JANUARY, 30));
+        List<ResultTo> resultSet = voteService.getResultSet(LocalDate.of(2017, Month.JANUARY, 30));
         ResultTestData.MATCHER.assertCollectionEquals(ResultTestData.RESULT_TO_LIST, resultSet);
     }
 }

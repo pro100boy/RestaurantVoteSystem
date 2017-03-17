@@ -1,6 +1,5 @@
 package ua.restaurant.vote.web;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.repository.JpaUtil;
 import ua.restaurant.vote.repository.VoteRepository;
 import ua.restaurant.vote.service.MenuService;
@@ -76,11 +74,5 @@ abstract public class AbstractControllerTest {
     @Before
     public void setUp() {
         jpaUtil.clear2ndLevelHibernateCache();
-    }
-
-    @After
-    public void after()
-    {
-        TestUtil.prntCollect(voteRepository.getAll());
     }
 }

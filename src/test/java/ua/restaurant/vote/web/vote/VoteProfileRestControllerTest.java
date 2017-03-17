@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.vote.RestaurantTestData;
 import ua.restaurant.vote.ResultTestData;
 import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.VoteTestData;
@@ -92,21 +93,22 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     @Transactional
     public void testUpdate() throws Exception {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
-        Vote expected = voteService.save(USER1_ID, RESTAURANT2_ID);
-        expected.setRestaurant(RESTAURANT1);
-        expected.setUser(USER1);
+        Vote expected = voteService.getVote(USER2_ID, LocalDate.now());
 
         mockMvc.perform(put(REST_URL + "restaurant/{restaurantId}", RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER1))
+                .with(userHttpBasic(USER2))
                 .content(JsonUtil.writeValue(RESTAURANT1_ID)))
                 .andExpect(status().isOk());
 
         DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
-        MATCHER.assertEquals(expected, voteService.getVote(USER1_ID, LocalDate.now()));
+        Vote updated = voteService.getVote(USER2_ID, LocalDate.now());
+        MATCHER.assertEquals(expected, updated);
+        RestaurantTestData.MATCHER.assertEquals(RESTAURANT1, updated.getRestaurant());
     }
 
     @Test
+    @Transactional
     public void testUpdateAfterDeadLine() throws Exception {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
 
@@ -132,6 +134,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional
     public void testDeleteAfterDeadLine() throws Exception {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
         mockMvc.perform(delete(REST_URL + VOTE1_ID)

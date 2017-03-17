@@ -38,14 +38,14 @@ public class VoteTestData {
     public static final Vote VOTE4 = new Vote(VOTE4_ID, of(2017, Month.JANUARY, 30));
     public static final Vote VOTE5 = new Vote(VOTE5_ID, of(2017, Month.FEBRUARY, 20));
     public static final Vote VOTE6 = new Vote(VOTE6_ID, of(2017, Month.FEBRUARY, 20));
-    public static final Vote VOTE7 = new Vote(VOTE7_ID, of(2017, Month.FEBRUARY, 20));
-    public static final Vote VOTE8 = new Vote(VOTE8_ID, of(2017, Month.FEBRUARY, 20));
+    public static final Vote VOTE7 = new Vote(VOTE7_ID, LocalDate.now());
+    public static final Vote VOTE8 = new Vote(VOTE8_ID, LocalDate.now());
 
     public static final VoteToJSONView VOTE_TO_JSON_VIEW4 = VoteUtil.fromVote(VOTE8, USER3);
     public static final VoteToJSONView VOTE_TO_JSON_VIEW3 = VoteUtil.fromVote(VOTE6, USER1);
     public static final VoteToJSONView VOTE_TO_JSON_VIEW2 = VoteUtil.fromVote(VOTE5, ADMIN);
     public static final VoteToJSONView VOTE_TO_JSON_VIEW1 = VoteUtil.fromVote(VOTE1, ADMIN);
-    public static final List<VoteToJSONView> VOTE_TO_JSON_VIEWS = Arrays.asList(VOTE_TO_JSON_VIEW4,VOTE_TO_JSON_VIEW3,VOTE_TO_JSON_VIEW2,VOTE_TO_JSON_VIEW1);
+    public static final List<VoteToJSONView> VOTE_TO_JSON_VIEWS = Arrays.asList(VOTE_TO_JSON_VIEW3,VOTE_TO_JSON_VIEW2,VOTE_TO_JSON_VIEW1);
 
     public static final VoteToJSONView VOTE_TO_JSON_VIEW8 = VoteUtil.fromVote(VOTE5, RESTAURANT1);
     public static final VoteToJSONView VOTE_TO_JSON_VIEW7 = VoteUtil.fromVote(VOTE1, RESTAURANT1);
@@ -54,7 +54,7 @@ public class VoteTestData {
 
     public static final List<Vote> VOTES = Arrays.asList(VOTE1, VOTE2, VOTE3, VOTE4, VOTE5, VOTE6, VOTE7, VOTE8);
     public static final List<Vote> VOTES_USER = Arrays.asList(VOTE6, VOTE2);
-    public static final List<Vote> VOTES_REST = Arrays.asList(VOTE5, VOTE6, VOTE8, VOTE1);
+    public static final List<Vote> VOTES_REST = Arrays.asList(VOTE8, VOTE5, VOTE6, VOTE1);
 
     public static Vote getCreated() {
         Vote created = new Vote(LocalDate.now());
