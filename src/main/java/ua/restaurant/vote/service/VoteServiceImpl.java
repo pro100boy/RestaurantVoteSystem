@@ -39,6 +39,7 @@ public class VoteServiceImpl implements VoteService {
     // because select and insert operations must be in one transaction
     @Transactional
     @Override
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote save(VoteTo voteTo, int userId) {
         Vote vote = null;
         if (voteTo.isNew() || get(voteTo.getId(), userId) != null)
@@ -53,6 +54,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote update(VoteTo voteTo, int userId) throws NotFoundException {
         Vote vote = null;
         if (voteTo.isNew() || get(voteTo.getId(), userId) != null)
@@ -66,6 +68,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @CacheEvict(value = "votes", allEntries = true)
     public void delete(int id, int userId) throws NotFoundException {
         checkNotFoundWithId(voteRepository.delete(id, userId) != 0, id);
     }
