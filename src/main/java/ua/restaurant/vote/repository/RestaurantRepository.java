@@ -39,6 +39,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     Restaurant getByName(String name);
 
     @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES_MENUS)
-    @Query("SELECT r FROM Restaurant r INNER JOIN FETCH r.votes v WHERE r.id=:id AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC")
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.votes v WHERE r.id=:id AND v.date BETWEEN :startDate AND :endDate")
     Restaurant getWithParamsForPeriod(@Param("id") int id, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

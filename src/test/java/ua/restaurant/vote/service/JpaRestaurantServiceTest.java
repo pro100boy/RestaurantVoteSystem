@@ -14,10 +14,14 @@ import ua.restaurant.vote.util.exception.NotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ua.restaurant.vote.MenuTestData.MENU1;
+import static ua.restaurant.vote.MenuTestData.MENU4;
 import static ua.restaurant.vote.RestaurantTestData.*;
+import static ua.restaurant.vote.VoteTestData.VOTES_REST;
 
 /**
  * Created by Galushkin Pavel on 07.03.2017.
@@ -49,7 +53,8 @@ public class JpaRestaurantServiceTest extends AbstractRestaurantServiceTest {
     public void testGetWithParamsForPeriod() throws Exception {
         Restaurant restaurant = service.getWithParamsForPeriod(RESTAURANT1_ID, LocalDate.of(2016, Month.JANUARY, 30), LocalDate.of(2018, Month.JANUARY, 30));
         MATCHER.assertEquals(RESTAURANT1, restaurant);
-        VoteTestData.MATCHER.assertCollectionEquals(VoteTestData.VOTES_REST, restaurant.getVotes());
+        VoteTestData.MATCHER.assertCollectionEquals(VOTES_REST, restaurant.getVotes());
+        MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MENU4, MENU1), restaurant.getMenus());
     }
 
     @Test

@@ -13,7 +13,7 @@ import static ua.restaurant.vote.RestaurantTestData.*;
 /**
  * Created by Galushkin Pavel on 06.03.2017.
  */
-public abstract class AbstractRestaurantServiceTest extends AbstractServiceTest {
+public /*abstract*/ class AbstractRestaurantServiceTest extends AbstractServiceTest {
     @Autowired
     RestaurantService service;
 

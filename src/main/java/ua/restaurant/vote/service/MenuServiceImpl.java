@@ -2,6 +2,7 @@ package ua.restaurant.vote.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.restaurant.vote.model.Menu;
 import ua.restaurant.vote.repository.MenuRepository;
@@ -24,6 +25,7 @@ public class MenuServiceImpl implements MenuService {
     RestaurantRepository restaurantRepository;
     
     @Override
+    @Transactional
     public Menu save(Menu menu, int restaurantId) {
         if (!menu.isNew() && get(menu.getId(), restaurantId) == null) {
             menu = null;
@@ -36,6 +38,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public Menu update(Menu menu, int restaurantId) {
         return checkNotFoundWithId(save(menu, restaurantId), menu.getId());
     }

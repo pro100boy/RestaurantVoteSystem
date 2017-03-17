@@ -15,7 +15,6 @@ import java.util.List;
  */
 @Transactional(readOnly = true)
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
-    @Transactional
     @Override
     Menu save(Menu menu);
 
