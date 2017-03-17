@@ -70,6 +70,9 @@ abstract public class AbstractControllerTest {
 
     @Before
     public void setUp() {
+        userService.evictCache();
+        restaurantService.evictCache();
+        voteService.evictCache();
         jpaUtil.clear2ndLevelHibernateCache();
     }
 }

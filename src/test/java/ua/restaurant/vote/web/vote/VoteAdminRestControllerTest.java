@@ -26,12 +26,6 @@ import static ua.restaurant.vote.VoteTestData.*;
 public class VoteAdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VoteAdminRestController.REST_URL + '/';
 
-    @Override
-    public void setUp() {
-        super.setUp();
-        voteService.evictCache();
-    }
-
     @Test
     @Transactional
     public void testDelete() throws Exception {

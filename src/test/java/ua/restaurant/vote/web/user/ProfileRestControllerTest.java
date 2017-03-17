@@ -38,12 +38,6 @@ import static ua.restaurant.vote.web.user.ProfileRestController.REST_URL;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ProfileRestControllerTest extends AbstractControllerTest {
 
-    @Override
-    public void setUp() {
-        super.setUp();
-        userService.evictCache();
-    }
-
     @Test
     public void testGet() throws Exception {
         TestUtil.print(mockMvc.perform(get(REST_URL)

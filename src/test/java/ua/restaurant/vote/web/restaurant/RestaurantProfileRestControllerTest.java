@@ -30,11 +30,6 @@ import static ua.restaurant.vote.UserTestData.USER1;
 public class RestaurantProfileRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RestaurantProfileRestController.REST_URL + '/';
 
-    @Override
-    public void setUp() {
-        super.setUp();
-        restaurantService.evictCache();
-    }
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + RESTAURANT1_ID)

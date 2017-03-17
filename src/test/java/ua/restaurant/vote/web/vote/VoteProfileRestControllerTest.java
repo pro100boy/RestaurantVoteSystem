@@ -33,12 +33,6 @@ import static ua.restaurant.vote.VoteTestData.*;
 public class VoteProfileRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VoteProfileRestController.REST_URL + '/';
 
-    @Override
-    public void setUp() {
-        super.setUp();
-        voteService.evictCache();
-    }
-
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + VOTE2_ID)
@@ -112,7 +106,6 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional
     public void testUpdateAfterDeadLine() throws Exception {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
 
@@ -138,7 +131,6 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteAfterDeadLine() throws Exception {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
         mockMvc.perform(delete(REST_URL + VOTE1_ID)
@@ -150,7 +142,6 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteNotFound() throws Exception {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
         mockMvc.perform(delete(REST_URL + 1)

@@ -32,12 +32,6 @@ public class AdminRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
-    @Override
-    public void setUp() {
-        super.setUp();
-        userService.evictCache();
-    }
-
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + ADMIN_ID)
