@@ -3,10 +3,8 @@ package ua.restaurant.vote.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.restaurant.vote.to.ResultTo;
-import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 
 import javax.persistence.*;
