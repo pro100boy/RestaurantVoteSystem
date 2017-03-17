@@ -2,7 +2,6 @@ package ua.restaurant.vote.web.vote;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.vote.RestaurantTestData;
 import ua.restaurant.vote.ResultTestData;
@@ -75,14 +74,17 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     @Test
     @Transactional
     public void testCreate() throws Exception {
-        ResultActions action = mockMvc.perform(post(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
+        /*ResultActions action = */mockMvc.perform(post(REST_URL + "restaurant/{restaurantId}", RESTAURANT3_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
-                .content(JsonUtil.writeValue(RESTAURANT2_ID)))
+                .content(JsonUtil.writeValue(RESTAURANT3_ID)))
                 .andExpect(status().isCreated());
 
-        Vote returned = MATCHER.fromJsonAction(action);
+        Vote returned = voteService.getVote(USER1_ID, LocalDate.now());//MATCHER.fromJsonAction(action);
         Vote created = VoteTestData.getCreated();
+        created.setRestaurant(RESTAURANT3);
+        created.setUser(USER1);
+
         created.setId(100021); //TODO в мавене возвращается индекс 100025 !!
 
         MATCHER.assertEquals(created, returned);
