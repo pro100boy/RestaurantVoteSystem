@@ -5,6 +5,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.to.VoteTo;
 import ua.restaurant.vote.util.DateTimeUtil;
@@ -20,7 +21,7 @@ import static ua.restaurant.vote.VoteTestData.*;
  * Created by Galushkin Pavel on 07.03.2017.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
+public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
     @Autowired
     VoteService service;
 
@@ -36,6 +37,13 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
         MATCHER.assertCollectionEquals(
                 Arrays.asList(created, VOTE5, VOTE1),
                 service.getWithUserForPeriod(ADMIN_ID, DateTimeUtil.MIN_DATE, DateTimeUtil.MAX_DATE));
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testSaveDouble() throws Exception {
+        VoteTo newVoteTo = getCreatedTo();
+        service.save(newVoteTo, ADMIN_ID);
+        service.save(newVoteTo, ADMIN_ID);
     }
 
     @Test
