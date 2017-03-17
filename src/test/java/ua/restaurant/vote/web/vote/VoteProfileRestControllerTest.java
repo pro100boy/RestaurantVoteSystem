@@ -71,7 +71,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER.contentListMatcher(VOTES_USER)));
     }
-
+    // TODO не работает при запуске мавеном всех тестов. Отдельно сам по себе проходит
     @Test
     @Transactional
     public void testCreate() throws Exception {
@@ -83,12 +83,12 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
 
         Vote returned = MATCHER.fromJsonAction(action);
         Vote created = VoteTestData.getCreated();
-        created.setId(100021);
+        created.setId(100021); //TODO в мавене возвращается индекс 100025 !!
 
         MATCHER.assertEquals(created, returned);
         MATCHER.assertCollectionEquals(Arrays.asList(returned, VOTE6, VOTE2), voteService.getAll(USER1_ID));
     }
-// TODO не работает при запуске мавеном всех тестов. Отдельно сам по себе проходит
+
     @Test
     @Transactional
     public void testUpdate() throws Exception {
