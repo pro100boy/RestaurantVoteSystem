@@ -32,13 +32,6 @@ public class VoteAdminRestControllerTest extends AbstractControllerTest {
         voteService.evictCache();
     }
 
-    /*
-    ua.restaurant.vote.web.vote.VoteAdminRestController#delete
-    ua.restaurant.vote.web.vote.VoteAdminRestController#getAll
-    ua.restaurant.vote.web.vote.VoteAdminRestController#getWithUserForPeriod
-    ua.restaurant.vote.web.vote.VoteAdminRestController#getWithRestaurantForPeriod
-     */
-
     @Test
     @Transactional
     public void testDelete() throws Exception {

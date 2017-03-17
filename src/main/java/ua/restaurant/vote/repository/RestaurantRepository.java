@@ -17,7 +17,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 @SuppressWarnings("JpaQlInspection")
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
-    @Transactional
     @Override
     Restaurant save(Restaurant restaurant);
 
