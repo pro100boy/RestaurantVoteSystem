@@ -36,7 +36,7 @@ public class VoteServiceImpl implements VoteService {
     // because select and insert operations must be in one transaction
     @Transactional
     @Override
-    @CacheEvict(value = {"votes","restaurants","users"}, allEntries = true)
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote save(int userId, int restaurantId) {
         Vote vote = new Vote(LocalDate.now());
         vote.setRestaurant(restaurantRepository.getOne(restaurantId));
@@ -46,7 +46,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"votes","restaurants","users"}, allEntries = true)
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote update(int userId, int restaurantId) throws NotFoundException {
         Vote vote = voteRepository.getVote(userId, LocalDate.now());
         if (vote == null) throw new NotFoundException("vote not found");
@@ -57,7 +57,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    @CacheEvict(value = {"votes","restaurants","users"}, allEntries = true)
+    @CacheEvict(value = "votes", allEntries = true)
     public void delete(int id, int userId) throws NotFoundException {
         checkNotFoundWithId(voteRepository.delete(id, userId) != 0, id);
     }
@@ -103,7 +103,7 @@ public class VoteServiceImpl implements VoteService {
         return voteRepository.getResultSet(date);
     }
 
-    @CacheEvict(value = {"votes","restaurants","users"}, allEntries = true)
+    @CacheEvict(value = "votes", allEntries = true)
     @Override
     public void evictCache() {
     }
