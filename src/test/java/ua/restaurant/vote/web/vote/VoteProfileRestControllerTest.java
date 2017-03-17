@@ -88,7 +88,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
         MATCHER.assertEquals(created, returned);
         MATCHER.assertCollectionEquals(Arrays.asList(returned, VOTE6, VOTE2), voteService.getAll(USER1_ID));
     }
-
+// TODO не работает при запуске мавеном всех тестов. Отдельно сам по себе проходит
     @Test
     @Transactional
     public void testUpdate() throws Exception {
