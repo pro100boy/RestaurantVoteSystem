@@ -1,5 +1,6 @@
 package ua.restaurant.vote.web.menu;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import ua.restaurant.vote.web.AbstractControllerTest;
@@ -12,6 +13,7 @@ import static ua.restaurant.vote.MenuTestData.*;
 import static ua.restaurant.vote.RestaurantTestData.RESTAURANT2_ID;
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.UserTestData.USER1;
+
 
 public class MenuProfileRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = MenuProfileRestController.REST_URL + '/';

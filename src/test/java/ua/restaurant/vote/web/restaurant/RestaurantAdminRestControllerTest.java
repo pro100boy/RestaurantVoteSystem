@@ -72,6 +72,7 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 
+
     @Test
     @Transactional
     public void testCreate() throws Exception {
@@ -121,8 +122,8 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
         Restaurant returned = MATCHER.fromJsonAction(action);
-        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE1, VoteTestData.VOTE6, VoteTestData.VOTE5), returned.getVotes());
-        MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MenuTestData.MENU4, MenuTestData.MENU1), returned.getMenus());
+        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE5, VoteTestData.VOTE6, VoteTestData.VOTE1), returned.getVotes());
+        MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MenuTestData.MENU1, MenuTestData.MENU4), returned.getMenus());
     }
 
     @Test
@@ -134,7 +135,7 @@ public class RestaurantAdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
         Restaurant returned = MATCHER.fromJsonAction(action);
-        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE8, VoteTestData.VOTE1, VoteTestData.VOTE6, VoteTestData.VOTE5), returned.getVotes());
-        MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MenuTestData.MENU4, MenuTestData.MENU1), returned.getMenus());
+        VoteTestData.MATCHER.assertCollectionEquals(Arrays.asList(VoteTestData.VOTE5, VoteTestData.VOTE6, VoteTestData.VOTE8, VoteTestData.VOTE1), returned.getVotes());
+        MenuTestData.MATCHER.assertCollectionEquals(Arrays.asList(MenuTestData.MENU1, MenuTestData.MENU4), returned.getMenus());
     }
 }

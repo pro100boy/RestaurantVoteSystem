@@ -1,6 +1,9 @@
 package ua.restaurant.vote.web.restaurant;
 
+import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ua.restaurant.vote.MenuTestData;
@@ -27,6 +30,9 @@ import static ua.restaurant.vote.UserTestData.USER1;
 /**
  * Created by Galushkin Pavel on 11.03.2017.
  */
+
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RestaurantProfileRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RestaurantProfileRestController.REST_URL + '/';
 

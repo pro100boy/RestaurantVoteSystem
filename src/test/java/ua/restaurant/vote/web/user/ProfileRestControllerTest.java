@@ -1,6 +1,7 @@
 package ua.restaurant.vote.web.user;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
@@ -35,6 +36,7 @@ import static ua.restaurant.vote.web.user.ProfileRestController.REST_URL;
 /**
  * Created by Galushkin Pavel on 05.03.2017.
  */
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ProfileRestControllerTest extends AbstractControllerTest {
 

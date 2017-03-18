@@ -36,4 +36,6 @@ public interface VoteService {
     List<ResultTo> getResultSet(LocalDate date);
 
     void evictCache();
+
+    List<Vote> getAll();
 }

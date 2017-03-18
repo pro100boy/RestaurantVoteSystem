@@ -2,6 +2,7 @@ package ua.restaurant.vote.web.user;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
@@ -27,6 +28,8 @@ import static ua.restaurant.vote.UserTestData.*;
 /**
  * Created by Galushkin Pavel on 05.03.2017.
  */
+
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AdminRestControllerTest extends AbstractControllerTest {
 
@@ -117,6 +120,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
+
 
     @Test
     @Transactional

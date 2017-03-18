@@ -14,18 +14,18 @@ import java.util.List;
  * Created by Galushkin Pavel on 05.03.2017.
  */
 @RestController
-@RequestMapping(AdminRestController.REST_URL)
+@RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController extends AbstractUserController {
     static final String REST_URL = "/rest/admin/users";
 
     @Override
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<User> getAll() {
         return super.getAll();
     }
 
     @Override
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public User get(@PathVariable("id") int id) {
         return super.get(id);
     }
@@ -54,7 +54,7 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @Override
-    @GetMapping(value = "/by", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/by")
     public User getByMail(@RequestParam("email") String email) {
         return super.getByMail(email);
     }

@@ -1,6 +1,8 @@
 package ua.restaurant.vote.web.menu;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,7 @@ import static ua.restaurant.vote.MenuTestData.*;
 import static ua.restaurant.vote.RestaurantTestData.RESTAURANT1_ID;
 import static ua.restaurant.vote.TestUtil.userHttpBasic;
 import static ua.restaurant.vote.UserTestData.ADMIN;
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MenuAdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = MenuAdminRestController.REST_URL + '/';
 
@@ -94,7 +96,8 @@ public class MenuAdminRestControllerTest extends AbstractControllerTest {
         ResultActions action = mockMvc.perform(post(REST_URL, RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(expected))).andExpect(status().isCreated());
+                .content(JsonUtil.writeValue(expected)))
+                .andExpect(status().isCreated());
 
         Menu returned = MATCHER.fromJsonAction(action);
         expected.setId(returned.getId());

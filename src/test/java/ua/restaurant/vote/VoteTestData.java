@@ -23,14 +23,14 @@ public class VoteTestData {
     public static final ModelMatcher<Vote> MATCHER = ModelMatcher.of(Vote.class);
     public static final ModelMatcher<VoteToJSONView> MATCHER_TO = ModelMatcher.of(VoteToJSONView.class);
 
-    public static final int VOTE1_ID = START_SEQ + 10;
-    public static final int VOTE2_ID = START_SEQ + 11;
-    public static final int VOTE3_ID = START_SEQ + 12;
-    public static final int VOTE4_ID = START_SEQ + 13;
-    public static final int VOTE5_ID = START_SEQ + 14;
-    public static final int VOTE6_ID = START_SEQ + 15;
-    public static final int VOTE7_ID = START_SEQ + 16;
-    public static final int VOTE8_ID = START_SEQ + 17;
+    public static final int VOTE1_ID = START_SEQ + 13;
+    public static final int VOTE2_ID = START_SEQ + 14;
+    public static final int VOTE3_ID = START_SEQ + 15;
+    public static final int VOTE4_ID = START_SEQ + 16;
+    public static final int VOTE5_ID = START_SEQ + 17;
+    public static final int VOTE6_ID = START_SEQ + 18;
+    public static final int VOTE7_ID = START_SEQ + 19;
+    public static final int VOTE8_ID = START_SEQ + 20;
 
     public static final Vote VOTE1 = new Vote(VOTE1_ID, of(2017, Month.JANUARY, 30));
     public static final Vote VOTE2 = new Vote(VOTE2_ID, of(2017, Month.JANUARY, 30));

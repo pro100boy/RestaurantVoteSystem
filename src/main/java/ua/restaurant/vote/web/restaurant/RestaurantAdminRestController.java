@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class RestaurantAdminRestController extends AbstractRestaurantController{
     static final String REST_URL = "/rest/admin/restaurants";
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         Restaurant created = super.create(restaurant);
 
@@ -27,6 +27,12 @@ public class RestaurantAdminRestController extends AbstractRestaurantController{
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @Override
+    @GetMapping(value = "/{id}")
+    public Restaurant get(@PathVariable("id") int id) {
+        return super.get(id);
     }
 
     @Override

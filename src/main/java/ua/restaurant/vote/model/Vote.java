@@ -1,13 +1,17 @@
 package ua.restaurant.vote.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.restaurant.vote.to.ResultTo;
 import ua.restaurant.vote.util.DateTimeUtil;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -28,15 +32,12 @@ import java.time.LocalDate;
         @NamedNativeQuery(name = "getResultTo", query =
                 "SELECT r.ID, r.NAME, COUNT(v.REST_ID) AS cnt FROM RESTAURANTS r LEFT JOIN VOTES v ON r.ID=v.REST_ID\n" +
                         "WHERE v.VOTE_DATE = :date OR v.VOTE_DATE IS NULL\n" +
-                        "GROUP BY r.ID, r.NAME ORDER BY cnt DESC", resultSetMapping = "ResultToMapping"),
-        @NamedNativeQuery(name = "getVoteTo", query =
-                "SELECT r.ID, r.NAME, COUNT(v.REST_ID) AS cnt FROM RESTAURANTS r LEFT JOIN VOTES v ON r.ID=v.REST_ID\n" +
-                        "WHERE v.VOTE_DATE = :date OR v.VOTE_DATE IS NULL\n" +
                         "GROUP BY r.ID, r.NAME ORDER BY cnt DESC", resultSetMapping = "ResultToMapping")
 })
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "vote_date"}, name = "user_date_restaurant_unique_idx")})
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "vote_date"}, name = "user_date_unique_idx")})
 public class Vote extends BaseEntity{
     @Column(name = "vote_date", nullable = false)
     @NotNull

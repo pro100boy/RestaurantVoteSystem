@@ -107,4 +107,9 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public void evictCache() {
     }
+
+    @Override
+    public List<Vote> getAll() {
+        return voteRepository.getAll();
+    }
 }

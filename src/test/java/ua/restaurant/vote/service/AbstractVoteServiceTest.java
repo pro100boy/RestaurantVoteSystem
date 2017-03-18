@@ -5,7 +5,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.restaurant.vote.RestaurantTestData;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
@@ -23,7 +22,8 @@ import static ua.restaurant.vote.VoteTestData.getCreated;
  * Created by Galushkin Pavel on 07.03.2017.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
+public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
+
     @Autowired
     VoteService voteService;
 
@@ -74,12 +74,11 @@ public /*abstract*/ class AbstractVoteServiceTest extends AbstractServiceTest {
         voteService.update(USER2_ID, RESTAURANT1_ID);
 
         Vote expected = getCreated();
-        expected.setId(100016);
+        expected.setId(100019);
         expected.setRestaurant(RESTAURANT1);
 
         Vote updated = voteService.getVote(USER2_ID, LocalDate.now());
         MATCHER.assertEquals(expected, updated);
-        //RestaurantTestData.MATCHER.assertEquals(RESTAURANT1, updated.getRestaurant());
     }
 
     @Test(expected = NotFoundException.class)

@@ -49,6 +49,7 @@ public abstract class AbstractServiceTest {
 
     @AfterClass
     public static void printResult() {
+        //exportResult();
         LOG.info("\n---------------------------------" +
                 "\nTest                 Duration, ms" +
                 "\n---------------------------------\n" +

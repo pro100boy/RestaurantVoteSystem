@@ -20,6 +20,12 @@ public class MenuAdminRestController extends AbstractMenuController {
     static final String REST_URL = "/rest/admin/restaurants/{restaurantId}/menus";
 
     @Override
+    @GetMapping("/{id}")
+    public Menu get(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
+        return super.get(id, restaurantId);
+    }
+
+    @Override
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
         super.delete(id, restaurantId);
@@ -38,7 +44,7 @@ public class MenuAdminRestController extends AbstractMenuController {
         super.update(menu, id, restaurantId);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> createWithLocation(@Valid @RequestBody Menu menu, @PathVariable("restaurantId") int restaurantId) {
         Menu created = super.create(menu, restaurantId);
 
