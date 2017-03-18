@@ -11,9 +11,12 @@ import ua.restaurant.vote.repository.RestaurantRepository;
 import ua.restaurant.vote.repository.UserRepository;
 import ua.restaurant.vote.repository.VoteRepository;
 import ua.restaurant.vote.to.ResultTo;
+import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
+import ua.restaurant.vote.util.exception.VoteException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ua.restaurant.vote.util.ValidationUtil.checkNotFoundWithId;
@@ -33,6 +36,12 @@ public class VoteServiceImpl implements VoteService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    public void checkModificationAllowed() {
+        if (LocalTime.now().isAfter(DateTimeUtil.getDeadlineVoteTime())) {
+            throw new VoteException("It's too late for change opinion.");
+        }
+    }
+
     // because select and insert operations must be in one transaction
     @Transactional
     @Override
@@ -48,6 +57,7 @@ public class VoteServiceImpl implements VoteService {
     @Transactional
     @CacheEvict(value = "votes", allEntries = true)
     public Vote update(int userId, int restaurantId) throws NotFoundException {
+        checkModificationAllowed();
         Vote vote = voteRepository.getVote(userId, LocalDate.now());
         if (vote == null) throw new NotFoundException("vote not found");
         if (!vote.isNew() && get(vote.getId(), userId) != null){

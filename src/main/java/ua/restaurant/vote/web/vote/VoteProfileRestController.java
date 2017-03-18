@@ -60,12 +60,6 @@ public class VoteProfileRestController extends AbstractVoteController {
         super.update(restaurantId);
     }
 
-    @Override
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") int id) {
-        super.delete(id);
-    }
-
     // poll result for the specified date. If date doesn't present, then date = today
     @Override
     @GetMapping(value = "/result")

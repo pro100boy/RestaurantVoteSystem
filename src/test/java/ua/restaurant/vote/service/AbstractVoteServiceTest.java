@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ua.restaurant.vote.model.Vote;
 import ua.restaurant.vote.util.DateTimeUtil;
 import ua.restaurant.vote.util.exception.NotFoundException;
+import ua.restaurant.vote.util.exception.VoteException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 
 import static ua.restaurant.vote.RestaurantTestData.*;
@@ -71,18 +73,34 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
 
     @Test
     public void testUpdate() throws Exception {
-        voteService.update(USER2_ID, RESTAURANT1_ID);
+        updateTest(USER2_ID, RESTAURANT1_ID, true);
+        Vote updated = voteService.getVote(USER2_ID, LocalDate.now());
 
         Vote expected = getCreated();
         expected.setId(100019);
         expected.setRestaurant(RESTAURANT1);
 
-        Vote updated = voteService.getVote(USER2_ID, LocalDate.now());
         MATCHER.assertEquals(expected, updated);
     }
 
     @Test(expected = NotFoundException.class)
     public void testUpdateIllegal() throws Exception {
-        voteService.update(ADMIN_ID, 0);
+        updateTest(ADMIN_ID, 0, true);
+    }
+
+    @Test(expected = VoteException.class)
+    public void testUpdateAfterDeadline() throws Exception {
+        updateTest(USER2_ID, RESTAURANT1_ID, false);
+    }
+
+    private void updateTest(int userId, int restId, boolean plusMin) {
+        if (plusMin)
+            DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
+        else
+            DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
+
+        voteService.update(userId, restId);
+
+        DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
     }
 }

@@ -25,11 +25,6 @@ public class AbstractVoteController {
     @Autowired
     VoteService service;
 
-    public void checkModificationAllowed() {
-        if (LocalTime.now().isAfter(DateTimeUtil.getDeadlineVoteTime())) {
-            throw new VoteException("It's too late for change opinion.");
-        }
-    }
     public List<Vote> getAll() {
         int userId = AuthorizedUser.id();
         log.info("getAll for User {}", userId);
@@ -52,11 +47,6 @@ public class AbstractVoteController {
         service.delete(id, userId);
     }
 
-    public void delete(int id) {
-        checkModificationAllowed();
-        this.delete(id, AuthorizedUser.id());
-    }
-
     public Vote create(int restaurantId) {
         int userId = AuthorizedUser.id();
         log.info("create vote for User {} and Restaurant {}", AuthorizedUser.get(), restaurantId);
@@ -64,7 +54,6 @@ public class AbstractVoteController {
     }
 
     public void update(int restaurantId) {
-        checkModificationAllowed();
         int userId = AuthorizedUser.id();
         log.info("update vote for User {} and Restaurant {}", AuthorizedUser.get(), restaurantId);
         service.update(userId, restaurantId);

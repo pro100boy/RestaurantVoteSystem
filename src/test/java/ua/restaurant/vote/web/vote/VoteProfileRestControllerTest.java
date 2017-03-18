@@ -67,22 +67,22 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER.contentListMatcher(VOTES_USER)));
     }
-    // TODO не работает при запуске мавеном всех тестов. Отдельно сам по себе проходит
+
     @Test
     @Transactional
     public void testCreate() throws Exception {
-        /*ResultActions action = */mockMvc.perform(post(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
+        mockMvc.perform(post(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(RESTAURANT2_ID)))
                 .andExpect(status().isCreated());
 
-        Vote returned = voteService.getVote(USER1_ID, LocalDate.now());//MATCHER.fromJsonAction(action);
+        Vote returned = voteService.getVote(USER1_ID, LocalDate.now());
+
         Vote created = VoteTestData.getCreated();
         created.setRestaurant(RESTAURANT2);
         created.setUser(USER1);
-
-        created.setId(100021); //TODO в мавене возвращается индекс 100025 !!
+        created.setId(100021);
 
         MATCHER.assertEquals(created, returned);
         MATCHER.assertCollectionEquals(Arrays.asList(returned, VOTE6, VOTE2), voteService.getAll(USER1_ID));
@@ -116,39 +116,6 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(RESTAURANT2_ID)))
                 .andExpect(status().is5xxServerError());
 
-        DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
-    }
-
-    @Test
-    @Transactional
-    public void testDelete() throws Exception {
-        DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
-        mockMvc.perform(delete(REST_URL + VOTE1_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andDo(print())
-                .andExpect(status().isOk());
-        DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
-        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5), voteService.getAll(ADMIN_ID));
-    }
-
-    @Test
-    public void testDeleteAfterDeadLine() throws Exception {
-        DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
-        mockMvc.perform(delete(REST_URL + VOTE1_ID)
-                .with(userHttpBasic(ADMIN)))
-                .andDo(print())
-                .andExpect(status().is5xxServerError());
-        DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
-        MATCHER.assertCollectionEquals(Arrays.asList(VOTE5, VOTE1), voteService.getAll(ADMIN_ID));
-    }
-
-    @Test
-    public void testDeleteNotFound() throws Exception {
-        DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
-        mockMvc.perform(delete(REST_URL + 1)
-                .with(TestUtil.userHttpBasic(USER1)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
         DateTimeUtil.setDeadlineVoteTime(DateTimeUtil.DEFAULT_VOTE_DEADLINE_TIME);
     }
 
