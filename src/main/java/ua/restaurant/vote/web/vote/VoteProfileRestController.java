@@ -42,7 +42,7 @@ public class VoteProfileRestController extends AbstractVoteController {
     }
 
     // create new vote
-    @PostMapping(value = "/restaurant/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/restaurants/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createWithLocation(@PathVariable("restaurantId") int restaurantId) {
         Vote created = super.create(restaurantId);
 
@@ -55,7 +55,7 @@ public class VoteProfileRestController extends AbstractVoteController {
 
     // update vote
     @Override
-    @PutMapping(value = "/restaurant/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/restaurants/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@PathVariable("restaurantId") int restaurantId) {
         super.update(restaurantId);
     }

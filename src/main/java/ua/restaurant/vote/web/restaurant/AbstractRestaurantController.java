@@ -38,7 +38,7 @@ public abstract class AbstractRestaurantController {
         return service.get(id);
     }
 
-    public Restaurant getByName(String name) {
+    public List<Restaurant> getByName(String name) {
         log.info("getByName " + name);
         return service.getByName(name);
     }

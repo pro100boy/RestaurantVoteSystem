@@ -7,6 +7,7 @@ import ua.restaurant.vote.model.Restaurant;
 import ua.restaurant.vote.util.exception.NotFoundException;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static ua.restaurant.vote.RestaurantTestData.*;
 
@@ -49,8 +50,8 @@ public /*abstract*/ class AbstractRestaurantServiceTest extends AbstractServiceT
 
     @Test
     public void testGetByName() throws Exception {
-        Restaurant rest = service.getByName("Restaurant 1");
-        MATCHER.assertEquals(RESTAURANT1, rest);
+        List<Restaurant> restList = service.getByName("Restau");
+        MATCHER.assertCollectionEquals(RESTAURANTS, restList);
     }
 
     @Test(expected = NotFoundException.class)

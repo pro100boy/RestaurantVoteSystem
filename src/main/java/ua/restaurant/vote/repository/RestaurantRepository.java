@@ -36,7 +36,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @Override
     Restaurant findOne(Integer integer);
 
-    Restaurant getByName(String name);
+    List<Restaurant> findByNameIgnoreCaseStartingWith(String name);
 
     @EntityGraph(value = Restaurant.GRAPH_WITH_VOTES_MENUS)
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.votes v WHERE r.id=:id AND v.date BETWEEN :startDate AND :endDate")

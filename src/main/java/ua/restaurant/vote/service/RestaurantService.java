@@ -17,7 +17,7 @@ public interface RestaurantService {
 
     Restaurant get(int id) throws NotFoundException;
 
-    Restaurant getByName(String name) throws NotFoundException;
+    List<Restaurant> getByName(String name) throws NotFoundException;
 
     List<Restaurant> getAll();
 

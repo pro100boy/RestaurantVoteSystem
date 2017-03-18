@@ -40,7 +40,7 @@ public class RestaurantProfileRestController extends AbstractRestaurantControlle
 
     @Override
     @GetMapping(value = "/by")
-    public Restaurant getByName(@RequestParam("name") String name) {
+    public List<Restaurant> getByName(@RequestParam("name") String name) {
         return super.getByName(name);
     }
 }

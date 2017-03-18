@@ -42,7 +42,6 @@ public class RestaurantProfileRestControllerTest extends AbstractControllerTest 
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER.contentMatcher(RESTAURANT1));
     }
@@ -57,11 +56,11 @@ public class RestaurantProfileRestControllerTest extends AbstractControllerTest 
 
     @Test
     public void testGetByName() throws Exception {
-        mockMvc.perform(get(REST_URL + "by?name=" + RESTAURANT1.getName())
+        mockMvc.perform(get(REST_URL + "by?name=rest")
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentMatcher(RESTAURANT1));
+                .andExpect(MATCHER.contentListMatcher(RESTAURANTS));
     }
 
     @Test

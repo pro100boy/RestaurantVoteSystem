@@ -46,9 +46,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant getByName(String name) throws NotFoundException {
+    public List<Restaurant> getByName(String name) throws NotFoundException {
         Assert.notNull(name, "name must not be null");
-        return checkNotFound(repository.getByName(name), "name=" + name);
+        return checkNotFound(repository.findByNameIgnoreCaseStartingWith(name), "name=" + name);
     }
 
     @Cacheable("restaurants")

@@ -71,7 +71,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     @Test
     @Transactional
     public void testCreate() throws Exception {
-        mockMvc.perform(post(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
+        mockMvc.perform(post(REST_URL + "restaurants/{restaurantId}", RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(RESTAURANT2_ID)))
@@ -94,7 +94,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().plusMinutes(1));
         Vote expected = voteService.getVote(USER2_ID, LocalDate.now());
 
-        mockMvc.perform(put(REST_URL + "restaurant/{restaurantId}", RESTAURANT1_ID)
+        mockMvc.perform(put(REST_URL + "restaurants/{restaurantId}", RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER2))
                 .content(JsonUtil.writeValue(RESTAURANT1_ID)))
@@ -110,7 +110,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
     public void testUpdateAfterDeadLine() throws Exception {
         DateTimeUtil.setDeadlineVoteTime(LocalTime.now().minusMinutes(1));
 
-        mockMvc.perform(put(REST_URL + "restaurant/{restaurantId}", RESTAURANT2_ID)
+        mockMvc.perform(put(REST_URL + "restaurants/{restaurantId}", RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(RESTAURANT2_ID)))
