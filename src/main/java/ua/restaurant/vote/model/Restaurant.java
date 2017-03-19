@@ -33,11 +33,13 @@ public class Restaurant extends NamedEntity {
     @SafeHtml
     private String description;
 
+    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("vote_date DESC")
     @JsonManagedReference(value="restaurant-votes")
     private Set<Vote> votes;
 
+    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("menu_date DESC")
     @JsonManagedReference(value="restaurant-menus")
