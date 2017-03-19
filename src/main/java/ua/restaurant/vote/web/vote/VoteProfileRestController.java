@@ -42,7 +42,7 @@ public class VoteProfileRestController extends AbstractVoteController {
     }
 
     // create new vote
-    @PostMapping(value = "/restaurants/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/restaurants/{restaurantId}")
     public ResponseEntity<Vote> createWithLocation(@PathVariable("restaurantId") int restaurantId) {
         Vote created = super.create(restaurantId);
 
