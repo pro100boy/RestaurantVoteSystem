@@ -73,7 +73,8 @@ public class AbstractVoteController {
                 endDate != null ? endDate : DateTimeUtil.MAX_DATE), true);
     }
 
-    public List<ResultTo> getResultSet(LocalDate date){
+    public List<ResultTo> getResultSet(LocalDate date) {
+        if (date == null) date = LocalDate.now();
         log.info("get vote result for date {}", date);
         return service.getResultSet(date);
     }
