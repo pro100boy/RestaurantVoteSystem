@@ -15,7 +15,7 @@ import java.time.LocalDate;
  */
 @RestController
 @RequestMapping(value = RestaurantAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestaurantAdminRestController extends AbstractRestaurantController{
+public class RestaurantAdminRestController extends AbstractRestaurantController {
     static final String REST_URL = "/rest/admin/restaurants";
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,9 +48,9 @@ public class RestaurantAdminRestController extends AbstractRestaurantController{
     }
 
     @GetMapping(value = "/{id}/between")
-    public Restaurant get(@PathVariable("id") int id,
-                          @RequestParam(value = "startDate", required = false) LocalDate startDate,
-                          @RequestParam(value = "endDate", required = false) LocalDate endDate) {
+    public Restaurant getBetween(@PathVariable("id") int id,
+                                 @RequestParam(value = "startDate", required = false) LocalDate startDate,
+                                 @RequestParam(value = "endDate", required = false) LocalDate endDate) {
         return super.getBetween(id, startDate, endDate);
     }
 }
