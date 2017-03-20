@@ -23,7 +23,7 @@
 
 - create User:
     
-> `curl -s -X POST -d '{"name": "NewUser","email": "NewUser@ya.ru","password": "password","enabled": true,"roles":["ROLE_USER"]}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8888/vote/rest/admin/users --user admin@gmail.com:admin`
+> `curl -s -X POST -d '{"name": "NewUser","email": "NewUser@ya.ru","password": "password","enabled": true,"roles":["ROLE_USER"]}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/vote/rest/admin/users --user admin@gmail.com:admin`
 
 #### Test ProfileRestController
 
@@ -41,28 +41,28 @@
 
 - create Restaurant:
     
-> `curl -s -X POST -d '{"name": "New Restaurant","description": "Description of New Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8888/vote/rest/admin/restaurants --user  admin@gmail.com:admin`
+> `curl -s -X POST -d '{"name": "New Restaurant","description": "Description of New Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/vote/rest/admin/restaurants --user  admin@gmail.com:admin`
 
 -  update Restaurant
-> `curl -s -X PUT -d '{"name": "Updated Restaurant","description": "Description of Updated Restaurant"}' -H 'Content-Type: application/json' http://localhost:8888/vote/rest/admin/restaurants/100022 --user admin@gmail.com:admin`
+> `curl -s -X PUT -d '{"name": "Updated Restaurant","description": "Description of Updated Restaurant"}' -H 'Content-Type: application/json' http://localhost:8080/vote/rest/admin/restaurants/100022 --user admin@gmail.com:admin`
 
 - get the restaurant with menus and votes between dates:
 
-> `curl -s http://localhost:8888/vote/rest/admin/restaurants/100004/between?startDate=&endDate= --user admin@gmail.com:admin`
+> `curl -s http://localhost:8080/vote/rest/admin/restaurants/100004/between?startDate=&endDate= --user admin@gmail.com:admin`
 
 - delete Restaurant:
 
-> `curl -s -X DELETE http://localhost:8888/vote/rest/admin/restaurants/100006 --user admin@gmail.com:admin`
+> `curl -s -X DELETE http://localhost:8080/vote/rest/admin/restaurants/100006 --user admin@gmail.com:admin`
 
 #### Test RestaurantProfileRestController
 
 - get All Restaurants:
     
-> `curl -s http://localhost:8888/vote/rest/profile/restaurants --user user@ya.ru:password`
+> `curl -s http://localhost:8080/vote/rest/profile/restaurants --user user@ya.ru:password`
 
 - find the list of restaurants which names begin with:
     
-> `curl -s http://localhost:8888/vote/rest/profile/restaurants/by?name=restaur --user user@ya.ru:password`
+> `curl -s http://localhost:8080/vote/rest/profile/restaurants/by?name=restaur --user user@ya.ru:password`
 
 ----------
 
@@ -70,21 +70,21 @@
 
 - get all votes from concrete user
 
-> `curl -s http://localhost:8888/vote/rest/admin/votes/users/100000 --user admin@gmail.com:admin`
+> `curl -s http://localhost:8080/vote/rest/admin/votes/users/100000 --user admin@gmail.com:admin`
 
 - get votes list for period for specific restaurant
 
-> `curl -s http://localhost:8888/vote/rest/admin/votes/restaurants/100005/between?startDate=&endDate= --user admin@gmail.com:admin`
+> `curl -s http://localhost:8080/vote/rest/admin/votes/restaurants/100005/between?startDate=&endDate= --user admin@gmail.com:admin`
 
 #### Test VoteProfileRestController
 
 - get all user votes
 
-> `curl -s http://localhost:8888/vote/rest/profile/votes --user user@ya.ru:password`
+> `curl -s http://localhost:8080/vote/rest/profile/votes --user user@ya.ru:password`
 
 - create vote for restaurant 100004
 
-> `curl -s -S -u user@ya.ru:password -X POST http://localhost:8888/vote/rest/profile/votes/restaurants/100004`
+> `curl -s -S -u user@ya.ru:password -X POST http://localhost:8080/vote/rest/profile/votes/restaurants/100004`
 
 ----------
 
@@ -92,22 +92,22 @@
 
 - get all menus of the restaurant 100004
 
-> `curl -s http://localhost:8888/vote/rest/admin/restaurants/100004/menus --user admin@gmail.com:admin`
+> `curl -s http://localhost:8080/vote/rest/admin/restaurants/100004/menus --user admin@gmail.com:admin`
 
 - get menu 100007 of the restaurant 100004
 
-> `curl -s http://localhost:8888/vote/rest/admin/restaurants/100004/menus/100007 --user admin@gmail.com:admin`
+> `curl -s http://localhost:8080/vote/rest/admin/restaurants/100004/menus/100007 --user admin@gmail.com:admin`
 
 - create menu for restaurant 100004
 
-> `curl -s -X POST -d '{"name": "New Menu","date": "2017-03-25", "price" : 8.99}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8888/vote/rest/admin/restaurants/100004/menus --user  admin@gmail.com:admin`
+> `curl -s -X POST -d '{"name": "New Menu","date": "2017-03-25", "price" : 8.99}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/vote/rest/admin/restaurants/100004/menus --user  admin@gmail.com:admin`
 
 - delete menu 100021 of the restaurant 100004
 
-> `curl -s -X DELETE http://localhost:8888/vote/rest/admin/restaurants/100004/menus/100021 --user admin@gmail.com:admin`
+> `curl -s -X DELETE http://localhost:8080/vote/rest/admin/restaurants/100004/menus/100021 --user admin@gmail.com:admin`
 
 #### Test MenuProfileRestController
 
 - get today's menus of the restaurant 100005
 
-> `curl -s http://localhost:8888/vote/rest/profile/restaurants/100005/menus --user user@ya.ru:password`
+> `curl -s http://localhost:8080/vote/rest/profile/restaurants/100005/menus --user user@ya.ru:password`
