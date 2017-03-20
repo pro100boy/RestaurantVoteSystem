@@ -1,3 +1,6 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5fbabf134d324fd48db7778bfa3e744a)](https://www.codacy.com/app/gpg/RestaurantVoteSystem?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pro100boy/RestaurantVoteSystem&amp;utm_campaign=Badge_Grade)
+[![Dependency Status](https://dependencyci.com/github/pro100boy/RestaurantVoteSystem/badge)](https://dependencyci.com/github/pro100boy/RestaurantVoteSystem)
+[![Build Status](https://travis-ci.org/pro100boy/RestaurantVoteSystem.svg?branch=new_vote_rest)](https://travis-ci.org/pro100boy/RestaurantVoteSystem)
 ## Restaurant Vote System (application deployed in application context `vote`). ##
 
 ### *Get results of vote for the specified date. If date isn't presented, then date = today*
@@ -48,7 +51,8 @@
 > `curl -s http://localhost:8888/vote/rest/admin/restaurants/100004/between?startDate=&endDate= --user admin@gmail.com:admin`
 
 - delete Restaurant:
-`curl -s -X DELETE http://localhost:8888/vote/rest/admin/restaurants/100006 --user admin@gmail.com:admin`
+
+> `curl -s -X DELETE http://localhost:8888/vote/rest/admin/restaurants/100006 --user admin@gmail.com:admin`
 
 #### Test RestaurantProfileRestController
 
