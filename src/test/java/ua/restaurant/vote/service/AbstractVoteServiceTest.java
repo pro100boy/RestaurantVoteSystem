@@ -38,7 +38,7 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
     public void testSave() {
         voteService.save(USER1_ID, RESTAURANT2_ID);
         Vote created = getCreated();
-        created.setId(100021);
+        created.setId(100023);
         MATCHER.assertEquals(created, voteService.getVote(USER1_ID, LocalDate.now()));
     }
 
@@ -77,7 +77,7 @@ public abstract class AbstractVoteServiceTest extends AbstractServiceTest {
         Vote updated = voteService.getVote(USER2_ID, LocalDate.now());
 
         Vote expected = getCreated();
-        expected.setId(100019);
+        expected.setId(100021);
         expected.setRestaurant(RESTAURANT1);
 
         MATCHER.assertEquals(expected, updated);

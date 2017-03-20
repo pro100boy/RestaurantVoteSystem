@@ -81,3 +81,29 @@
 - create vote for restaurant 100004
 
 > `curl -s -S -u user@ya.ru:password -X POST http://localhost:8888/vote/rest/profile/votes/restaurants/100004`
+
+----------
+
+#### Test MenuAdminRestController
+
+- get all menus of the restaurant 100004
+
+> `curl -s http://localhost:8888/vote/rest/admin/restaurants/100004/menus --user admin@gmail.com:admin`
+
+- get menu 100007 of the restaurant 100004
+
+> `curl -s http://localhost:8888/vote/rest/admin/restaurants/100004/menus/100007 --user admin@gmail.com:admin`
+
+- create menu for restaurant 100004
+
+> `curl -s -X POST -d '{"name": "New Menu","date": "2017-03-25", "price" : 8.99}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8888/vote/rest/admin/restaurants/100004/menus --user  admin@gmail.com:admin`
+
+- delete menu 100021 of the restaurant 100004
+
+> `curl -s -X DELETE http://localhost:8888/vote/rest/admin/restaurants/100004/menus/100021 --user admin@gmail.com:admin`
+
+#### Test MenuProfileRestController
+
+- get today's menus of the restaurant 100005
+
+> `curl -s http://localhost:8888/vote/rest/profile/restaurants/100005/menus --user user@ya.ru:password`

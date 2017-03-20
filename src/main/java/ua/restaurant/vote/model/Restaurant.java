@@ -16,6 +16,7 @@ import java.util.Set;
  * 04.03.2017
  */
 @SuppressWarnings("JpaQlInspection")
+@Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @NamedEntityGraph(name = Restaurant.GRAPH_WITH_VOTES_MENUS, attributeNodes =

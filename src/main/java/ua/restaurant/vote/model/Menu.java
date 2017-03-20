@@ -15,7 +15,7 @@ import java.time.LocalDate;
  * 04.03.2017
  */
 @Entity
-@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"rest_id", "menu_date"}, name = "date_restaurant_unique_idx")})
+@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"rest_id", "menu_date", "name", "price"}, name = "menu_unique_idx")})
 public class Menu extends NamedEntity {
     @Column(name = "menu_date", nullable = false)
     @NotNull

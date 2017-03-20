@@ -15,6 +15,7 @@ import java.util.*;
  * 04.03.2017
  */
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cacheable
 @Entity
 @NamedEntityGraph(name = User.GRAPH_WITH_VOTES, attributeNodes = {@NamedAttributeNode("votes")})
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})

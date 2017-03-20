@@ -48,7 +48,7 @@ CREATE TABLE menus (
   menu_date DATE NOT NULL,
   name      VARCHAR(255) NOT NULL,
   price     REAL  DEFAULT 0,
-  CONSTRAINT date_restaurant_unique_idx UNIQUE (rest_id, menu_date),
+  CONSTRAINT menu_unique_idx UNIQUE (rest_id, menu_date, name, price),
   FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 

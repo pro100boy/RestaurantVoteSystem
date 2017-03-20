@@ -9,9 +9,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import ua.restaurant.vote.MenuTestData;
 import ua.restaurant.vote.TestUtil;
 import ua.restaurant.vote.model.Restaurant;
+import ua.restaurant.vote.to.RestaurantTo;
 import ua.restaurant.vote.web.AbstractControllerTest;
 import ua.restaurant.vote.web.json.JsonUtil;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,7 +82,7 @@ public class RestaurantProfileRestControllerTest extends AbstractControllerTest 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(3)))
                 .andDo(print());
-        List<Restaurant> returned = JsonUtil.readValues(TestUtil.getContent(action), Restaurant.class);
+        List<RestaurantTo> returned = JsonUtil.readValues(TestUtil.getContent(action), RestaurantTo.class);
         MenuTestData.MATCHER.assertCollectionEquals(
                 MenuTestData.MENUS,
                 returned.stream().flatMap(m -> m.getMenus().stream()).collect(Collectors.toList())
@@ -89,10 +91,15 @@ public class RestaurantProfileRestControllerTest extends AbstractControllerTest 
 
     @Test
     public void testFindAllForToday() throws Exception {
-        mockMvc.perform(get(REST_URL + "polls?date=")
+        ResultActions action = mockMvc.perform(get(REST_URL + "polls?date=")
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", hasSize(0)))
+                .andExpect(jsonPath("$.*", hasSize(1)))
                 .andDo(print());
+
+        List<RestaurantTo> returned = JsonUtil.readValues(TestUtil.getContent(action), RestaurantTo.class);
+        MenuTestData.MATCHER.assertCollectionEquals(
+                Arrays.asList(MenuTestData.MENU7,MenuTestData.MENU8),
+                returned.stream().flatMap(m -> m.getMenus().stream()).collect(Collectors.toList()));
     }
 }

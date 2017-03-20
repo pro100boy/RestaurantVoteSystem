@@ -30,7 +30,9 @@ INSERT INTO menus (rest_id, menu_date, name, price) VALUES
   (100006, '2017-01-30', 'Dish 3', 14.5),
   (100004, '2017-02-20', 'Dish 4', 120.5),
   (100005, '2017-02-20', 'Dish 5', 130.5),
-  (100006, '2017-02-20', 'Dish 6', 140.5);
+  (100006, '2017-02-20', 'Dish 6', 140.5),
+  (100005, now(), 'Dish 7', 139.99),
+  (100005, now(), 'Dish 8', 140.99);
 
 INSERT INTO votes (user_id, rest_id, vote_date) VALUES
   (100000, 100004, '2017-01-30'),

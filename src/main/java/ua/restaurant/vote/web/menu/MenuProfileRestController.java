@@ -18,13 +18,8 @@ import java.util.List;
 @RequestMapping(value = MenuProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MenuProfileRestController extends AbstractMenuController {
     static final String REST_URL = "/rest/profile/restaurants/{restaurantId}/menus";
-    @Override
-    @GetMapping("/{id}")
-    public Menu get(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {
-        return super.get(id, restaurantId);
-    }
 
-    @GetMapping(value = "/today")
+    @GetMapping
     public List<Menu> getToday(@PathVariable("restaurantId") int restaurantId) {
         return super.getBetween(restaurantId, LocalDate.now(), LocalDate.now());
     }

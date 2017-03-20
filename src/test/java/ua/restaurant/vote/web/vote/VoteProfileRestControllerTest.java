@@ -82,7 +82,7 @@ public class VoteProfileRestControllerTest extends AbstractControllerTest {
         Vote created = VoteTestData.getCreated();
         created.setRestaurant(RESTAURANT2);
         created.setUser(USER1);
-        created.setId(100021);
+        created.setId(100023);
 
         MATCHER.assertEquals(created, returned);
         MATCHER.assertCollectionEquals(Arrays.asList(returned, VOTE6, VOTE2), voteService.getAll(USER1_ID));

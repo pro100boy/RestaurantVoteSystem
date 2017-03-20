@@ -19,6 +19,7 @@ import java.util.List;
 public class MenuAdminRestController extends AbstractMenuController {
     static final String REST_URL = "/rest/admin/restaurants/{restaurantId}/menus";
 
+    // returns concrete menu of the restaurant
     @Override
     @GetMapping("/{id}")
     public Menu get(@PathVariable("id") int id, @PathVariable("restaurantId") int restaurantId) {

@@ -23,6 +23,8 @@ public class MenuTestData {
     public static final int MENU4_ID = START_SEQ + 10;
     public static final int MENU5_ID = START_SEQ + 11;
     public static final int MENU6_ID = START_SEQ + 12;
+    public static final int MENU7_ID = START_SEQ + 13;
+    public static final int MENU8_ID = START_SEQ + 14;
 
     public static final Menu MENU1 = new Menu(MENU1_ID, of(2017, Month.JANUARY, 30), "Dish 1", 12.5f);
     public static final Menu MENU2 = new Menu(MENU2_ID, of(2017, Month.JANUARY, 30), "Dish 2", 13.5f);
@@ -30,6 +32,8 @@ public class MenuTestData {
     public static final Menu MENU4 = new Menu(MENU4_ID, of(2017, Month.FEBRUARY, 20), "Dish 4", 120.5f);
     public static final Menu MENU5 = new Menu(MENU5_ID, of(2017, Month.FEBRUARY, 20), "Dish 5", 130.5f);
     public static final Menu MENU6 = new Menu(MENU6_ID, of(2017, Month.FEBRUARY, 20), "Dish 6", 140.5f);
+    public static final Menu MENU7 = new Menu(MENU7_ID, LocalDate.now(), "Dish 7", 139.99f);
+    public static final Menu MENU8 = new Menu(MENU8_ID, LocalDate.now(), "Dish 8", 140.99f);
 
     public static final List<Menu> MENUS = Arrays.asList(MENU1, MENU2, MENU3);
 
