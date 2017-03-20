@@ -43,14 +43,14 @@
     
 > `curl -s -X POST -d '{"name": "New Restaurant","description": "Description of New Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/vote/rest/admin/restaurants --user  admin@gmail.com:admin`
 
--  update Restaurant
-> `curl -s -X PUT -d '{"name": "Updated Restaurant","description": "Description of Updated Restaurant"}' -H 'Content-Type: application/json' http://localhost:8080/vote/rest/admin/restaurants/100022 --user admin@gmail.com:admin`
+-  update Restaurant 100004
+> `curl -s -X PUT -d '{"name": "Updated Restaurant","description": "Description of Updated Restaurant"}' -H 'Content-Type: application/json' http://localhost:8080/vote/rest/admin/restaurants/100004 --user admin@gmail.com:admin`
 
-- get the restaurant with menus and votes between dates:
+- get the restaurant 100004 with menus and votes between dates:
 
 > `curl -s http://localhost:8080/vote/rest/admin/restaurants/100004/between?startDate=&endDate= --user admin@gmail.com:admin`
 
-- delete Restaurant:
+- delete Restaurant 100006:
 
 > `curl -s -X DELETE http://localhost:8080/vote/rest/admin/restaurants/100006 --user admin@gmail.com:admin`
 
@@ -68,11 +68,11 @@
 
 #### Test VoteAdminRestController
 
-- get all votes from concrete user
+- get all votes from concrete user 100000
 
 > `curl -s http://localhost:8080/vote/rest/admin/votes/users/100000 --user admin@gmail.com:admin`
 
-- get votes list for period for specific restaurant
+- get votes list for period for specific restaurant 100005
 
 > `curl -s http://localhost:8080/vote/rest/admin/votes/restaurants/100005/between?startDate=&endDate= --user admin@gmail.com:admin`
 
@@ -102,9 +102,9 @@
 
 > `curl -s -X POST -d '{"name": "New Menu","date": "2017-03-25", "price" : 8.99}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/vote/rest/admin/restaurants/100004/menus --user  admin@gmail.com:admin`
 
-- delete menu 100021 of the restaurant 100004
+- delete menu 100010 of the restaurant 100004
 
-> `curl -s -X DELETE http://localhost:8080/vote/rest/admin/restaurants/100004/menus/100021 --user admin@gmail.com:admin`
+> `curl -s -X DELETE http://localhost:8080/vote/rest/admin/restaurants/100004/menus/100010 --user admin@gmail.com:admin`
 
 #### Test MenuProfileRestController
 
